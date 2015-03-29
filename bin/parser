@@ -296,18 +296,35 @@ def p_Statement(p):
 	| LabelStatement Mark_quad
 	| ExpressionStatement SEMICOLON Mark_quad
         | SelectionStatement Mark_quad
-        | IterationStatement Mark_quad
 	| JumpStatement Mark_quad
 	| Block Mark_quad'''
 
+	p[0] = {}
 	Next = p[1].get('nextlist', [])
+	p[0]['nextlist'] = Next
 	if(len(p) == 3):
 		TAC.backPatch(Next,p[2]['quad'])
 	else :
 		TAC.backPatch(Next,p[3]['quad'])
 
-	p[0] = p[1]
+	# p[0] = p[1]
+	p[0]['loopEndList'] = p[1].get('loopEndList',[]);
+	p[0]['loopBeginList'] = p[1].get('loopBeginList',[]);
 
+def p_Statement_1(p):
+	''' Statement :  IterationStatement Mark_quad'''
+	p[0] = {}
+	Next = p[1].get('nextlist', [])
+	p[0]['nextlist'] = Next
+	if(len(p) == 3):
+		TAC.backPatch(Next,p[2]['quad'])
+	else :
+		TAC.backPatch(Next,p[3]['quad'])
+	#print Next
+	# print "Hello"
+	# p[0] = p[1]
+	p[0]['loopEndList'] = p[1].get('loopEndList',[]);
+	p[0]['loopBeginList'] = p[1].get('loopBeginList',[]);
 
 def p_Mark_quad(p):
 	''' Mark_quad : '''
@@ -355,6 +372,7 @@ def p_Mark_if(p):
 	''' Mark_if : '''
 	p[0] = {}
 	p[0]['falselist'] = [TAC.getNextInstr()]
+	# print p[0]['falselist']
 	
 	TAC.emit(p[-2]['Name'],'',-1,'COND_GOTO')
 
@@ -366,9 +384,30 @@ def p_Mark_else(p):
 	TAC.emit('','',-1,'GOTO')
 	p[0]['quad'] = TAC.getNextInstr()
 
+def p_IterationStatement_while(p):
+	''' IterationStatement : WHILE Mark_quad LROUNPAREN Expression RROUNPAREN Mark_while Statement '''
+
+	p[0] = {}
+	p[0]['nextlist'] = []
+
+	print p[7]['nextlist']
+	TAC.backPatch(p[7]['loopBeginList'], p[2]['quad'])
+	p[0]['nextlist'] = TAC.merge(p[7].get('loopEndList',[]), p[7].get('nextlist',[]))
+	p[0]['nextlist'] = TAC.merge(p[6].get('falselist',[]), p[7].get('loopEndList',[]))
+
+
+
+	TAC.emit ('','',p[2]['quad'], 'GOTO')
+
+def p_Mark_while(p):
+	''' Mark_while : '''
+
+	p[0] = {}
+	p[0]['falselist'] = [TAC.getNextInstr()]
+	TAC.emit(p[-2]['Name'],'',-1,'COND_GOTO')
+
 def p_IterationStatement(p):
-	''' IterationStatement : WHILE LROUNPAREN Expression RROUNPAREN Statement
-	| DO Statement WHILE LROUNPAREN Expression RROUNPAREN SEMICOLON
+	''' IterationStatement : DO Statement WHILE LROUNPAREN Expression RROUNPAREN SEMICOLON
 	| FOR LROUNPAREN ForInit ForExpr ForIncr RROUNPAREN Statement
 	| FOR LROUNPAREN ForInit ForExpr         RROUNPAREN Statement '''
 
