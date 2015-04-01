@@ -282,7 +282,7 @@ def p_LocalVariableDeclarationOrStatement(p):
 	p[0] = p[1]
 
 def p_LocalVariableDeclarationStatement(p):
-	''' LocalVariableDeclarationStatement : TypeSpecifier VariableDeclarators SEMICOLON Mark_quad'''
+	''' LocalVariableDeclarationStatement : TypeSpecifier VariableDeclarators SEMICOLON '''
 
 	p[0] = {'Type' : p[1], 'Names' : p[2]['Names']}
 	for identifer in p[2]['Names']:
@@ -295,24 +295,24 @@ def p_Statement(p):
 	''' Statement : EmptyStatement Mark_quad
 	| LabelStatement Mark_quad
 	| ExpressionStatement SEMICOLON Mark_quad
-        | SelectionStatement Mark_quad
 	| JumpStatement Mark_quad
 	| Block Mark_quad'''
 
 	p[0] = {}
 	Next = p[1].get('nextlist', [])
 	p[0]['nextlist'] = Next
-	if(len(p) == 3):
-		TAC.backPatch(Next,p[2]['quad'])
-	else :
-		TAC.backPatch(Next,p[3]['quad'])
+	# if(len(p) == 3):
+	# 	TAC.backPatch(Next,p[2]['quad'])
+	# else :
+	# 	TAC.backPatch(Next,p[3]['quad'])
 
 	# p[0] = p[1]
 	p[0]['loopEndList'] = p[1].get('loopEndList',[]);
 	p[0]['loopBeginList'] = p[1].get('loopBeginList',[]);
 
 def p_Statement_1(p):
-	''' Statement :  IterationStatement Mark_quad'''
+	''' Statement :  IterationStatement Mark_quad
+					| SelectionStatement Mark_quad '''
 	p[0] = {}
 	Next = p[1].get('nextlist', [])
 	p[0]['nextlist'] = Next
@@ -347,7 +347,7 @@ def p_SelectionStatement(p):
 	
 	p[0] = {}
 
-	p[0]['nextlist'] = TAC.merge(p[5].get('falselist',[]),p[6].get('nextlist',[]))
+	p[0]['nextlist'] = p[5].get('falselist',[])
 	p[0]['loopEndList'] = p[6].get('loopEndList', [])
 	p[0]['loopBeginList'] = p[6].get('loopBeginList',[])
 
@@ -390,7 +390,6 @@ def p_IterationStatement_while(p):
 	p[0] = {}
 	p[0]['nextlist'] = []
 
-	print p[7]['nextlist']
 	TAC.backPatch(p[7]['loopBeginList'], p[2]['quad'])
 	p[0]['nextlist'] = TAC.merge(p[7].get('loopEndList',[]), p[7].get('nextlist',[]))
 	p[0]['nextlist'] = TAC.merge(p[6].get('falselist',[]), p[7].get('loopEndList',[]))
@@ -406,22 +405,64 @@ def p_Mark_while(p):
 	p[0]['falselist'] = [TAC.getNextInstr()]
 	TAC.emit(p[-2]['Name'],'',-1,'COND_GOTO')
 
-def p_IterationStatement(p):
-	''' IterationStatement : DO Statement WHILE LROUNPAREN Expression RROUNPAREN SEMICOLON
-	| FOR LROUNPAREN ForInit ForExpr ForIncr RROUNPAREN Statement
-	| FOR LROUNPAREN ForInit ForExpr         RROUNPAREN Statement '''
+def p_IterationStatement_dowhile(p):
+	''' IterationStatement : Do Mark_quad Statement WHILE LROUNPAREN Expression Mark_dowhile RROUNPAREN SEMICOLON '''
+
+
+	p[0] = {}
+	p[0]['nextlist'] = []
+
+	TAC.backPatch(p[3]['loopBeginList'], p[2]['quad'])
+	# p[0]['nextlist'] = TAC.merge(p[7].get('loopEndList',[]), p[7].get('nextlist',[]))
+	p[0]['nextlist'] = TAC.merge(p[2].get('falselist',[]), p[3].get('loopEndList',[]))
+	TAC.emit (p[6]['Name'],'',p[2]['quad'], 'COND_GOTO_TR')
+
+
+def p_Do(p):
+	''' Do : DO '''
+	p[0] = {}
+
+def p_Mark_dowhile(p):
+	''' Mark_dowhile : '''
+
+	p[0] = {}
+	p[0]['falselist'] = [TAC.getNextInstr()]
+	# TAC.emit('','',-1,'COND_GOTO')
+
+def p_IterationStatement_for(p):
+	''' IterationStatement : FOR LROUNPAREN ForInit ForExpr Mark_quad ForIncr RROUNPAREN Mark_quad Statement '''
+	p[0] = {}
+	p[0]['nextlist'] = []
+
+	TAC.backPatch(p[9]['loopBeginList'], p[5]['quad'])
+	TAC.backPatch(p[4]['truelist'], p[8]['quad'])
+	p[0]['nextlist'] = TAC.merge(p[4].get('falselist',[]), p[9].get('loopEndList',[]))
+	TAC.emit (p[5]['quad'],'','', 'GOTO')
+
+
+def p_IterationStatement_for_2(p):
+	''' IterationStatement : FOR LROUNPAREN ForInit ForExpr         RROUNPAREN Statement '''
 
 def p_ForInit(p):
-	''' ForInit : ExpressionStatements SEMICOLON
-	| LocalVariableDeclarationStatement
+	''' ForInit : ExpressionStatements SEMICOLON 
+	| LocalVariableDeclarationStatement 
 	| SEMICOLON '''
 
 def p_ForExpr(p):
-	''' ForExpr : Expression SEMICOLON
-	| SEMICOLON '''
+	''' ForExpr : Mark_quad Expression SEMICOLON
+	| Mark_quad SEMICOLON '''
+	if(len(p) == 4) :
+		p[0] = p[2]
+		p[0]['falselist'] = [TAC.getNextInstr()]
+		TAC.emit(p[2]['Name'], '', -1, 'COND_GOTO')
+		p[0]['truelist'] = [TAC.getNextInstr()]
+		p[0]['quad'] = p[1]['quad']
 
 def p_ForIncr(p):
-	''' ForIncr : ExpressionStatements '''
+	''' ForIncr : ExpressionStatements  '''
+
+	p[0] = {}
+	TAC.emit(p[-2]['quad'],'','','GOTO')
 
 def p_ExpressionStatements(p):
 	''' ExpressionStatements : ExpressionStatement
@@ -696,25 +737,29 @@ def p_EqualityExpression(p):
         | EqualityExpression OP_EQ RelationalExpression
         | EqualityExpression OP_NE RelationalExpression '''
    	p[0] = {}
-   	if(len(p) == 2) :
+	if(len(p) == 2) :
 		p[0] = p[1]
+	else :
+		if(p[1]['Type'] == p[3]['Type']) :
+			p[0]['Name'] = ST.Gen_Temp()
+			p[0]['Type'] = "bool"
+			TAC.emit(p[0]['Name'],p[1]['Name'],p[3]['Name'],p[2])
+		else:
+			print "Error in p_EqualityExpression";
+
+def p_AndExpression(p):
+	''' AndExpression : EqualityExpression
+	| AndExpression '&' EqualityExpression '''
 	p[0] = {}
 	if(len(p) == 2) :
 		p[0] = p[1]
 	else :
-		p[0]['Name'] = ST.Gen_Temp()
 		if(p[1]['Type'] == p[3]['Type']) :
-			p[0]['Type'] = p[1]['Type']
+			p[0]['Name'] = ST.Gen_Temp()
+			p[0]['Type'] = "bool"
+			TAC.emit(p[0]['Name'],p[1]['Name'],p[3]['Name'],p[2])
 		else:
-			print "Error in p_EqualityExpression";
-		TAC.emit(p[0]['Name'],p[1]['Name'],p[3]['Name'],p[2])
-
-def p_AndExpression(p):
-	''' AndExpression : EqualityExpression
-        | AndExpression '&' EqualityExpression '''
-        p[0] = {}
-        if(len(p) == 2) :
-			p[0] = p[1]
+			print "Error in p_AndExpression";
 
 
 def p_ExclusiveOrExpression(p):
@@ -723,6 +768,13 @@ def p_ExclusiveOrExpression(p):
 	p[0] = {}
 	if(len(p) == 2) :
 		p[0] = p[1]
+	else :
+		if(p[1]['Type'] == p[3]['Type']) :
+			p[0]['Name'] = ST.Gen_Temp()
+			p[0]['Type'] = "bool"
+			TAC.emit(p[0]['Name'],p[1]['Name'],p[3]['Name'],p[2])
+		else:
+			print "Error in p_ExclusiveOrExpression";	
 
 def p_InclusiveOrExpression(p):
 	''' InclusiveOrExpression : ExclusiveOrExpression
@@ -730,6 +782,13 @@ def p_InclusiveOrExpression(p):
 	p[0] = {}
 	if(len(p) == 2) :
 		p[0] = p[1]
+	else :
+		if(p[1]['Type'] == p[3]['Type']) :
+			p[0]['Name'] = ST.Gen_Temp()
+			p[0]['Type'] = "bool"
+			TAC.emit(p[0]['Name'],p[1]['Name'],p[3]['Name'],p[2])
+		else:
+			print "Error in p_InclusiveOrExpression";
 
 def p_ConditionalAndExpression(p):
 	''' ConditionalAndExpression : InclusiveOrExpression
@@ -737,16 +796,13 @@ def p_ConditionalAndExpression(p):
 	p[0] = {}
 	if(len(p) == 2) :
 		p[0] = p[1]
-	p[0] = {}
-	if(len(p) == 2) :
-		p[0] = p[1]
 	else :
-		p[0]['Name'] = ST.Gen_Temp()
 		if(p[1]['Type'] == p[3]['Type']) :
-			p[0]['Type'] = p[1]['Type']
+			p[0]['Name'] = ST.Gen_Temp()
+			p[0]['Type'] = "bool"
+			TAC.emit(p[0]['Name'],p[1]['Name'],p[3]['Name'],p[2])
 		else:
 			print "Error in p_ConditionalAndExpression";
-		TAC.emit(p[0]['Name'],p[1]['Name'],p[3]['Name'],p[2])
 
 def p_ConditionalOrExpression(p):
 	''' ConditionalOrExpression : ConditionalAndExpression
@@ -754,16 +810,13 @@ def p_ConditionalOrExpression(p):
 	p[0] = {}
 	if(len(p) == 2) :
 		p[0] = p[1]
-	p[0] = {}
-	if(len(p) == 2) :
-		p[0] = p[1]
 	else :
-		p[0]['Name'] = ST.Gen_Temp()
 		if(p[1]['Type'] == p[3]['Type']) :
-			p[0]['Type'] = p[1]['Type']
+			p[0]['Name'] = ST.Gen_Temp()
+			p[0]['Type'] = "bool"
+			TAC.emit(p[0]['Name'],p[1]['Name'],p[3]['Name'],p[2])
 		else:
 			print "Error in p_ConditionalOrExpression";
-		TAC.emit(p[0]['Name'],p[1]['Name'],p[3]['Name'],p[2])
 
 def p_ConditionalExpression(p):
 	''' ConditionalExpression : ConditionalOrExpression
@@ -780,7 +833,7 @@ def p_AssignmentExpression(p):
 		p[0] = p[1]
 	else :
 		if(ST.Get_attr(p[1]['Name'],'Type') == p[3]['Type']):
-		# if(p[1]['Type'] == p[3]['Type']) :
+			p[0]['Type'] = p[3]['Type']
 			p[0]['Name'] = ST.Gen_Temp()
 			TAC.emit(p[1]['Name'],p[3]['Name'],'',p[2])
 		else :
@@ -799,7 +852,6 @@ def p_Expression(p):
 	''' Expression : AssignmentExpression '''
 	p[0] = p[1]
 
-	print p[1]['Name']
 
 def p_ConstantExpression(p):
 	''' ConstantExpression : ConditionalExpression '''
