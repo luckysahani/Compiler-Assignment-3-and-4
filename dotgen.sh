@@ -15,7 +15,7 @@ dot -Tps parse_tree.dot -o parsetree.ps
 echo "Generating the graph from the dot file into a .ps file"
 g++ dtg.cpp
 ./a.out > parse_tree.dot
-gnome-open parsetree.ps
+# gnome-open parsetree.ps
 
 
 

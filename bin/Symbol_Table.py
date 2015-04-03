@@ -7,6 +7,7 @@ class SymbTbl:
 			'Type' : 'function',
 			'ReturnType' : 'undefined',
 			'ParentScope' : 'Main',
+			'Functions' : {}
 			'Strings' : {}
 		}
 		self.scopelist = [self.mainsymbtbl]
@@ -42,14 +43,17 @@ class SymbTbl:
 	def Add_scope(self, scopeName, Type):
 		curr_scope = self.scopelist[-1]
 		temp_scope = {
-			'ScopeName' : scopeName,
+			'ScopeName' : curr_scope['ScopeName']+ '.'+ scopeName,
 			'ParentScope' : curr_scope['ScopeName'],
 			'ReturnType' : 'undefined',
+			'Functions' : {},
 			'Type' : Type,
 			'identifiers' : {},
-			'Strings' : {}
+			'Strings' : {},
+			'Ifcount' : 0
 		}
 		self.scopelist.append(temp_scope)
+		return temp_scope['ScopeName']
 
 	#function to add an identifier
 	def Add_identifier(self, identifier, Type):

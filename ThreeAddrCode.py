@@ -10,15 +10,15 @@ class threeAddressCode:
 		self.ST.printSymbTbl()
 
 	def getNextInstr(self):
-		return self.nextInstr[self.ST.GetCurrentScopeName()]
+		return self.nextInstr[self.ST.curr_funcname]
 
 	def incInstr(self):
-		currScope = self.ST.GetCurrentScopeName()
-		self.instr[currScope] = self.nextInstr[currScope]
-		self.nextInstr[currScope] += 1 ;
+		currFunc = self.ST.curr_funcname
+		self.instr[currFunc] = self.nextInstr[currFunc]
+		self.nextInstr[currFunc] += 1 ;
 
 	def backPatch(self, llist, loc):
-		curr = self.ST.GetCurrentScopeName()
+		curr = self.ST.curr_funcname
 		for position in llist:
 			self.code[curr][position][2] = loc
 
@@ -32,7 +32,7 @@ class threeAddressCode:
 		return list3
 	#emit code for an instruction
 	def emit(self, destReg, srcReg1, srcReg2, op):
-		currScope = self.ST.GetCurrentScopeName()
+		currScope = self.ST.curr_funcname
 		self.incInstr()
 		self.code[currScope].append([destReg, srcReg1, srcReg2, op])
 

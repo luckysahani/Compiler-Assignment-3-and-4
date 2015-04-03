@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import ply.yacc as yacc, sys
 import subprocess
-import Symbol_Table as SymbolTable
+import ST2 as SymbolTable
 import ThreeAddrCode as ThreeAddrCode
 import pprint
 from lexer import tokens
@@ -102,6 +102,7 @@ def p_QualifiedName(p):
 def p_TypeDeclaration(p):
 	''' TypeDeclaration : ClassHeader LCURPAREN FieldDeclarations RCURPAREN
 	| ClassHeader LCURPAREN RCURPAREN '''
+	ST.Change_scope()
 
 def p_ClassHeader(p):
 	''' ClassHeader : Modifiers ClassWord IDENTIFIER
@@ -138,12 +139,10 @@ def p_FieldDeclarations(p):
 	''' FieldDeclarations : FieldDeclarationOptSemi
 		| FieldDeclarations FieldDeclarationOptSemi '''    
 
-	p[0] = p[1]
 
 def p_FieldDeclarationOptSemi(p):
 	''' FieldDeclarationOptSemi : FieldDeclaration
         | FieldDeclaration SemiColons '''
-	p[0] = p[1]
 
 def p_FieldDeclaration(p):
 	''' FieldDeclaration : FieldVariableDeclaration SEMICOLON
@@ -153,7 +152,6 @@ def p_FieldDeclaration(p):
         | NonStaticInitializer
         | TypeDeclaration '''
 
-	p[0] = p[1]
 
 def p_FieldVariableDeclaration(p):
 	''' FieldVariableDeclaration : Modifiers TypeSpecifier VariableDeclarators
@@ -165,6 +163,7 @@ def p_VariableDeclarators(p):
 
 	p[0] = {}
 	p[0]['Type'] = p[-1]
+	print p[0]['Type']
 	if len(p) == 2 :
 		p[0]['Names'] = list(p[1]['Name'])
 	else:
@@ -188,6 +187,7 @@ def p_VariableDeclarator(p):
 			TAC.emit(p[0]['Name'],p[3]['Name'],'','=')
 		else:
 			print "Error in VariableDeclarator"
+			raise SyntaxError
 
 def p_VariableInitializer(p):
 	''' VariableInitializer : Expression '''
@@ -200,18 +200,27 @@ def p_MethodDeclaration(p):
 
 	if(len(p) == 5):
 		p[0] = {'Modifiers' : p[1], 'Type' : p[2], 'Name' : p[3]['Name'], 'ParamList' : p[3]['List']}
+	else :
+		p[0] = {'Modifiers' : {'NULL'}, 'Type' : p[1], 'Name' : p[2]['Name'], 'ParamList' : p[2]['List']}
+
+	TAC.emit('','','','JUMPBACK')
+	ST.Change_scope()
 
 def p_MethodDeclarator(p):
 	''' MethodDeclarator : DeclaratorName LROUNPAREN ParameterList RROUNPAREN
 	| DeclaratorName LROUNPAREN RROUNPAREN '''
 
+	
 	if(len(p) == 5) :
-		p[0] = {'Name' : p[1], 'List' : p[3]}
+		p[0] = {'Name' : p[1]['Name'], 'List' : p[3]}
+		TAC.genNewTacFunc(ST.Add_scope(p[0]['Name'], 'Function'))
+		for param in p[3]:
+			ST.Add_identifier(param['Name'],param['Type'])
 	else :
 		p[0] = {'Name' : p[1], 'List' : []}
+		TAC.genNewTacFunc(ST.Add_scope(p[0]['Name'], 'Function'))
 
-	ST.Add_scope(p[0]['Name'], 'Function')
-	TAC.genNewTacFunc(p[0]['Name'])
+
 
 def p_ParameterList(p):
 	''' ParameterList : Parameter
@@ -225,16 +234,20 @@ def p_ParameterList(p):
 	
 def p_Parameter(p):
 	''' Parameter : TypeSpecifier DeclaratorName '''
-	p[0] = [{'Type' : p[1], 'Name' : p[2]}]
+	p[0] = [{'Type' : p[1], 'Name' : p[2]['Name']}]
 
 def p_DeclaratorName(p):
 	''' DeclaratorName : IDENTIFIER
-        | DeclaratorName OP_DIM '''
-
-	p[0] = p[1]
+	| DeclaratorName OP_DIM '''
+	p[0] = {}
+	if(len(p) == 3) :
+		p[0]['Name'] = p[1]['Name']
+	else :
+		p[0]['Name'] = p[1]
 
 def p_MethodBody(p):
-	''' MethodBody : Block
+	''' MethodBody : LCURPAREN LocalVariableDeclarationsAndStatements RCURPAREN
+	| LCURPAREN RCURPAREN
 	| SEMICOLON '''
 
 	p[0] = p[1]
@@ -254,13 +267,21 @@ def p_NonStaticInitializer(p):
 	''' NonStaticInitializer : Block '''
 
 def p_Block(p):
-	''' Block : LCURPAREN LocalVariableDeclarationsAndStatements RCURPAREN
-	| LCURPAREN RCURPAREN '''
+	''' Block : Bl LocalVariableDeclarationsAndStatements Br
+	| Bl Br '''
 
 	if(len(p) == 4) :
 		p[0] = p[2]
 	else :
 		p[0] = {}
+
+def p_Bl(p):
+	''' Bl : LCURPAREN '''
+	ST.Add_scope(ST.Gen_Temp(),'block')
+
+def p_Br(p):
+	''' Br : RCURPAREN '''
+	ST.Change_scope()
 
 def p_LocalVariableDeclarationsAndStatements(p):
 	''' LocalVariableDeclarationsAndStatements : LocalVariableDeclarationOrStatement
@@ -343,7 +364,7 @@ def p_ExpressionStatement(p):
 	p[0] = p[1]
 
 def p_SelectionStatement(p):
-	''' SelectionStatement : If_1 LROUNPAREN Expression RROUNPAREN Mark_if Statement '''
+	''' SelectionStatement : If LROUNPAREN Expression RROUNPAREN Mark_if Statement '''
 	
 	p[0] = {}
 
@@ -351,8 +372,10 @@ def p_SelectionStatement(p):
 	p[0]['loopEndList'] = p[6].get('loopEndList', [])
 	p[0]['loopBeginList'] = p[6].get('loopBeginList',[])
 
+	ST.Change_scope()
+
 def p_SelectionStatement_2(p):
-	''' SelectionStatement : If_1 LROUNPAREN Expression RROUNPAREN Mark_if Statement ELSE Mark_else Statement '''
+	''' SelectionStatement : If LROUNPAREN Expression RROUNPAREN Mark_if Statement ELSE Mark_else Statement '''
 	p[0] = {}
 
 # else :
@@ -360,6 +383,8 @@ def p_SelectionStatement_2(p):
 	p[0]['nextlist'] = p[8]['nextlist']
 	p[0]['loopEndList'] = p[6].get('loopEndList', [])
 	p[0]['loopBeginList'] = p[6].get('loopBeginList',[])
+
+	ST.Change_scope()
   #   else:
 		# TAC.backPatch(p[5]['falseList'], p[8]['quad'])
 		# p[0]['nextList'] = p[8]['nextList']
@@ -367,9 +392,9 @@ def p_SelectionStatement_2(p):
 		# p[0]['loopBeginList'] = p[6].get('loopBeginList',[])
 	# | SWITCH LROUNPAREN Expression RROUNPAREN Block '''
 	
-def p_If_1(p):
+def p_If(p):
 	''' If : IF'''
-	ST.Add_scope("if", "if");
+	ST.Add_scope("if", "if")
 
 def p_Mark_if(p):
 	''' Mark_if : '''
@@ -575,6 +600,13 @@ def p_MethodCall(p):
 	p[0]['Name'] = p[1]['Name']
 	if(p[0]['Name'] == 'System.out.println') :
 		TAC.emit(p[3][0]['Name'],'',p[3][0]['Type'],'Print')
+	else :
+		if(len(p) == 5) :
+			for param in p[3]:
+				TAC.emit(param['Name'],'','','PARAM')
+		TAC.emit('','',p[0]['Name'],'JUMP')
+		TAC.emit('','','','RetAdd')
+
 
 def p_MethodAccess(p):
 	''' MethodAccess : SpecialName '''

@@ -1,13 +1,26 @@
 class HelloWorld
 {
-   public static void main(String args[])
-   {
-   		int a;
-   		a = 5;
-   		for(int i =0; i < 5; i = i + 1){
-   			while(true){
-   				a = 4;
-   			}
-   		}
-   }
+	int f,g;
+	public static void hello(int c){
+		int b;
+		b = 5;
+		if(b < 6){
+			b = 7;
+		}
+		else {
+			b = 3;
+		}
+	}
+	public static void main(String args[])
+	{
+		int a;
+		a = 5;
+		if(a < 6){
+			a = 7;
+		}
+		else {
+			a = 3;
+		}
+		hello(a);
+	}
 }

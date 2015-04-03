@@ -3,61 +3,65 @@ import pprint
 class SymbTbl:
 	def __init__(self):
 		self.mainsymbtbl = {
-			'ScopeName' : 'Main',
-			'Type' : 'function',
-			'ReturnType' : 'undefined',
-			'ParentScope' : 'Main',
-			'Functions' : {}
-			'Strings' : {}
+			'Main':{
+				'ScopeName' : 'NULL',
+				'Type' : 'function',
+				'ReturnType' : 'undefined',
+				'ParentScope' : 'Main',
+				'Functions' : {},
+				'Strings' : {}
+			}
 		}
-		self.scopelist = [self.mainsymbtbl]
+		self.curr_scope = 'Main';
+		self.curr_funcname = 'None'
 		self.tempvarcnt = 0;
 
 	#functions to debug the code
 	def Printsymbtbl(self):
-		pprint.pprint(self.scopelist)
+		pprint.pprint(self.mainsymbtbl)
 
 	#function to get the current scopelist
 	def GetCurrentScopeName(self):
-		return self.scopelist[-1]['ScopeName']
+		return self.curr_scope
 
 
-	def Check_identifier(self, identifier, index):
-		if index == -1 :
+	def Check_identifier(self, identifier, scopeName):
+		if scopeName == 'NULL':
 			return None
-		temp_scope = self.scopelist[index]
+		temp_scope = self.mainsymbtbl[scopeName]
 
 		if temp_scope['identifiers'].has_key(identifier):
 			return temp_scope['identifiers'][identifier]
 		else:
-			return self.Check_identifier(identifier, index-1)
+			return self.Check_identifier(identifier, temp_scope['ParentScope'])
 
 	#function to check whether given identifier is present or not
 	def Find_identifier(self, identifier):
-		index = len(self.scopelist) - 1
-		return self.Check_identifier(identifier, index);
-
-	
+		return self.Check_identifier(identifier, self.curr_scope);
 
 	#function to add a scope
 	def Add_scope(self, scopeName, Type):
-		curr_scope = self.scopelist[-1]
 		temp_scope = {
-			'ScopeName' : curr_scope['ScopeName']+ '.'+ scopeName,
-			'ParentScope' : curr_scope['ScopeName'],
+			'ScopeName' : self.curr_scope+ '.'+ scopeName,
+			'ParentScope' : self.curr_scope,
 			'ReturnType' : 'undefined',
-			'Functions' : {},
 			'Type' : Type,
 			'identifiers' : {},
 			'Strings' : {},
 			'Ifcount' : 0
 		}
-		self.scopelist.append(temp_scope)
+		if(Type == "Function") :
+			temp_scope['Function'] = temp_scope['ScopeName']
+			self.curr_funcname = temp_scope['ScopeName']
+		elif(Type == 'if') :
+			temp_scope['Function'] = temp_scope['ScopeName']
+		self.mainsymbtbl[temp_scope['ScopeName']] = temp_scope
+		self.curr_scope = temp_scope['ScopeName']
 		return temp_scope['ScopeName']
 
 	#function to add an identifier
 	def Add_identifier(self, identifier, Type):
-		curr_scope = self.scopelist[-1];
+		Curr_scope = self.mainsymbtbl[self.curr_scope];
 		if Type in ['function', 'callback', 'String']:
 			width = 4
 		elif Type == 'int':
@@ -74,18 +78,20 @@ class SymbTbl:
 			'Type' : Type
 		}
 
-		if not curr_scope['identifiers'].has_key(identifier):
-			curr_scope['identifiers'][identifier] = temp_obj
+		if not Curr_scope['identifiers'].has_key(identifier):
+			Curr_scope['identifiers'][identifier] = temp_obj
+		else :
+			print "identifier already present"
 
 	def Add_attr(self, identifier, attr, attr_value):
 		entry = self.Find_identifier(identifier)
 		entry[attr] = attr_value
 
 	def Add_attr_scope(self, attr, attr_value):
-		curr_scope = self.scopelist[-1][attr] = attr_value
+		self.mainsymbtbl[self.curr_scope][attr] = attr_value
 
 	def Get_attr_scope(self, attr):
-		return self.scopelist[-1][attr]
+		return self.mainsymbtbl[self.curr_scope][attr]
 
 	def Get_attr(self, identifier, attr):
 		entry = self.Find_identifier(identifier)
@@ -98,14 +104,18 @@ class SymbTbl:
 			return True
 
 	def Exists_curr_scope(self, identifier):
-		curr_scope = self.scopelist[-1]
-		if (curr_scope.has_key(identifier)) :
+		Curr_scope = self.mainsymbtbl[self.curr_scope]
+		if (Curr_scope.has_key(identifier)) :
 			return True
 		else :
 			return False
 
-	def Del_scope(self, scopeName):
-		del self.scopelist[-1]
+	def Change_scope (self) :
+		self.curr_scope = self.mainsymbtbl[self.curr_scope]['ParentScope']
+		return self.curr_scope
+
+	def Change_func (self) :
+		self.curr_funcname = None
 
 	def Gen_Temp(self):
 		v = "t_"+ str(self.tempvarcnt);
@@ -113,4 +123,10 @@ class SymbTbl:
 		return v
 
 	def Add_string(self, name, strval):
-		self.scopelist[-1]['Strings'][name] = strval
+		self.mainsymbtbl[self.curr_scope]['Strings'][name] = strval
+
+ST = SymbTbl()
+ST.Add_scope('Cname','class')
+ST.Add_scope('main','function')
+ST.Add_identifier('a','int')
+ST.Printsymbtbl() 

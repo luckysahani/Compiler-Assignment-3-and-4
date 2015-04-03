@@ -10,6 +10,7 @@ all:
 	cp dotgen.sh bin/dotgen.sh
 	cp parser4.py bin/parser4
 	cp Symbol_Table.py bin/Symbol_Table.py
+	cp ST2.py bin/ST2.py
 	cp ThreeAddrCode.py bin/ThreeAddrCode.py
 
 clean:

@@ -272,7 +272,7 @@ def t_error(t):
     t.lexer.skip(1) 
 
 # Build the lexer
-lexer = lex.lex(debug=True)
+lexer = lex.lex()
 
 # Give the lexer some input
 #lexer.input("hardik bansal TRUE 0x123  1.00E-05 '.'/* hardik */")
