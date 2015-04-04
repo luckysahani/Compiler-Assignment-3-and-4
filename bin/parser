@@ -602,6 +602,7 @@ def p_PrimaryExpression_nn(p):
 			p[0]['AType'] = p[1]['Type']
 			p[0]['AName'] = p[1]['Name']
 			p[0]['Name'] = temp2
+			# TAC.emit(p[0]['Name'],p[0]['AName'],temp2,'+*=')
 			# print p[1]['Type'] + ' Error'
 		else :
 			print "Error in Array"
@@ -909,6 +910,14 @@ def p_CastExpression(p):
 	p[0] = {}
 	if(len(p) == 2) :
 		p[0] = p[1]
+	if(p[1].has_key('AType')) :
+		p[0]['Type'] = p[1]['Type']
+		temp1 = ST.Gen_Temp()
+		TAC.emit(temp1,p[1]['AName'],'','ADDFETCH')
+		temp2 = ST.Gen_Temp()
+		TAC.emit(temp2,p[1]['Name'],temp1,'+')
+		p[0]['Name'] = ST.Gen_Temp()
+		TAC.emit(p[0]['Name'],temp2,'','*=')
 
 
 def p_PrimitiveTypeExpression(p):

@@ -3,17 +3,17 @@ class HelloWorld
 	int y,x;
 	public static hard main(int[] args)
 	{
-		boolean [][] a = new boolean [3][4];
-		a[2][1] = true;
+		int [][] a = new int [3][4];
+		int b = a[2][3] + 1;
 	}
 }
 
 class T
 {
 	int a;
-	string f;
+	int f;
 	public static void main(){
-		string b;
+		int b;
 		b = f;
 	}
 }
