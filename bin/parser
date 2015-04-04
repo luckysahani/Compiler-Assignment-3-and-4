@@ -54,7 +54,8 @@ def p_PrimitiveType(p):
 	| LONG
 	| FLOAT
 	| DOUBLE
-	| VOID '''
+	| VOID 
+	| STR '''
 
 	p[0] = p[1]
 	if(p[1] == 'boolean') :
@@ -169,7 +170,6 @@ def p_FieldVariableDeclaration(p):
 		for var in p[3]['Names']:
 			if not ST.Exists_curr_scope(var):
 				if(not '.' in p[1]) :
-					# print p[1] + ' hi'
 					ST.Add_identifier(var,p[1],-1)
 			else :
 				print "Variable " + var + " Already Declared"
@@ -181,12 +181,9 @@ def p_VariableDeclarators(p):
 
 	p[0] = {}
 	p[0]['Type'] = p[-1]
-	# print p[0]['Type']
 	if len(p) == 2 :
 		p[0]['Names'] = [p[1]['Name']]
 		if(p[1].has_key('List2')) :
-			# print p[1]['List2']
-			# print  'Hello'
 			p[0]['List2'] = p[1]['List2']
 	else:
 		p[0]['Names'] = p[1]['Names']
@@ -203,7 +200,6 @@ def p_VariableDeclarator(p):
 		p[0]['Type'] = p[-2]['Type']
 	else :
 		p[0]['Type'] = p[-1]
-	# print p[3]['Type'] + ' Hello '
 
 	if(len(p) == 4):
 		if(p[0]['Type'] == p[3]['Type']) :
@@ -214,7 +210,7 @@ def p_VariableDeclarator(p):
 				TAC.emit(p[0]['Name'],p[3]['Name'],'','ALLOC')
 		else:
 			print "Error in VariableDeclarator of type of " + p[0]['Name']
-			raise SyntaxError
+			raise Exception
 
 def p_VariableInitializer(p):
 	''' VariableInitializer : Expression '''
@@ -232,9 +228,7 @@ def p_MethodDeclaration(p):
 
 	TAC.emit('','','','Endfunction')
 	TAC.code[ST.curr_funcname][0][0] = ST.mainsymbtbl[ST.curr_funcname]['offset']
-	# pprint.pprint(p[0]['ParamList'])
 	ST.mainsymbtbl[ST.curr_funcname]['Parameters'] = p[0]['ParamList']
-	# print ST.mainsymbtbl[ST.curr_funcname]['offset']
 	ST.Change_scope()
 
 def p_MethodDeclarator(p):
@@ -246,7 +240,6 @@ def p_MethodDeclarator(p):
 		p[0] = {'Name' : p[1]['Name'], 'List' : p[3]}
 		TAC.genNewTacFunc(ST.Add_scope(p[0]['Name'], 'Function',p[-1]))
 		TAC.emit('','','','BeginFunction')
-		# print p[3]
 		for param in p[3]:
 			ST.Add_identifier(param['Name'],param['Type'],-1)
 	else :
@@ -346,7 +339,6 @@ def p_LocalVariableDeclarationStatement(p):
 				ST.Add_identifier(identifier,p[1],p[2]['List2'])
 		else :
 			print "Variable " + identifier + " Already Declared"
-			# print "Error in LocalVariableDeclarationStatement"
 			raise SyntaxError
 
 def p_Statement(p):
@@ -359,12 +351,7 @@ def p_Statement(p):
 	p[0] = {}
 	Next = p[1].get('nextlist', [])
 	p[0]['nextlist'] = Next
-	# if(len(p) == 3):
-	# 	TAC.backPatch(Next,p[2]['quad'])
-	# else :
-	# 	TAC.backPatch(Next,p[3]['quad'])
-
-	# p[0] = p[1]
+	
 	p[0]['loopEndList'] = p[1].get('loopEndList',[]);
 	p[0]['loopBeginList'] = p[1].get('loopBeginList',[]);
 
@@ -378,9 +365,7 @@ def p_Statement_1(p):
 		TAC.backPatch(Next,p[2]['quad'])
 	else :
 		TAC.backPatch(Next,p[3]['quad'])
-	#print Next
-	# print "Hello"
-	# p[0] = p[1]
+
 	p[0]['loopEndList'] = p[1].get('loopEndList',[]);
 	p[0]['loopBeginList'] = p[1].get('loopBeginList',[]);
 
@@ -437,7 +422,6 @@ def p_Mark_if(p):
 	''' Mark_if : '''
 	p[0] = {}
 	p[0]['falselist'] = [TAC.getNextInstr()]
-	# print p[0]['falselist']
 	TAC.emit(p[-2]['Name'],'',-1,'COND_GOTO')
 
 def p_Mark_else(p):
@@ -466,10 +450,6 @@ def p_IterationStatement_while(p):
 
 	TAC.emit ('','',TAC.make_label(p[2]['quad']), 'GOTO')
 
-# def p_Wh(p):
-# 	''' Wh : WHILE '''
-# 	ST.Add_scope("while", "while"+tempcount,None)
-# 	tempcount += 1
 
 def p_Mark_while(p):
 	''' Mark_while : '''
@@ -503,7 +483,6 @@ def p_Mark_dowhile(p):
 
 	p[0] = {}
 	p[0]['falselist'] = [TAC.getNextInstr()]
-	# TAC.emit('','',-1,'COND_GOTO')
 
 def p_IterationStatement_for(p):
 	''' IterationStatement : Fr LROUNPAREN ForInit ForExpr Mark_for ForIncr RROUNPAREN Mark_quad Statement '''
@@ -531,9 +510,6 @@ def p_Mark_for(p):
 	TAC.emit('','','','GOTO')
 	p[0] = {'quad' : TAC.getNextInstr()}
 
-
-# def p_IterationStatement_for_2(p):
-# 	''' IterationStatement : FOR LROUNPAREN ForInit ForExpr         RROUNPAREN Statement '''
 
 def p_ForInit(p):
 	''' ForInit : ExpressionStatements SEMICOLON 
@@ -592,16 +568,19 @@ def p_JumpStatement_1(p):
 def p_PrimaryExpression(p):
 	''' PrimaryExpression : QualifiedName '''
 	p[0] = p[1]
-	if(ST.Get_attr(p[1]['Name'],'Type') != None) :
+	if((not ST.Exists_class(p[1]['Name'])) and ST.mainsymbtbl[ST.curr_class]['identifiers'].has_key(p[1]['Name'])) :
+		temp = ST.Gen_Temp()
+		TAC.emit(temp,'this',ST.Get_off(p[1]['Name']),'*+=')
+		p[0]['Type'] = ST.mainsymbtbl[ST.curr_class]['identifiers'][p[1]['Name']]['Type']
+		p[0]['Name'] = temp
+	elif(ST.Exists(p[1]['Name']) and ST.Get_attr(p[1]['Name'],'Type') != None) :
 		p[0]['Type'] = ST.Get_attr(p[1]['Name'],'Type')
 
 def p_PrimaryExpression_nn(p):
 	''' PrimaryExpression : NotJustName '''
 
 	p[0] = p[1]
-	# print p[1]
 	if('.' in p[0]['Type'] and p[0].has_key('List')):
-		# print p[0]['Name']
 		if ST.Get_attr(p[1]['Name'],'Type') == p[0]['Type'] and len(ST.Get_attr(p[1]['Name'],'Arrwidth')) == len (p[1]['List']) :
 			temp1 = ST.Get_attr(p[1]['Name'],'Arrwidth')
 			numcn = 0
@@ -626,7 +605,7 @@ def p_PrimaryExpression_nn(p):
 			# print p[1]['Type'] + ' Error'
 		else :
 			print "Error in Array"
-			raise SyntaxError
+			raise Exception
 		# temp = p[1]['Type'].split('.')
 		# p[0]['Type'] = temp[0]
 		# print p[0]['Type'] + 'Hello'
@@ -826,7 +805,7 @@ def p_ArrayAllocationExpression(p):
 def p_ArrayAllocationExpression_1(p):
 	''' ArrayAllocationExpression : NEW TypeName DimExprs '''
 	temp1 = ST.Gen_Temp()
-	TAC.emit(temp1,'4',p[3]['Name'],'*')
+	TAC.emit(temp1,ST.Get_size(p[2]),p[3]['Name'],'*')
 	p[0] = {}
 	p[0]['Name'] = temp1
 	p[0]['Type'] = p[2] + '.' +str(p[3]['level'])

@@ -20,6 +20,7 @@ token_str = ""
 
 
 reserved = {
+  'string' : 'STR',
   'abstract' : 'ABSTRACT' ,
   'continue' : 'CONTINUE' , 
   'goto'  : 'GOTO' ,

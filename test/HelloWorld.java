@@ -1,8 +1,19 @@
 class HelloWorld
 {
-	public static void main(int args)
+	int y,x;
+	public static hard main(int[] args)
 	{
-		int[][] a = new int [4][5];
-		a[1][2] = 3;
+		boolean [][] a = new boolean [3][4];
+		a[2][1] = true;
+	}
+}
+
+class T
+{
+	int a;
+	string f;
+	public static void main(){
+		string b;
+		b = f;
 	}
 }
