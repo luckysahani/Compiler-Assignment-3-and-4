@@ -14,7 +14,9 @@ class SymbTbl:
 		}
 		self.curr_scope = 'Main';
 		self.curr_funcname = 'None'
+		self.curr_class = 'None'
 		self.tempvarcnt = 0;
+		self.temp = 0;
 
 	#functions to debug the code
 	def Printsymbtbl(self):
@@ -40,19 +42,24 @@ class SymbTbl:
 		return self.Check_identifier(identifier, self.curr_scope);
 
 	#function to add a scope
-	def Add_scope(self, scopeName, Type):
+	def Add_scope(self, scopeName, Type, ReturnType):
 		temp_scope = {
 			'ScopeName' : self.curr_scope+ '.'+ scopeName,
 			'ParentScope' : self.curr_scope,
-			'ReturnType' : 'undefined',
 			'Type' : Type,
 			'identifiers' : {},
 			'Strings' : {},
-			'Ifcount' : 0
+			'Ifcount' : 0,
+			'offset' : 0
 		}
+		if(Type == "Class"):
+			temp_scope['Functions'] = {}
+			self.curr_class = temp_scope['ScopeName']
 		if(Type == "Function") :
+			temp_scope['ReturnType'] = ReturnType
 			temp_scope['Function'] = temp_scope['ScopeName']
 			self.curr_funcname = temp_scope['ScopeName']
+			self.mainsymbtbl[self.curr_class]['Functions'][scopeName] = {'Name' : scopeName, 'Type' : temp_scope['ReturnType']}
 		elif(Type == 'if') :
 			temp_scope['Function'] = temp_scope['ScopeName']
 		self.mainsymbtbl[temp_scope['ScopeName']] = temp_scope
@@ -71,8 +78,11 @@ class SymbTbl:
 		elif Type in ['float', 'double']:
 			width = 8
 		else:
-			width = -1
+			width = 0
 		
+		if(self.curr_funcname != 'None'):
+			self.mainsymbtbl[self.curr_funcname]['offset'] += width 
+
 		temp_obj = { 
 			'Width' : width,
 			'Type' : Type
@@ -105,7 +115,7 @@ class SymbTbl:
 
 	def Exists_curr_scope(self, identifier):
 		Curr_scope = self.mainsymbtbl[self.curr_scope]
-		if (Curr_scope.has_key(identifier)) :
+		if (Curr_scope['identifiers'].has_key(identifier)) :
 			return True
 		else :
 			return False
@@ -125,8 +135,19 @@ class SymbTbl:
 	def Add_string(self, name, strval):
 		self.mainsymbtbl[self.curr_scope]['Strings'][name] = strval
 
-ST = SymbTbl()
-ST.Add_scope('Cname','class')
-ST.Add_scope('main','function')
-ST.Add_identifier('a','int')
-ST.Printsymbtbl() 
+	def inc_offset(self,Type):
+		if Type == 'int':
+			width = 4
+		elif Type in ['char', 'bool']:
+			width = 1
+		elif Type in ['float', 'double']:
+			width = 8
+		else:
+			width = 0
+		print Type
+
+		self.mainsymbtbl[self.curr_funcname]['offset'] += width
+
+	def gen_tempnum(self) :
+		self.temp += 1
+		return self.temp

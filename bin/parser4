@@ -466,7 +466,7 @@ def p_ConditionalOrExpression(p):
 
 def p_ConditionalExpression(p):
 	''' ConditionalExpression : ConditionalOrExpression
-	| ConditionalOrExpression '?' Expression COLON ConditionalExpression '''
+	| ConditionalOrExpression QUES Expression COLON ConditionalExpression '''
 
 def p_AssignmentExpression(p):
 	''' AssignmentExpression : ConditionalExpression

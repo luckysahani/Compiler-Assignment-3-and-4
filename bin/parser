@@ -9,6 +9,7 @@ from lexer import tokens
 ###########################
 ST = SymbolTable.SymbTbl()
 TAC = ThreeAddrCode.threeAddressCode(ST)
+tempcount = 0
 ###########################
 
 #------------------------------------------------------------------------------------
@@ -17,7 +18,9 @@ TAC = ThreeAddrCode.threeAddressCode(ST)
 def p_CompilationUnit(p):
 	''' CompilationUnit : ProgramFile '''
 	ST.Printsymbtbl()
-	pprint.pprint(TAC.code)
+	TAC.printTac()
+	# pprint.pprint(TAC.code)
+	# pprint.pprint(TAC.labels)
 
 def p_OP_DIM(p):
 	''' OP_DIM : LSQPAREN RSQPAREN '''
@@ -51,6 +54,8 @@ def p_PrimitiveType(p):
 	| VOID '''
 
 	p[0] = p[1]
+	if(p[1] == 'boolean') :
+		p[0] = 'bool'
 
 def p_SemiColons(p):
 	''' SemiColons : SEMICOLON
@@ -90,12 +95,6 @@ def p_QualifiedName(p):
 	p[0] = {}
 	if(len(p) == 2) :
 		p[0]['Name'] = p[1]
-		# p[0]['Type'] = "int"
-		# print str(p[1])
-		# print "Hello"
-		#pprint.pprint(ST.scopelist[-1]['identifiers'][p[1]])
-		# pprint.pprint(ST.scopelist)
-		# p[0]['Type'] = "int "
 	else :
 		p[0]['Name'] = p[1]['Name'] + '.' + p[3]
 
@@ -113,7 +112,7 @@ def p_ClassHeader(p):
 	else :
 		p[0] = {'Modifiers' : [], 'ClassName' : p[2]}
 
-	ST.Add_scope(p[0]['ClassName'], 'Class')
+	ST.Add_scope(p[0]['ClassName'], 'Class',None)
 
 def p_Modifiers(p):
 	''' Modifiers : Modifier
@@ -156,6 +155,21 @@ def p_FieldDeclaration(p):
 def p_FieldVariableDeclaration(p):
 	''' FieldVariableDeclaration : Modifiers TypeSpecifier VariableDeclarators
 	|           TypeSpecifier VariableDeclarators '''
+	if(len(p) == 3) :
+		for var in p[2]['Names']:
+			if not ST.Exists_curr_scope(var):
+				ST.Add_identifier(var,p[1])
+			else :
+				print "Variable " + var + " Already Declared"
+				raise SyntaxError
+	else :
+		for var in p[3]['Names']:
+			if not ST.Exists_curr_scope(var):
+				ST.Add_identifier(var,p[1])
+			else :
+				print "Variable " + var + " Already Declared"
+				raise SyntaxError
+			ST.Add_identifier(var,p[2])
 
 def p_VariableDeclarators(p):
 	''' VariableDeclarators : VariableDeclarator
@@ -163,9 +177,9 @@ def p_VariableDeclarators(p):
 
 	p[0] = {}
 	p[0]['Type'] = p[-1]
-	print p[0]['Type']
+	# print p[0]['Type']
 	if len(p) == 2 :
-		p[0]['Names'] = list(p[1]['Name'])
+		p[0]['Names'] = [p[1]['Name']]
 	else:
 		p[0]['Names'] = p[1]['Names']
 		p[0]['Names'].append(p[3]['Name'])
@@ -175,7 +189,7 @@ def p_VariableDeclarator(p):
 	| DeclaratorName EQUAL VariableInitializer '''
 
 	p[0] = {}
-	p[0]['Name'] = p[1]
+	p[0]['Name'] = p[1]['Name']
 
 	if(p[-1] == ",") :
 		p[0]['Type'] = p[-2]['Type']
@@ -186,7 +200,7 @@ def p_VariableDeclarator(p):
 		if(p[0]['Type'] == p[3]['Type']) :
 			TAC.emit(p[0]['Name'],p[3]['Name'],'','=')
 		else:
-			print "Error in VariableDeclarator"
+			print "Error in VariableDeclarator of type of " + p[0]['Name']
 			raise SyntaxError
 
 def p_VariableInitializer(p):
@@ -203,7 +217,11 @@ def p_MethodDeclaration(p):
 	else :
 		p[0] = {'Modifiers' : {'NULL'}, 'Type' : p[1], 'Name' : p[2]['Name'], 'ParamList' : p[2]['List']}
 
-	TAC.emit('','','','JUMPBACK')
+	TAC.emit('','','','Endfunction')
+	TAC.code[ST.curr_funcname][0][0] = ST.mainsymbtbl[ST.curr_funcname]['offset']
+	pprint.pprint(p[0]['ParamList'])
+	ST.mainsymbtbl[ST.curr_funcname]['Parameters'] = p[0]['ParamList']
+	# print ST.mainsymbtbl[ST.curr_funcname]['offset']
 	ST.Change_scope()
 
 def p_MethodDeclarator(p):
@@ -213,12 +231,15 @@ def p_MethodDeclarator(p):
 	
 	if(len(p) == 5) :
 		p[0] = {'Name' : p[1]['Name'], 'List' : p[3]}
-		TAC.genNewTacFunc(ST.Add_scope(p[0]['Name'], 'Function'))
+		TAC.genNewTacFunc(ST.Add_scope(p[0]['Name'], 'Function',p[-1]))
+		TAC.emit('','','','BeginFunction')
+		# print p[3]
 		for param in p[3]:
 			ST.Add_identifier(param['Name'],param['Type'])
 	else :
-		p[0] = {'Name' : p[1], 'List' : []}
-		TAC.genNewTacFunc(ST.Add_scope(p[0]['Name'], 'Function'))
+		p[0] = {'Name' : p[1]['Name'], 'List' : []}
+		TAC.genNewTacFunc(ST.Add_scope(p[0]['Name'], 'Function',p[-1]))
+		TAC.emit('','','','BeginFunction')
 
 
 
@@ -227,22 +248,20 @@ def p_ParameterList(p):
 	| ParameterList COMMA Parameter '''
 
 	if(len(p) == 2) :
-		p[0] = p[1]
+		p[0] = [p[1]]
 	else :
 		p[0] = p[1]
 		p[0].append(p[3])
 	
 def p_Parameter(p):
 	''' Parameter : TypeSpecifier DeclaratorName '''
-	p[0] = [{'Type' : p[1], 'Name' : p[2]['Name']}]
+	p[0] = {'Type' : p[1], 'Name' : p[2]['Name']}
 
 def p_DeclaratorName(p):
 	''' DeclaratorName : IDENTIFIER
 	| DeclaratorName OP_DIM '''
 	p[0] = {}
-	if(len(p) == 3) :
-		p[0]['Name'] = p[1]['Name']
-	else :
+	if(len(p) == 2):
 		p[0]['Name'] = p[1]
 
 def p_MethodBody(p):
@@ -277,7 +296,7 @@ def p_Block(p):
 
 def p_Bl(p):
 	''' Bl : LCURPAREN '''
-	ST.Add_scope(ST.Gen_Temp(),'block')
+	ST.Add_scope(ST.Gen_Temp(),'block',None)
 
 def p_Br(p):
 	''' Br : RCURPAREN '''
@@ -306,11 +325,13 @@ def p_LocalVariableDeclarationStatement(p):
 	''' LocalVariableDeclarationStatement : TypeSpecifier VariableDeclarators SEMICOLON '''
 
 	p[0] = {'Type' : p[1], 'Names' : p[2]['Names']}
-	for identifer in p[2]['Names']:
-		if ST.Exists_curr_scope(identifer) == False:
-			ST.Add_identifier(identifer, p[1])
+	for identifier in p[2]['Names']:
+		if ST.Exists_curr_scope(identifier) == False:
+			ST.Add_identifier(identifier, p[1])
 		else :
-			print "Error in Variable Declarator"
+			print "Variable " + identifier + " Already Declared"
+			# print "Error in LocalVariableDeclarationStatement"
+			raise SyntaxError
 
 def p_Statement(p):
 	''' Statement : EmptyStatement Mark_quad
@@ -367,41 +388,40 @@ def p_SelectionStatement(p):
 	''' SelectionStatement : If LROUNPAREN Expression RROUNPAREN Mark_if Statement '''
 	
 	p[0] = {}
-
-	p[0]['nextlist'] = p[5].get('falselist',[])
-	p[0]['loopEndList'] = p[6].get('loopEndList', [])
-	p[0]['loopBeginList'] = p[6].get('loopBeginList',[])
+	if(p[3]['Type'] == 'bool') :
+		p[0]['nextlist'] = p[5].get('falselist',[])
+		p[0]['loopEndList'] = p[6].get('loopEndList', [])
+		p[0]['loopBeginList'] = p[6].get('loopBeginList',[])
+	else :
+		print "Expression of if statement is not boolean"
+		raise SyntaxError
 
 	ST.Change_scope()
 
 def p_SelectionStatement_2(p):
 	''' SelectionStatement : If LROUNPAREN Expression RROUNPAREN Mark_if Statement ELSE Mark_else Statement '''
 	p[0] = {}
-
-# else :
-	TAC.backPatch(p[5]['falselist'], p[8]['quad'])
-	p[0]['nextlist'] = p[8]['nextlist']
-	p[0]['loopEndList'] = p[6].get('loopEndList', [])
-	p[0]['loopBeginList'] = p[6].get('loopBeginList',[])
+	if(p[3]['Type'] == 'bool') :
+		TAC.backPatch(p[5]['falselist'], p[8]['quad'])
+		p[0]['nextlist'] = p[8]['nextlist']
+		p[0]['loopEndList'] = p[6].get('loopEndList', [])
+		p[0]['loopBeginList'] = p[6].get('loopBeginList',[])
+	else :
+		print "Expression of if statement is not boolean"
+		raise SyntaxError
 
 	ST.Change_scope()
-  #   else:
-		# TAC.backPatch(p[5]['falseList'], p[8]['quad'])
-		# p[0]['nextList'] = p[8]['nextList']
-		# p[0]['loopEndList'] = p[6].get('loopEndList', [])
-		# p[0]['loopBeginList'] = p[6].get('loopBeginList',[])
-	# | SWITCH LROUNPAREN Expression RROUNPAREN Block '''
-	
+
+
 def p_If(p):
 	''' If : IF'''
-	ST.Add_scope("if", "if")
+	ST.Add_scope('if' + str(ST.gen_tempnum()), 'if' ,None)
 
 def p_Mark_if(p):
 	''' Mark_if : '''
 	p[0] = {}
 	p[0]['falselist'] = [TAC.getNextInstr()]
 	# print p[0]['falselist']
-	
 	TAC.emit(p[-2]['Name'],'',-1,'COND_GOTO')
 
 def p_Mark_else(p):
@@ -418,13 +438,22 @@ def p_IterationStatement_while(p):
 	p[0] = {}
 	p[0]['nextlist'] = []
 
+	if(p[4]['Type'] != 'bool') :
+		print "Expression of While statement is not boolean"
+		raise SyntaxError
+
 	TAC.backPatch(p[7]['loopBeginList'], p[2]['quad'])
 	p[0]['nextlist'] = TAC.merge(p[7].get('loopEndList',[]), p[7].get('nextlist',[]))
 	p[0]['nextlist'] = TAC.merge(p[6].get('falselist',[]), p[7].get('loopEndList',[]))
 
 
 
-	TAC.emit ('','',p[2]['quad'], 'GOTO')
+	TAC.emit ('','',TAC.make_label(p[2]['quad']), 'GOTO')
+
+# def p_Wh(p):
+# 	''' Wh : WHILE '''
+# 	ST.Add_scope("while", "while"+tempcount,None)
+# 	tempcount += 1
 
 def p_Mark_while(p):
 	''' Mark_while : '''
@@ -436,6 +465,9 @@ def p_Mark_while(p):
 def p_IterationStatement_dowhile(p):
 	''' IterationStatement : Do Mark_quad Statement WHILE LROUNPAREN Expression Mark_dowhile RROUNPAREN SEMICOLON '''
 
+	if(p[6]['Type'] != 'bool') :
+		print "Expression of While statement is not boolean"
+		raise SyntaxError
 
 	p[0] = {}
 	p[0]['nextlist'] = []
@@ -443,7 +475,7 @@ def p_IterationStatement_dowhile(p):
 	TAC.backPatch(p[3]['loopBeginList'], p[2]['quad'])
 	# p[0]['nextlist'] = TAC.merge(p[7].get('loopEndList',[]), p[7].get('nextlist',[]))
 	p[0]['nextlist'] = TAC.merge(p[2].get('falselist',[]), p[3].get('loopEndList',[]))
-	TAC.emit (p[6]['Name'],'',p[2]['quad'], 'COND_GOTO_TR')
+	TAC.emit (p[6]['Name'],'',TAC.make_label(p[2]['quad']), 'COND_GOTO_TR')
 
 
 def p_Do(p):
@@ -458,18 +490,34 @@ def p_Mark_dowhile(p):
 	# TAC.emit('','',-1,'COND_GOTO')
 
 def p_IterationStatement_for(p):
-	''' IterationStatement : FOR LROUNPAREN ForInit ForExpr Mark_quad ForIncr RROUNPAREN Mark_quad Statement '''
+	''' IterationStatement : Fr LROUNPAREN ForInit ForExpr Mark_for ForIncr RROUNPAREN Mark_quad Statement '''
 	p[0] = {}
 	p[0]['nextlist'] = []
+
+	if(p[4]['Type'] != 'bool') :
+		print "Expression of While statement is not boolean"
+		raise SyntaxError
 
 	TAC.backPatch(p[9]['loopBeginList'], p[5]['quad'])
 	TAC.backPatch(p[4]['truelist'], p[8]['quad'])
 	p[0]['nextlist'] = TAC.merge(p[4].get('falselist',[]), p[9].get('loopEndList',[]))
-	TAC.emit (p[5]['quad'],'','', 'GOTO')
+	TAC.emit ('','',TAC.make_label(p[5]['quad']),'GOTO')
+	ST.Change_scope()
 
 
-def p_IterationStatement_for_2(p):
-	''' IterationStatement : FOR LROUNPAREN ForInit ForExpr         RROUNPAREN Statement '''
+def p_Wh(p):
+	''' Fr : FOR '''
+	ST.Add_scope("for" + str(ST.gen_tempnum()), "for",None)
+	tempcount += 1
+
+def p_Mark_for(p):
+	''' Mark_for : '''
+	TAC.emit('','','','GOTO')
+	p[0] = {'quad' : TAC.getNextInstr()}
+
+
+# def p_IterationStatement_for_2(p):
+# 	''' IterationStatement : FOR LROUNPAREN ForInit ForExpr         RROUNPAREN Statement '''
 
 def p_ForInit(p):
 	''' ForInit : ExpressionStatements SEMICOLON 
@@ -488,29 +536,46 @@ def p_ForExpr(p):
 
 def p_ForIncr(p):
 	''' ForIncr : ExpressionStatements  '''
-
 	p[0] = {}
-	TAC.emit(p[-2]['quad'],'','','GOTO')
+	TAC.emit('','',TAC.make_label(p[-2]['quad']),'GOTO')
 
 def p_ExpressionStatements(p):
 	''' ExpressionStatements : ExpressionStatement
 	| ExpressionStatements COMMA ExpressionStatement '''
 
 def p_JumpStatement(p):
-	''' JumpStatement : BREAK            SEMICOLON
-	| CONTINUE            SEMICOLON
-	| RETURN Expression SEMICOLON
+	''' JumpStatement : BREAK            SEMICOLON '''
+
+	p[0] = {}
+	p[0]['loopEndList'] = [TAC.getNextInstr()]
+	TAC.emit('','',-1,'GOTO')
+
+def p_JumpStatement_1(p):
+	''' JumpStatement : CONTINUE            SEMICOLON '''
+	p[0] = {}
+	p[0]['loopEndList'] = [TAC.getNextInstr()]
+	TAC.emit('','',-1,'GOTO')
+
+
+def p_JumpStatement_1(p):
+	''' JumpStatement : RETURN Expression SEMICOLON
 	| RETURN            SEMICOLON '''
 
-
+	p[0] = {}
+	if(len(p) == 4) :
+		if(p[2]['Type'] == ST.mainsymbtbl[ST.curr_funcname]['ReturnType']):
+			TAC.emit(p[2]['Name'],'','','RETURN')
+		else :
+			print "Return Type does not match"
+			raise SyntaxError
+	else :
+		TAC.emit('','','','RETURN')
 ###############
 ###############
 
 def p_PrimaryExpression(p):
 	''' PrimaryExpression : QualifiedName '''
 	p[0] = p[1]
-	# print p[1]['Name']
-	# print ST.Get_attr(p[1]['Name'],'Type')
 	if(ST.Get_attr(p[1]['Name'],'Type') != None) :
 		p[0]['Type'] = ST.Get_attr(p[1]['Name'],'Type')
 
@@ -540,6 +605,7 @@ def p_ComplexPrimaryNoParenthesis_int(p):
 	p[0]['Type'] = "int"
 	p[0]['Name'] = ST.Gen_Temp()
 	TAC.emit(p[0]['Name'],p[1],'','=')
+	ST.inc_offset(p[0]['Type'])
 
 
 def p_ComplexPrimaryNoParenthesis_temp(p):
@@ -548,6 +614,7 @@ def p_ComplexPrimaryNoParenthesis_temp(p):
 	p[0]['Type'] = "float"
 	p[0]['Name'] = ST.Gen_Temp()
 	TAC.emit(p[0]['Name'],p[1],'','=')
+	ST.inc_offset(p[0]['Type'])
 
 def p_ComplexPrimaryNoParenthesis_string(p):
 	''' ComplexPrimaryNoParenthesis : STRING '''
@@ -555,10 +622,16 @@ def p_ComplexPrimaryNoParenthesis_string(p):
 	p[0]['Type'] = "string"
 	p[0]['Name'] = ST.Gen_Temp()
 	ST.Add_string(p[0]['Name'],p[1])
+	# ST.inc_offset(p[0]['Type'])
 
 
 def p_ComplexPrimaryNoParenthesis_char(p):
 	''' ComplexPrimaryNoParenthesis : CHAR_CONST '''
+	p[0] = {}
+	p[0]['Type'] = "char"
+	p[0]['Name'] = ST.Gen_Temp()
+	ST.Add_string(p[0]['Name'],p[1])
+	# ST.inc_offset(p[0]['Type'])
 
 
 def p_ComplexPrimaryNoParenthesis_bool(p):
@@ -567,9 +640,7 @@ def p_ComplexPrimaryNoParenthesis_bool(p):
 	p[0]['Type'] = "bool"
 	p[0]['Name'] = ST.Gen_Temp()
 	TAC.emit(p[0]['Name'],p[1],'','=')
-	# ST.Add_string(p[0]['Name'],p[1])
-	# p[0]['truelist'] = [TAC.getNextInstr()]
-	# print p[0]['Name']
+	# ST.inc_offset(p[0]['Type'])
 
 
 def p_ComplexPrimaryNoParenthesis_rem(p):
@@ -599,12 +670,32 @@ def p_MethodCall(p):
 	p[0] = {}
 	p[0]['Name'] = p[1]['Name']
 	if(p[0]['Name'] == 'System.out.println') :
-		TAC.emit(p[3][0]['Name'],'',p[3][0]['Type'],'Print')
-	else :
 		if(len(p) == 5) :
+			TAC.emit(p[3][0]['Name'],'',p[3][0]['Type'],'Print')
+		else : 
+			print ("No argument to print statement")
+			raise SyntaxError
+	# elif(p[0]['Name'] == 'System.in.')
+	else :
+		if(ST.mainsymbtbl[ST.curr_class]['Functions'].has_key(p[1]['Name'])) :
+			p[0]['Type'] = ST.mainsymbtbl[ST.curr_class]['Functions'][p[1]['Name']]['Type']
+			print p[0]['Type']
+		else :
+			print "No function defined by this name"
+			raise SyntaxError
+		if(len(p) == 5) :
+			if(len(p[3]) != len(ST.mainsymbtbl[ST.curr_class + '.' +p[0]['Name']]['Parameters'])) :
+				print "Number of Parameters are not same as defined"
+				raise SyntaxError
+			numele = 0
 			for param in p[3]:
+				print param['Type'] + ' Here'
+				if(param['Type'] != ST.mainsymbtbl[ST.curr_class + '.' +p[0]['Name']]['Parameters'][numele]['Type']):
+					print "Error in type of Parameters"
+					raise SyntaxError
+				numele += 1
 				TAC.emit(param['Name'],'','','PARAM')
-		TAC.emit('','',p[0]['Name'],'JUMP')
+		TAC.emit('',numele,ST.curr_class + '.' +p[0]['Name'],'F_CALL')
 		TAC.emit('','','','RetAdd')
 
 
@@ -647,9 +738,14 @@ def p_ClassAllocationExpression(p):
 	| NEW TypeName LROUNPAREN              RROUNPAREN '''
 
 def p_ArrayAllocationExpression(p):
-	''' ArrayAllocationExpression : NEW TypeName DimExprs Dims
-	| NEW TypeName DimExprs
-        | NEW TypeName Dims '''
+	''' ArrayAllocationExpression : NEW TypeName DimExprs Dims '''
+
+def p_ArrayAllocationExpression(p):
+	''' ArrayAllocationExpression : NEW TypeName DimExprs '''
+
+def p_ArrayAllocationExpression(p):
+	''' ArrayAllocationExpression : NEW TypeName Dims '''
+
 
 def p_DimExprs(p):
 	''' DimExprs : DimExpr
@@ -662,6 +758,11 @@ def p_Dims(p):
 	''' Dims : OP_DIM
 	| Dims OP_DIM '''
 
+	if(len(p) == 2) :
+		p[0] = 1
+	else :
+		p[0] = p[1] + 1
+
 def p_PostfixExpression(p):
 	''' PostfixExpression : PrimaryExpression
 	| RealPostfixExpression '''
@@ -671,13 +772,36 @@ def p_RealPostfixExpression(p):
 	''' RealPostfixExpression : PostfixExpression OP_INC
 	| PostfixExpression OP_DEC '''
 
+	TAC.emit(p[1]['Name'],p[1]['Name'],'1',p[2][0])
+	p[0] = {}
+	p[0]['Name'] = p[1]['Name']
+	p[0]['Type'] = p[1]['Type']
+
+
 def p_UnaryExpression(p):
 	''' UnaryExpression : OP_INC UnaryExpression
 	| OP_DEC UnaryExpression
-	| ArithmeticUnaryOperator CastExpression
 	| LogicalUnaryExpression '''
 	if(len(p) == 2) :
 		p[0] = p[1]
+	elif(len == 3) :
+		TAC.emit(p[2]['Name'],p[2]['Name'],'1',p[1][0])
+		p[0] = {}
+		p[0]['Name'] = p[1]['Name']
+		p[0]['Type'] = p[1]['Type']
+
+
+def p_UnaryExpression_1(p):
+	''' UnaryExpression : ArithmeticUnaryOperator CastExpression '''
+	p[0] = {}
+	temp1 = ST.Gen_Temp()
+	if (p[1] == '-'):
+		TAC.emit(temp1,p[2]['Name'],'-1','*')
+	else :
+		TAC.emit(temp1,p[2]['Name'],'','=')
+	p[0]['Name'] = temp1
+	p[0]['Type'] = p[2]['Type']
+	ST.inc_offset(p[0]['Type'])
 
 def p_LogicalUnaryExpression(p):
 	''' LogicalUnaryExpression : PostfixExpression
@@ -688,10 +812,12 @@ def p_LogicalUnaryExpression(p):
 def p_LogicalUnaryOperator(p):
 	''' LogicalUnaryOperator : '~'
 	| NOT '''
+	p[0] = p[1]
 
 def p_ArithmeticUnaryOperator(p):
 	''' ArithmeticUnaryOperator : PLUS
 	| MINUS '''
+	p[0] = p[1]
 
 def p_CastExpression(p):
 	''' CastExpression : UnaryExpression '''
@@ -701,6 +827,7 @@ def p_CastExpression(p):
 	p[0] = {}
 	if(len(p) == 2) :
 		p[0] = p[1]
+
 
 def p_PrimitiveTypeExpression(p):
 	''' PrimitiveTypeExpression : PrimitiveType
@@ -721,9 +848,12 @@ def p_MultiplicativeExpression(p):
 		if(p[1]['Type'] == p[3]['Type']) :
 			p[0]['Name'] = ST.Gen_Temp()
 			p[0]['Type'] = p[3]['Type']
+			ST.inc_offset(p[0]['Type'])
 			TAC.emit(p[0]['Name'],p[1]['Name'],p[3]['Name'],p[2])
 		else:
-			print "Error in p_ConditionalAndExpression";
+			print "Type does not match while multiplying";
+			raise SyntaxError
+
 def p_AdditiveExpression(p):
 	''' AdditiveExpression : MultiplicativeExpression
         | AdditiveExpression PLUS MultiplicativeExpression
@@ -735,9 +865,11 @@ def p_AdditiveExpression(p):
 		if(p[1]['Type'] == p[3]['Type']) :
 			p[0]['Name'] = ST.Gen_Temp()
 			p[0]['Type'] = p[3]['Type']
+			ST.inc_offset(p[0]['Type'])
 			TAC.emit(p[0]['Name'],p[1]['Name'],p[3]['Name'],p[2])
 		else:
-			print "Error in p_ConditionalAndExpression";
+			print "Type does not match while adding";
+			raise SyntaxError
 
 def p_ShiftExpression(p):
 	''' ShiftExpression : AdditiveExpression
@@ -747,6 +879,16 @@ def p_ShiftExpression(p):
 	p[0] = {}
 	if(len(p) == 2) :
 		p[0] = p[1]
+	else :
+		if(p[1]['Type'] == 'int' and p[3]['Type'] == 'int') :
+			temp1 = ST.Gen_Temp()
+			p[0]['Type'] = 'int'
+			p[0]['Name'] = temp1
+			ST.inc_offset(p[0]['Type'])
+			TAC.emit(temp1,p[1]['Name'],p[3]['Name'],p[2])
+		else :
+			print "Shift operator must have int expressions"
+			raise SyntaxError
 
 def p_RelationalExpression(p):
 	''' RelationalExpression : ShiftExpression
@@ -760,10 +902,12 @@ def p_RelationalExpression(p):
 	else :
 		if(p[1]['Type'] == p[3]['Type']) :
 			p[0]['Name'] = ST.Gen_Temp()
-			p[0]['Type'] = p[3]['Type']
+			p[0]['Type'] = 'bool'
+			ST.inc_offset(p[0]['Type'])
 			TAC.emit(p[0]['Name'],p[1]['Name'],p[3]['Name'],p[2])
 		else:
-			print "Error in p_RelationalExpression";
+			print "Type must be same in comparision";
+			raise SyntaxError
 
 def p_EqualityExpression(p):
 	''' EqualityExpression : RelationalExpression
@@ -776,9 +920,11 @@ def p_EqualityExpression(p):
 		if(p[1]['Type'] == p[3]['Type']) :
 			p[0]['Name'] = ST.Gen_Temp()
 			p[0]['Type'] = "bool"
+			ST.inc_offset(p[0]['Type'])
 			TAC.emit(p[0]['Name'],p[1]['Name'],p[3]['Name'],p[2])
 		else:
-			print "Error in p_EqualityExpression";
+			print "Type must be same in comparision";
+			raise SyntaxError
 
 def p_AndExpression(p):
 	''' AndExpression : EqualityExpression
@@ -787,12 +933,14 @@ def p_AndExpression(p):
 	if(len(p) == 2) :
 		p[0] = p[1]
 	else :
-		if(p[1]['Type'] == p[3]['Type']) :
+		if(p[1]['Type'] == p[3]['Type'] and p[1]['Type'] == 'int') :
 			p[0]['Name'] = ST.Gen_Temp()
-			p[0]['Type'] = "bool"
+			p[0]['Type'] = 'int'
+			ST.inc_offset(p[0]['Type'])
 			TAC.emit(p[0]['Name'],p[1]['Name'],p[3]['Name'],p[2])
 		else:
-			print "Error in p_AndExpression";
+			print "Type must be int for bitwise operation";
+			raise SyntaxError
 
 
 def p_ExclusiveOrExpression(p):
@@ -802,12 +950,14 @@ def p_ExclusiveOrExpression(p):
 	if(len(p) == 2) :
 		p[0] = p[1]
 	else :
-		if(p[1]['Type'] == p[3]['Type']) :
+		if(p[1]['Type'] == p[3]['Type'] and p[1]['Type'] == 'int') :
 			p[0]['Name'] = ST.Gen_Temp()
-			p[0]['Type'] = "bool"
+			p[0]['Type'] = 'int'
+			ST.inc_offset(p[0]['Type'])
 			TAC.emit(p[0]['Name'],p[1]['Name'],p[3]['Name'],p[2])
 		else:
-			print "Error in p_ExclusiveOrExpression";	
+			print "Type must be int for bitwise operation";
+			raise SyntaxError
 
 def p_InclusiveOrExpression(p):
 	''' InclusiveOrExpression : ExclusiveOrExpression
@@ -816,12 +966,14 @@ def p_InclusiveOrExpression(p):
 	if(len(p) == 2) :
 		p[0] = p[1]
 	else :
-		if(p[1]['Type'] == p[3]['Type']) :
+		if(p[1]['Type'] == p[3]['Type'] and p[1]['Type'] == 'int') :
 			p[0]['Name'] = ST.Gen_Temp()
-			p[0]['Type'] = "bool"
+			p[0]['Type'] = 'int'
+			ST.inc_offset(p[0]['Type'])
 			TAC.emit(p[0]['Name'],p[1]['Name'],p[3]['Name'],p[2])
 		else:
-			print "Error in p_InclusiveOrExpression";
+			print "Type must be int for bitwise operation";
+			raise SyntaxError
 
 def p_ConditionalAndExpression(p):
 	''' ConditionalAndExpression : InclusiveOrExpression
@@ -830,12 +982,14 @@ def p_ConditionalAndExpression(p):
 	if(len(p) == 2) :
 		p[0] = p[1]
 	else :
-		if(p[1]['Type'] == p[3]['Type']) :
+		if(p[1]['Type'] == p[3]['Type'] and p[1]['Type'] == 'bool') :
 			p[0]['Name'] = ST.Gen_Temp()
-			p[0]['Type'] = "bool"
+			p[0]['Type'] = 'bool'
+			ST.inc_offset(p[0]['Type'])
 			TAC.emit(p[0]['Name'],p[1]['Name'],p[3]['Name'],p[2])
 		else:
-			print "Error in p_ConditionalAndExpression";
+			print "Type must be bool for logical operation";
+			raise SyntaxError
 
 def p_ConditionalOrExpression(p):
 	''' ConditionalOrExpression : ConditionalAndExpression
@@ -844,19 +998,40 @@ def p_ConditionalOrExpression(p):
 	if(len(p) == 2) :
 		p[0] = p[1]
 	else :
-		if(p[1]['Type'] == p[3]['Type']) :
+		if(p[1]['Type'] == p[3]['Type'] and p[1]['Type'] == 'bool') :
 			p[0]['Name'] = ST.Gen_Temp()
-			p[0]['Type'] = "bool"
+			p[0]['Type'] = 'bool'
+			ST.inc_offset(p[0]['Type'])
 			TAC.emit(p[0]['Name'],p[1]['Name'],p[3]['Name'],p[2])
 		else:
-			print "Error in p_ConditionalOrExpression";
+			print "Type must be bool for logical operation";
+			raise SyntaxError
 
 def p_ConditionalExpression(p):
 	''' ConditionalExpression : ConditionalOrExpression
-	| ConditionalOrExpression '?' Expression COLON ConditionalExpression '''
+	| ConditionalOrExpression Mark_quad Ques Mark_quad Expression Mark_quad Cln Mark_quad ConditionalExpression Mark_quad'''
 	p[0] = {}
 	if(len(p) == 2) :
 		p[0] = p[1]
+	else :
+		p[0]['Type'] = 'int'
+		p[0]['Name'] = ST.Gen_Temp()
+		TAC.code[ST.curr_funcname][p[2]['quad']][2] = TAC.make_label(p[8]['quad'])
+		TAC.code[ST.curr_funcname][p[2]['quad']][0] = p[1]['Name']
+		TAC.code[ST.curr_funcname][p[6]['quad']][0] = p[0]['Name']
+		TAC.code[ST.curr_funcname][p[6]['quad']][1] = p[5]['Name']
+		TAC.code[ST.curr_funcname][p[6]['quad'] + 1][2] = TAC.make_label(p[10]['quad'] + 1)
+		TAC.emit(p[0]['Name'],'',p[9]['Name'],'=')
+
+def p_Ques(p):
+	''' Ques : QUES '''
+	TAC.emit('','','','COND_GOTO')
+
+
+def p_Cln(p):
+	''' Cln : COLON '''
+	TAC.emit('','','','=')
+	TAC.emit('','','','GOTO')
 
 def p_AssignmentExpression(p):
 	''' AssignmentExpression : ConditionalExpression
@@ -867,10 +1042,12 @@ def p_AssignmentExpression(p):
 	else :
 		if(ST.Get_attr(p[1]['Name'],'Type') == p[3]['Type']):
 			p[0]['Type'] = p[3]['Type']
-			p[0]['Name'] = ST.Gen_Temp()
+			p[0]['Name'] = p[1]['Name']
+			# ST.inc_offset(p[0]['Type'])
 			TAC.emit(p[1]['Name'],p[3]['Name'],'',p[2])
 		else :
 			print "Error in AssignmentExpression"
+			raise SyntaxError
 
 
 def p_AssignmentOperator(p):

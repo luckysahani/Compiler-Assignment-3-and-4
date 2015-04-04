@@ -104,7 +104,7 @@ tokens = [ 'WHITESPACE',
 
         'ASS_MUL', 'ASS_DIV', 'ASS_MOD',
         'ASS_ADD', 'ASS_SUB', 'ASS_SHL', 'ASS_SHR', 'ASS_SHRR',
-        'ASS_AND', 'ASS_OR', 'ASS_XOR',
+        'ASS_AND', 'ASS_OR', 'ASS_XOR','QUES',
 
         'OP_INC', 'OP_DEC', 
         'ELLIPSIS',
@@ -246,6 +246,7 @@ t_DIV = '/'
 t_MULT = '\*'
 t_MOD = '%'
 t_NOT = '!'
+t_QUES = '\?'
 # def t_OPERATOR(t):
 #     r'(>|<|=|\&|\+|\-|\/)'
 #     return t

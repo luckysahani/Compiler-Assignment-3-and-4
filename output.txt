@@ -1,61 +1,42 @@
 ClassWord -> CLASS # 'class'
 ClassHeader -> ClassWord IDENTIFIER # None,'HelloWorld'
-PrimitiveType -> INT # 'int'
-TypeName -> PrimitiveType # 'int'
-TypeSpecifier -> TypeName # 'int'
-DeclaratorName -> IDENTIFIER # 'f'
-VariableDeclarator -> DeclaratorName # {'Name': 'f'}
-VariableDeclarators -> VariableDeclarator # <dict @ 0x7fc999f13050>
-DeclaratorName -> IDENTIFIER # 'g'
-VariableDeclarator -> DeclaratorName # {'Name': 'g'}
-VariableDeclarators -> VariableDeclarators COMMA VariableDeclarator # <dict @ 0x7fc999f1fb40>,',',<dict @ 0x7fc999f0a280>
-FieldVariableDeclaration -> TypeSpecifier VariableDeclarators # 'int',<dict @ 0x7fc999f04b40>
-FieldDeclaration -> FieldVariableDeclaration SEMICOLON # None,';'
-FieldDeclarationOptSemi -> FieldDeclaration # None
-FieldDeclarations -> FieldDeclarationOptSemi # None
 Modifier -> PUBLIC # 'public'
-Modifiers -> Modifier # <list @ 0x7fc99a75e098>
+Modifiers -> Modifier # <list @ 0x7f99f14a5290>
 Modifier -> STATIC # 'static'
-Modifiers -> Modifiers Modifier # <list @ 0x7fc99a75e098>,<list @ 0x7fc99a118f80>
+Modifiers -> Modifiers Modifier # <list @ 0x7f99f14a5290>,<list @ 0x7f99f14a52d8>
 PrimitiveType -> VOID # 'void'
 TypeName -> PrimitiveType # 'void'
 TypeSpecifier -> TypeName # 'void'
-DeclaratorName -> IDENTIFIER # 'hello'
+DeclaratorName -> IDENTIFIER # 'main'
 PrimitiveType -> INT # 'int'
 TypeName -> PrimitiveType # 'int'
 TypeSpecifier -> TypeName # 'int'
-DeclaratorName -> IDENTIFIER # 'c'
-Parameter -> TypeSpecifier DeclaratorName # 'int',{'Name': 'c'}
-ParameterList -> Parameter # <list @ 0x7fc999ec1758>
-MethodDeclarator -> DeclaratorName LROUNPAREN ParameterList RROUNPAREN # <dict @ 0x7fc999f13398>,'(',<list @ 0x7fc999ec1758>,')'
+DeclaratorName -> IDENTIFIER # 'args'
+Parameter -> TypeSpecifier DeclaratorName # 'int',<dict @ 0x7f99f0b09280>
+ParameterList -> Parameter # <dict @ 0x7f99f0aff4b0>
+MethodDeclarator -> DeclaratorName LROUNPAREN ParameterList RROUNPAREN # <dict @ 0x7f99f0afbd70>,'(',<list @ 0x7f99f0c6e560>,')'
 PrimitiveType -> INT # 'int'
 TypeName -> PrimitiveType # 'int'
 TypeSpecifier -> TypeName # 'int'
-DeclaratorName -> IDENTIFIER # 'b'
-ComplexPrimaryNoParenthesis -> FLOAT_CONST # '5.1'
-ComplexPrimary -> ComplexPrimaryNoParenthesis # <dict @ 0x7fc999f00050>
-NotJustName -> ComplexPrimary # <dict @ 0x7fc999f00050>
-PrimaryExpression -> NotJustName # <dict @ 0x7fc999f00050>
-PostfixExpression -> PrimaryExpression # <dict @ 0x7fc999f00050>
-LogicalUnaryExpression -> PostfixExpression # <dict @ 0x7fc999f00050>
-UnaryExpression -> LogicalUnaryExpression # <dict @ 0x7fc999f00050>
-CastExpression -> UnaryExpression # <dict @ 0x7fc999f00050>
-MultiplicativeExpression -> CastExpression # <dict @ 0x7fc999f00050>
-AdditiveExpression -> MultiplicativeExpression # <dict @ 0x7fc999f00050>
-ShiftExpression -> AdditiveExpression # <dict @ 0x7fc999f00050>
-RelationalExpression -> ShiftExpression # <dict @ 0x7fc999f00050>
-EqualityExpression -> RelationalExpression # <dict @ 0x7fc999f00050>
-AndExpression -> EqualityExpression # <dict @ 0x7fc999f00050>
-ExclusiveOrExpression -> AndExpression # <dict @ 0x7fc999f00050>
-InclusiveOrExpression -> ExclusiveOrExpression # <dict @ 0x7fc999f00050>
-ConditionalAndExpression -> InclusiveOrExpression # <dict @ 0x7fc999f00050>
-ConditionalOrExpression -> ConditionalAndExpression # <dict @ 0x7fc999f00050>
-ConditionalExpression -> ConditionalOrExpression # <dict @ 0x7fc999f00050>
-AssignmentExpression -> ConditionalExpression # <dict @ 0x7fc999f00050>
-Expression -> AssignmentExpression # <dict @ 0x7fc999f00050>
-VariableInitializer -> Expression # <dict @ 0x7fc999f00050>
-VariableDeclarator -> DeclaratorName EQUAL VariableInitializer # {'Name': 'b'},'=',<dict @ 0x7fc999f00050>
-Modifier -> PUBLIC # 'public'
-Modifiers -> Modifier # <list @ 0x7fc99a75e2d8>
-Modifier -> STATIC # 'static'
-Modifiers -> Modifiers Modifier # <list @ 0x7fc99a75e2d8>,<list @ 0x7fc99a75edd0>
+DeclaratorName -> IDENTIFIER # 'myIntArray'
+VariableDeclarator -> DeclaratorName # <dict @ 0x7f99f0af4168>
+VariableDeclarators -> VariableDeclarator # <dict @ 0x7f99f0b0ee88>
+DeclaratorName -> IDENTIFIER # 'a'
+VariableDeclarator -> DeclaratorName # {'Name': 'a'}
+VariableDeclarators -> VariableDeclarators COMMA VariableDeclarator # <dict @ 0x7f99f0afbd70>,',',<dict @ 0x7f99f0af4168>
+DeclaratorName -> IDENTIFIER # 'f'
+VariableDeclarator -> DeclaratorName # {'Name': 'f'}
+VariableDeclarators -> VariableDeclarators COMMA VariableDeclarator # <dict @ 0x7f99f0b0e7f8>,',',<dict @ 0x7f99f0affb40>
+LocalVariableDeclarationStatement -> TypeSpecifier VariableDeclarators SEMICOLON # 'int',<dict @ 0x7f99f0c69d70>,';'
+LocalVariableDeclarationOrStatement -> LocalVariableDeclarationStatement # <dict @ 0x7f99f0b0e4b0>
+LocalVariableDeclarationsAndStatements -> LocalVariableDeclarationOrStatement # <dict @ 0x7f99f0b0e4b0>
+MethodBody -> LCURPAREN LocalVariableDeclarationsAndStatements RCURPAREN # '{',<dict @ 0x7f99f0b0e4b0>,'}'
+MethodDeclaration -> Modifiers TypeSpecifier MethodDeclarator MethodBody # <list @ 0x7f99f14a5290>,'void',<dict @ 0x7f99f0afca28>,'{'
+FieldDeclaration -> MethodDeclaration # <dict @ 0x7f99f0aff7f8>
+FieldDeclarationOptSemi -> FieldDeclaration # None
+FieldDeclarations -> FieldDeclarationOptSemi # None
+TypeDeclaration -> ClassHeader LCURPAREN FieldDeclarations RCURPAREN # <dict @ 0x7f99f0af47f8>,'{',None,'}'
+TypeDeclarationOptSemi -> TypeDeclaration # None
+TypeDeclarations -> TypeDeclarationOptSemi # None
+ProgramFile -> TypeDeclarations # None
+CompilationUnit -> ProgramFile # None
