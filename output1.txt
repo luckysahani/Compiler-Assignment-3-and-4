@@ -2,30 +2,181 @@ CompilationUnit -> ProgramFile # None
 ProgramFile -> TypeDeclarations # None
 TypeDeclarations -> TypeDeclarationOptSemi # None
 TypeDeclarationOptSemi -> TypeDeclaration # None
-TypeDeclaration -> ClassHeader LCURPAREN FieldDeclarations RCURPAREN # <dict @ 0x7f99f0af47f8>,'{',None,'}'
+TypeDeclaration -> ClassHeader LCURPAREN FieldDeclarations RCURPAREN # <dict @ 0x7facce1cc280>,'{',None,'}'
 FieldDeclarations -> FieldDeclarationOptSemi # None
 FieldDeclarationOptSemi -> FieldDeclaration # None
-FieldDeclaration -> MethodDeclaration # <dict @ 0x7f99f0aff7f8>
-MethodDeclaration -> Modifiers TypeSpecifier MethodDeclarator MethodBody # <list @ 0x7f99f14a5290>,'void',<dict @ 0x7f99f0afca28>,'{'
-MethodBody -> LCURPAREN LocalVariableDeclarationsAndStatements RCURPAREN # '{',<dict @ 0x7f99f0b0e4b0>,'}'
-LocalVariableDeclarationsAndStatements -> LocalVariableDeclarationOrStatement # <dict @ 0x7f99f0b0e4b0>
-LocalVariableDeclarationOrStatement -> LocalVariableDeclarationStatement # <dict @ 0x7f99f0b0e4b0>
-LocalVariableDeclarationStatement -> TypeSpecifier VariableDeclarators SEMICOLON # 'int',<dict @ 0x7f99f0c69d70>,';'
-VariableDeclarators -> VariableDeclarators COMMA VariableDeclarator # <dict @ 0x7f99f0b0e7f8>,',',<dict @ 0x7f99f0affb40>
-VariableDeclarator -> DeclaratorName # {'Name': 'f'}
-DeclaratorName -> IDENTIFIER # 'f'
-VariableDeclarators -> VariableDeclarators COMMA VariableDeclarator # <dict @ 0x7f99f0afbd70>,',',<dict @ 0x7f99f0af4168>
-VariableDeclarator -> DeclaratorName # {'Name': 'a'}
-DeclaratorName -> IDENTIFIER # 'a'
-VariableDeclarators -> VariableDeclarator # <dict @ 0x7f99f0b0ee88>
-VariableDeclarator -> DeclaratorName # <dict @ 0x7f99f0af4168>
-DeclaratorName -> IDENTIFIER # 'myIntArray'
-TypeSpecifier -> TypeName # 'int'
+FieldDeclaration -> MethodDeclaration # <dict @ 0x7facce1c9280>
+MethodDeclaration -> Modifiers TypeSpecifier MethodDeclarator MethodBody # <list @ 0x7facceb9b170>,'void',<dict @ 0x7facce1c84b0>,'{'
+MethodBody -> LCURPAREN LocalVariableDeclarationsAndStatements RCURPAREN # '{',<dict @ 0x7facce1c95c8>,'}'
+LocalVariableDeclarationsAndStatements -> LocalVariableDeclarationsAndStatements LocalVariableDeclarationOrStatement # <dict @ 0x7facce1c95c8>,<dict @ 0x7facce3e2d70>
+LocalVariableDeclarationOrStatement -> Statement # <dict @ 0x7facce3e2d70>
+Statement -> ExpressionStatement SEMICOLON Mark_quad # <dict @ 0x7facce3d37f8>,';',{'quad': 16}
+Mark_quad -> <empty> # 
+ExpressionStatement -> Expression # <dict @ 0x7facce3d37f8>
+Expression -> AssignmentExpression # <dict @ 0x7facce3d37f8>
+AssignmentExpression -> UnaryExpression AssignmentOperator AssignmentExpression # <dict @ 0x7facce1c8168>,'=',<dict @ 0x7facce1c55c8>
+AssignmentExpression -> ConditionalExpression # <dict @ 0x7facce1c55c8>
+ConditionalExpression -> ConditionalOrExpression # <dict @ 0x7facce1c55c8>
+ConditionalOrExpression -> ConditionalAndExpression # <dict @ 0x7facce1c55c8>
+ConditionalAndExpression -> InclusiveOrExpression # <dict @ 0x7facce1c55c8>
+InclusiveOrExpression -> ExclusiveOrExpression # <dict @ 0x7facce1c55c8>
+ExclusiveOrExpression -> AndExpression # <dict @ 0x7facce1c55c8>
+AndExpression -> EqualityExpression # <dict @ 0x7facce1c55c8>
+EqualityExpression -> RelationalExpression # <dict @ 0x7facce1c55c8>
+RelationalExpression -> ShiftExpression # <dict @ 0x7facce1c55c8>
+ShiftExpression -> AdditiveExpression # <dict @ 0x7facce1c55c8>
+AdditiveExpression -> MultiplicativeExpression # <dict @ 0x7facce1c55c8>
+MultiplicativeExpression -> CastExpression # <dict @ 0x7facce1c55c8>
+CastExpression -> UnaryExpression # <dict @ 0x7facce1c55c8>
+UnaryExpression -> LogicalUnaryExpression # <dict @ 0x7facce1c55c8>
+LogicalUnaryExpression -> PostfixExpression # <dict @ 0x7facce1c55c8>
+PostfixExpression -> PrimaryExpression # <dict @ 0x7facce1c55c8>
+PrimaryExpression -> NotJustName # <dict @ 0x7facce1c55c8>
+NotJustName -> ComplexPrimary # <dict @ 0x7facce1c55c8>
+ComplexPrimary -> ComplexPrimaryNoParenthesis # <dict @ 0x7facce1c55c8>
+ComplexPrimaryNoParenthesis -> INT_CONST # '3'
+AssignmentOperator -> EQUAL # '='
+UnaryExpression -> LogicalUnaryExpression # <dict @ 0x7facce1c8168>
+LogicalUnaryExpression -> PostfixExpression # <dict @ 0x7facce1c8168>
+PostfixExpression -> PrimaryExpression # <dict @ 0x7facce1c8168>
+PrimaryExpression -> NotJustName # <dict @ 0x7facce1c8168>
+NotJustName -> ComplexPrimary # <dict @ 0x7facce1c8168>
+ComplexPrimary -> ComplexPrimaryNoParenthesis # <dict @ 0x7facce1c8168>
+ComplexPrimaryNoParenthesis -> ArrayAccess # <dict @ 0x7facce1c8168>
+ArrayAccess -> ComplexPrimary LSQPAREN Expression RSQPAREN # <dict @ 0x7facce1c5280>,'[',<dict @ 0x7facce3e2d70>,']'
+Expression -> AssignmentExpression # <dict @ 0x7facce3e2d70>
+AssignmentExpression -> ConditionalExpression # <dict @ 0x7facce3e2d70>
+ConditionalExpression -> ConditionalOrExpression # <dict @ 0x7facce3e2d70>
+ConditionalOrExpression -> ConditionalAndExpression # <dict @ 0x7facce3e2d70>
+ConditionalAndExpression -> InclusiveOrExpression # <dict @ 0x7facce3e2d70>
+InclusiveOrExpression -> ExclusiveOrExpression # <dict @ 0x7facce3e2d70>
+ExclusiveOrExpression -> AndExpression # <dict @ 0x7facce3e2d70>
+AndExpression -> EqualityExpression # <dict @ 0x7facce3e2d70>
+EqualityExpression -> RelationalExpression # <dict @ 0x7facce3e2d70>
+RelationalExpression -> ShiftExpression # <dict @ 0x7facce3e2d70>
+ShiftExpression -> AdditiveExpression # <dict @ 0x7facce3e2d70>
+AdditiveExpression -> MultiplicativeExpression # <dict @ 0x7facce3e2d70>
+MultiplicativeExpression -> CastExpression # <dict @ 0x7facce3e2d70>
+CastExpression -> UnaryExpression # <dict @ 0x7facce3e2d70>
+UnaryExpression -> LogicalUnaryExpression # <dict @ 0x7facce3e2d70>
+LogicalUnaryExpression -> PostfixExpression # <dict @ 0x7facce3e2d70>
+PostfixExpression -> PrimaryExpression # <dict @ 0x7facce3e2d70>
+PrimaryExpression -> NotJustName # <dict @ 0x7facce3e2d70>
+NotJustName -> ComplexPrimary # <dict @ 0x7facce3e2d70>
+ComplexPrimary -> ComplexPrimaryNoParenthesis # <dict @ 0x7facce3e2d70>
+ComplexPrimaryNoParenthesis -> INT_CONST # '2'
+ComplexPrimary -> ComplexPrimaryNoParenthesis # <dict @ 0x7facce1c5280>
+ComplexPrimaryNoParenthesis -> ArrayAccess # <dict @ 0x7facce1c5280>
+ArrayAccess -> QualifiedName LSQPAREN Expression RSQPAREN # {'Name': 'a'},'[',<dict @ 0x7facce1cbb40>,']'
+Expression -> AssignmentExpression # <dict @ 0x7facce1cbb40>
+AssignmentExpression -> ConditionalExpression # <dict @ 0x7facce1cbb40>
+ConditionalExpression -> ConditionalOrExpression # <dict @ 0x7facce1cbb40>
+ConditionalOrExpression -> ConditionalAndExpression # <dict @ 0x7facce1cbb40>
+ConditionalAndExpression -> InclusiveOrExpression # <dict @ 0x7facce1cbb40>
+InclusiveOrExpression -> ExclusiveOrExpression # <dict @ 0x7facce1cbb40>
+ExclusiveOrExpression -> AndExpression # <dict @ 0x7facce1cbb40>
+AndExpression -> EqualityExpression # <dict @ 0x7facce1cbb40>
+EqualityExpression -> RelationalExpression # <dict @ 0x7facce1cbb40>
+RelationalExpression -> ShiftExpression # <dict @ 0x7facce1cbb40>
+ShiftExpression -> AdditiveExpression # <dict @ 0x7facce1cbb40>
+AdditiveExpression -> MultiplicativeExpression # <dict @ 0x7facce1cbb40>
+MultiplicativeExpression -> CastExpression # <dict @ 0x7facce1cbb40>
+CastExpression -> UnaryExpression # <dict @ 0x7facce1cbb40>
+UnaryExpression -> LogicalUnaryExpression # <dict @ 0x7facce1cbb40>
+LogicalUnaryExpression -> PostfixExpression # <dict @ 0x7facce1cbb40>
+PostfixExpression -> PrimaryExpression # <dict @ 0x7facce1cbb40>
+PrimaryExpression -> NotJustName # <dict @ 0x7facce1cbb40>
+NotJustName -> ComplexPrimary # <dict @ 0x7facce1cbb40>
+ComplexPrimary -> ComplexPrimaryNoParenthesis # <dict @ 0x7facce1cbb40>
+ComplexPrimaryNoParenthesis -> INT_CONST # '1'
+QualifiedName -> IDENTIFIER # 'a'
+LocalVariableDeclarationsAndStatements -> LocalVariableDeclarationOrStatement # <dict @ 0x7facce1c95c8>
+LocalVariableDeclarationOrStatement -> LocalVariableDeclarationStatement # <dict @ 0x7facce1c95c8>
+LocalVariableDeclarationStatement -> TypeSpecifier VariableDeclarators SEMICOLON # 'int.2',<dict @ 0x7facce1c8168>,';'
+VariableDeclarators -> VariableDeclarator # <dict @ 0x7facce1c5910>
+VariableDeclarator -> DeclaratorName EQUAL VariableInitializer # {'Name': 'a'},'=',<dict @ 0x7facce3d37f8>
+VariableInitializer -> Expression # <dict @ 0x7facce3d37f8>
+Expression -> AssignmentExpression # <dict @ 0x7facce3d37f8>
+AssignmentExpression -> ConditionalExpression # <dict @ 0x7facce3d37f8>
+ConditionalExpression -> ConditionalOrExpression # <dict @ 0x7facce3d37f8>
+ConditionalOrExpression -> ConditionalAndExpression # <dict @ 0x7facce3d37f8>
+ConditionalAndExpression -> InclusiveOrExpression # <dict @ 0x7facce3d37f8>
+InclusiveOrExpression -> ExclusiveOrExpression # <dict @ 0x7facce3d37f8>
+ExclusiveOrExpression -> AndExpression # <dict @ 0x7facce3d37f8>
+AndExpression -> EqualityExpression # <dict @ 0x7facce3d37f8>
+EqualityExpression -> RelationalExpression # <dict @ 0x7facce3d37f8>
+RelationalExpression -> ShiftExpression # <dict @ 0x7facce3d37f8>
+ShiftExpression -> AdditiveExpression # <dict @ 0x7facce3d37f8>
+AdditiveExpression -> MultiplicativeExpression # <dict @ 0x7facce3d37f8>
+MultiplicativeExpression -> CastExpression # <dict @ 0x7facce3d37f8>
+CastExpression -> UnaryExpression # <dict @ 0x7facce3d37f8>
+UnaryExpression -> LogicalUnaryExpression # <dict @ 0x7facce3d37f8>
+LogicalUnaryExpression -> PostfixExpression # <dict @ 0x7facce3d37f8>
+PostfixExpression -> PrimaryExpression # <dict @ 0x7facce3d37f8>
+PrimaryExpression -> NotJustName # <dict @ 0x7facce3d37f8>
+NotJustName -> NewAllocationExpression # <dict @ 0x7facce3d37f8>
+NewAllocationExpression -> PlainNewAllocationExpression # <dict @ 0x7facce3d37f8>
+PlainNewAllocationExpression -> ArrayAllocationExpression # <dict @ 0x7facce3d37f8>
+ArrayAllocationExpression -> NEW TypeName DimExprs # 'new','int',<dict @ 0x7facce3d3b40>
+DimExprs -> DimExprs DimExpr # <dict @ 0x7facce1c8b40>,<dict @ 0x7facce3d34b0>
+DimExpr -> LSQPAREN Expression RSQPAREN # '[',<dict @ 0x7facce3d34b0>,']'
+Expression -> AssignmentExpression # <dict @ 0x7facce3d34b0>
+AssignmentExpression -> ConditionalExpression # <dict @ 0x7facce3d34b0>
+ConditionalExpression -> ConditionalOrExpression # <dict @ 0x7facce3d34b0>
+ConditionalOrExpression -> ConditionalAndExpression # <dict @ 0x7facce3d34b0>
+ConditionalAndExpression -> InclusiveOrExpression # <dict @ 0x7facce3d34b0>
+InclusiveOrExpression -> ExclusiveOrExpression # <dict @ 0x7facce3d34b0>
+ExclusiveOrExpression -> AndExpression # <dict @ 0x7facce3d34b0>
+AndExpression -> EqualityExpression # <dict @ 0x7facce3d34b0>
+EqualityExpression -> RelationalExpression # <dict @ 0x7facce3d34b0>
+RelationalExpression -> ShiftExpression # <dict @ 0x7facce3d34b0>
+ShiftExpression -> AdditiveExpression # <dict @ 0x7facce3d34b0>
+AdditiveExpression -> MultiplicativeExpression # <dict @ 0x7facce3d34b0>
+MultiplicativeExpression -> CastExpression # <dict @ 0x7facce3d34b0>
+CastExpression -> UnaryExpression # <dict @ 0x7facce3d34b0>
+UnaryExpression -> LogicalUnaryExpression # <dict @ 0x7facce3d34b0>
+LogicalUnaryExpression -> PostfixExpression # <dict @ 0x7facce3d34b0>
+PostfixExpression -> PrimaryExpression # <dict @ 0x7facce3d34b0>
+PrimaryExpression -> NotJustName # <dict @ 0x7facce3d34b0>
+NotJustName -> ComplexPrimary # <dict @ 0x7facce3d34b0>
+ComplexPrimary -> ComplexPrimaryNoParenthesis # <dict @ 0x7facce3d34b0>
+ComplexPrimaryNoParenthesis -> INT_CONST # '5'
+DimExprs -> DimExpr # <dict @ 0x7facce1c5280>
+DimExpr -> LSQPAREN Expression RSQPAREN # '[',<dict @ 0x7facce1c5280>,']'
+Expression -> AssignmentExpression # <dict @ 0x7facce1c5280>
+AssignmentExpression -> ConditionalExpression # <dict @ 0x7facce1c5280>
+ConditionalExpression -> ConditionalOrExpression # <dict @ 0x7facce1c5280>
+ConditionalOrExpression -> ConditionalAndExpression # <dict @ 0x7facce1c5280>
+ConditionalAndExpression -> InclusiveOrExpression # <dict @ 0x7facce1c5280>
+InclusiveOrExpression -> ExclusiveOrExpression # <dict @ 0x7facce1c5280>
+ExclusiveOrExpression -> AndExpression # <dict @ 0x7facce1c5280>
+AndExpression -> EqualityExpression # <dict @ 0x7facce1c5280>
+EqualityExpression -> RelationalExpression # <dict @ 0x7facce1c5280>
+RelationalExpression -> ShiftExpression # <dict @ 0x7facce1c5280>
+ShiftExpression -> AdditiveExpression # <dict @ 0x7facce1c5280>
+AdditiveExpression -> MultiplicativeExpression # <dict @ 0x7facce1c5280>
+MultiplicativeExpression -> CastExpression # <dict @ 0x7facce1c5280>
+CastExpression -> UnaryExpression # <dict @ 0x7facce1c5280>
+UnaryExpression -> LogicalUnaryExpression # <dict @ 0x7facce1c5280>
+LogicalUnaryExpression -> PostfixExpression # <dict @ 0x7facce1c5280>
+PostfixExpression -> PrimaryExpression # <dict @ 0x7facce1c5280>
+PrimaryExpression -> NotJustName # <dict @ 0x7facce1c5280>
+NotJustName -> ComplexPrimary # <dict @ 0x7facce1c5280>
+ComplexPrimary -> ComplexPrimaryNoParenthesis # <dict @ 0x7facce1c5280>
+ComplexPrimaryNoParenthesis -> INT_CONST # '4'
 TypeName -> PrimitiveType # 'int'
 PrimitiveType -> INT # 'int'
-MethodDeclarator -> DeclaratorName LROUNPAREN ParameterList RROUNPAREN # <dict @ 0x7f99f0afbd70>,'(',<list @ 0x7f99f0c6e560>,')'
-ParameterList -> Parameter # <dict @ 0x7f99f0aff4b0>
-Parameter -> TypeSpecifier DeclaratorName # 'int',<dict @ 0x7f99f0b09280>
+DeclaratorName -> IDENTIFIER # 'a'
+TypeSpecifier -> TypeName Dims # 'int',2
+Dims -> Dims OP_DIM # 1,None
+OP_DIM -> LSQPAREN RSQPAREN # '[',']'
+Dims -> OP_DIM # None
+OP_DIM -> LSQPAREN RSQPAREN # '[',']'
+TypeName -> PrimitiveType # 'int'
+PrimitiveType -> INT # 'int'
+MethodDeclarator -> DeclaratorName LROUNPAREN ParameterList RROUNPAREN # <dict @ 0x7facce1cb7f8>,'(',<list @ 0x7facceaa2b48>,')'
+ParameterList -> Parameter # <dict @ 0x7facce1c8e88>
+Parameter -> TypeSpecifier DeclaratorName # 'int',<dict @ 0x7facce1c9c58>
 DeclaratorName -> IDENTIFIER # 'args'
 TypeSpecifier -> TypeName # 'int'
 TypeName -> PrimitiveType # 'int'
@@ -34,9 +185,9 @@ DeclaratorName -> IDENTIFIER # 'main'
 TypeSpecifier -> TypeName # 'void'
 TypeName -> PrimitiveType # 'void'
 PrimitiveType -> VOID # 'void'
-Modifiers -> Modifiers Modifier # <list @ 0x7f99f14a5290>,<list @ 0x7f99f14a52d8>
+Modifiers -> Modifiers Modifier # <list @ 0x7facceb9b170>,<list @ 0x7facceb9b248>
 Modifier -> STATIC # 'static'
-Modifiers -> Modifier # <list @ 0x7f99f14a5290>
+Modifiers -> Modifier # <list @ 0x7facceb9b170>
 Modifier -> PUBLIC # 'public'
 ClassHeader -> ClassWord IDENTIFIER # None,'HelloWorld'
 ClassWord -> CLASS # 'class'

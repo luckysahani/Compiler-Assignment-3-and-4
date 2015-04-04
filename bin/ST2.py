@@ -67,7 +67,7 @@ class SymbTbl:
 		return temp_scope['ScopeName']
 
 	#function to add an identifier
-	def Add_identifier(self, identifier, Type):
+	def Add_identifier(self, identifier, Type, Arrwidth):
 		Curr_scope = self.mainsymbtbl[self.curr_scope];
 		if Type in ['function', 'callback', 'String']:
 			width = 4
@@ -77,6 +77,8 @@ class SymbTbl:
 			width = 1
 		elif Type in ['float', 'double']:
 			width = 8
+		elif Arrwidth != -1 :
+			width = 4
 		else:
 			width = 0
 		
@@ -87,6 +89,10 @@ class SymbTbl:
 			'Width' : width,
 			'Type' : Type
 		}
+
+		if(Arrwidth != -1):
+			# print Arrwidth
+			temp_obj['Arrwidth'] = Arrwidth
 
 		if not Curr_scope['identifiers'].has_key(identifier):
 			Curr_scope['identifiers'][identifier] = temp_obj
