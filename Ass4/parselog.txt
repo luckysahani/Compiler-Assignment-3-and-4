@@ -1,0 +1,620 @@
+   yacc.py: 292:PLY: PARSE DEBUG START
+   yacc.py: 337:
+   yacc.py: 338:State  : 0
+   yacc.py: 352:Stack  : . LexToken(CLASS,'class',1,0)
+   yacc.py: 366:Action : Shift and goto state 6
+   yacc.py: 337:
+   yacc.py: 338:State  : 6
+   yacc.py: 352:Stack  : CLASS . LexToken(IDENTIFIER,'HelloWorld',1,6)
+   yacc.py: 389:Action : Reduce rule [ClassWord -> CLASS] with ['class'] and goto state 45
+   yacc.py: 423:Result : <NoneType @ 0x920190> (None)
+   yacc.py: 337:
+   yacc.py: 338:State  : 14
+   yacc.py: 352:Stack  : ClassWord . LexToken(IDENTIFIER,'HelloWorld',1,6)
+   yacc.py: 366:Action : Shift and goto state 28
+   yacc.py: 337:
+   yacc.py: 338:State  : 28
+   yacc.py: 352:Stack  : ClassWord IDENTIFIER . LexToken(LCURPAREN,'{',2,17)
+   yacc.py: 389:Action : Reduce rule [ClassHeader -> ClassWord IDENTIFIER] with [None,'HelloWorld'] and goto state 39
+   yacc.py: 423:Result : <dict @ 0x7ffa51a166e0> ({'ClassName': 'HelloWorld', 'Modifiers': ...)
+   yacc.py: 337:
+   yacc.py: 338:State  : 17
+   yacc.py: 352:Stack  : ClassHeader . LexToken(LCURPAREN,'{',2,17)
+   yacc.py: 366:Action : Shift and goto state 32
+   yacc.py: 337:
+   yacc.py: 338:State  : 32
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN . LexToken(PUBLIC,'public',3,20)
+   yacc.py: 366:Action : Shift and goto state 18
+   yacc.py: 337:
+   yacc.py: 338:State  : 18
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN PUBLIC . LexToken(STATIC,'static',3,27)
+   yacc.py: 389:Action : Reduce rule [Modifier -> PUBLIC] with ['public'] and goto state 42
+   yacc.py: 423:Result : <list @ 0x7ffa51a3d908> (['p', 'u', 'b', 'l', 'i', 'c'])
+   yacc.py: 337:
+   yacc.py: 338:State  : 12
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifier . LexToken(STATIC,'static',3,27)
+   yacc.py: 389:Action : Reduce rule [Modifiers -> Modifier] with [<list @ 0x7ffa51a3d908>] and goto state 40
+   yacc.py: 423:Result : <list @ 0x7ffa51a3d908> (['p', 'u', 'b', 'l', 'i', 'c'])
+   yacc.py: 337:
+   yacc.py: 338:State  : 47
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers . LexToken(STATIC,'static',3,27)
+   yacc.py: 366:Action : Shift and goto state 3
+   yacc.py: 337:
+   yacc.py: 338:State  : 3
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers STATIC . LexToken(INT,'int',3,34)
+   yacc.py: 389:Action : Reduce rule [Modifier -> STATIC] with ['static'] and goto state 44
+   yacc.py: 423:Result : <list @ 0x7ffa51a3da28> (['s', 't', 'a', 't', 'i', 'c'])
+   yacc.py: 337:
+   yacc.py: 338:State  : 20
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers Modifier . LexToken(INT,'int',3,34)
+   yacc.py: 389:Action : Reduce rule [Modifiers -> Modifiers Modifier] with [<list @ 0x7ffa51a3d908>,<list @ 0x7ffa51a3da28>] and goto state 41
+   yacc.py: 423:Result : <list @ 0x7ffa51a3d908> (['p', 'u', 'b', 'l', 'i', 'c', ['s', 't' ...)
+   yacc.py: 337:
+   yacc.py: 338:State  : 47
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers . LexToken(INT,'int',3,34)
+   yacc.py: 366:Action : Shift and goto state 65
+   yacc.py: 337:
+   yacc.py: 338:State  : 65
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers INT . LexToken(IDENTIFIER,'main',3,38)
+   yacc.py: 389:Action : Reduce rule [PrimitiveType -> INT] with ['int'] and goto state 13
+   yacc.py: 423:Result : <str @ 0x7ffa519cbfd0> ('int')
+   yacc.py: 337:
+   yacc.py: 338:State  : 45
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers PrimitiveType . LexToken(IDENTIFIER,'main',3,38)
+   yacc.py: 389:Action : Reduce rule [TypeName -> PrimitiveType] with ['int'] and goto state 5
+   yacc.py: 423:Result : <str @ 0x7ffa519cbfd0> ('int')
+   yacc.py: 337:
+   yacc.py: 338:State  : 54
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeName . LexToken(IDENTIFIER,'main',3,38)
+   yacc.py: 389:Action : Reduce rule [TypeSpecifier -> TypeName] with ['int'] and goto state 3
+   yacc.py: 423:Result : <str @ 0x7ffa519cbfd0> ('int')
+   yacc.py: 337:
+   yacc.py: 338:State  : 74
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier . LexToken(IDENTIFIER,'main',3,38)
+   yacc.py: 366:Action : Shift and goto state 80
+   yacc.py: 337:
+   yacc.py: 338:State  : 80
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier IDENTIFIER . LexToken(LROUNPAREN,'(',3,42)
+   yacc.py: 389:Action : Reduce rule [DeclaratorName -> IDENTIFIER] with ['main'] and goto state 70
+   yacc.py: 423:Result : <dict @ 0x7ffa51a3e050> ({'Name': 'main'})
+   yacc.py: 337:
+   yacc.py: 338:State  : 78
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier DeclaratorName . LexToken(LROUNPAREN,'(',3,42)
+   yacc.py: 366:Action : Shift and goto state 175
+   yacc.py: 337:
+   yacc.py: 338:State  : 175
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier DeclaratorName LROUNPAREN . LexToken(RROUNPAREN,')',3,43)
+   yacc.py: 366:Action : Shift and goto state 256
+   yacc.py: 337:
+   yacc.py: 338:State  : 256
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier DeclaratorName LROUNPAREN RROUNPAREN . LexToken(LCURPAREN,'{',4,46)
+   yacc.py: 389:Action : Reduce rule [MethodDeclarator -> DeclaratorName LROUNPAREN RROUNPAREN] with [<dict @ 0x7ffa51a3e050>,'(',')'] and goto state 66
+   yacc.py: 423:Result : <dict @ 0x7ffa51388398> ({'List': [], 'Name': 'main'})
+   yacc.py: 337:
+   yacc.py: 338:State  : 170
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator . LexToken(LCURPAREN,'{',4,46)
+   yacc.py: 366:Action : Shift and goto state 178
+   yacc.py: 337:
+   yacc.py: 338:State  : 178
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN . LexToken(INT,'int',5,50)
+   yacc.py: 366:Action : Shift and goto state 65
+   yacc.py: 337:
+   yacc.py: 338:State  : 65
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN INT . LexToken(IDENTIFIER,'sum',5,54)
+   yacc.py: 389:Action : Reduce rule [PrimitiveType -> INT] with ['int'] and goto state 13
+   yacc.py: 423:Result : <str @ 0x7ffa519a1210> ('int')
+   yacc.py: 337:
+   yacc.py: 338:State  : 83
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN PrimitiveType . LexToken(IDENTIFIER,'sum',5,54)
+   yacc.py: 389:Action : Reduce rule [TypeName -> PrimitiveType] with ['int'] and goto state 5
+   yacc.py: 423:Result : <str @ 0x7ffa519a1210> ('int')
+   yacc.py: 337:
+   yacc.py: 338:State  : 54
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN TypeName . LexToken(IDENTIFIER,'sum',5,54)
+   yacc.py: 389:Action : Reduce rule [TypeSpecifier -> TypeName] with ['int'] and goto state 3
+   yacc.py: 423:Result : <str @ 0x7ffa519a1210> ('int')
+   yacc.py: 337:
+   yacc.py: 338:State  : 127
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN TypeSpecifier . LexToken(IDENTIFIER,'sum',5,54)
+   yacc.py: 366:Action : Shift and goto state 80
+   yacc.py: 337:
+   yacc.py: 338:State  : 80
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN TypeSpecifier IDENTIFIER . LexToken(EQUAL,'=',5,58)
+   yacc.py: 389:Action : Reduce rule [DeclaratorName -> IDENTIFIER] with ['sum'] and goto state 70
+   yacc.py: 423:Result : <dict @ 0x7ffa51a16b40> ({'Name': 'sum'})
+   yacc.py: 337:
+   yacc.py: 338:State  : 219
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN TypeSpecifier DeclaratorName . LexToken(EQUAL,'=',5,58)
+   yacc.py: 366:Action : Shift and goto state 173
+   yacc.py: 337:
+   yacc.py: 338:State  : 173
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN TypeSpecifier DeclaratorName EQUAL . LexToken(INT_CONST,'5',5,60)
+   yacc.py: 366:Action : Shift and goto state 108
+   yacc.py: 337:
+   yacc.py: 338:State  : 108
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN TypeSpecifier DeclaratorName EQUAL INT_CONST . LexToken(SEMICOLON,';',5,61)
+   yacc.py: 389:Action : Reduce rule [ComplexPrimaryNoParenthesis -> INT_CONST] with ['5'] and goto state 134
+   yacc.py: 423:Result : <dict @ 0x7ffa5138a398> ({'Type': 'int', 'Name': 'k_0', 'value':  ...)
+   yacc.py: 337:
+   yacc.py: 338:State  : 101
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN TypeSpecifier DeclaratorName EQUAL ComplexPrimaryNoParenthesis . LexToken(SEMICOLON,';',5,61)
+   yacc.py: 389:Action : Reduce rule [ComplexPrimary -> ComplexPrimaryNoParenthesis] with [<dict @ 0x7ffa5138a398>] and goto state 133
+   yacc.py: 423:Result : <dict @ 0x7ffa5138a398> ({'Type': 'int', 'Name': 'k_0', 'value':  ...)
+   yacc.py: 337:
+   yacc.py: 338:State  : 121
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN TypeSpecifier DeclaratorName EQUAL ComplexPrimary . LexToken(SEMICOLON,';',5,61)
+   yacc.py: 389:Action : Reduce rule [NotJustName -> ComplexPrimary] with [<dict @ 0x7ffa5138a398>] and goto state 131
+   yacc.py: 423:Result : <dict @ 0x7ffa5138a398> ({'Type': 'int', 'Name': 'k_0', 'value':  ...)
+   yacc.py: 337:
+   yacc.py: 338:State  : 151
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN TypeSpecifier DeclaratorName EQUAL NotJustName . LexToken(SEMICOLON,';',5,61)
+   yacc.py: 389:Action : Reduce rule [PrimaryExpression -> NotJustName] with [<dict @ 0x7ffa5138a398>] and goto state 128
+   yacc.py: 423:Result : <dict @ 0x7ffa5138a398> ({'Type': 'int', 'Name': 'k_0', 'value':  ...)
+   yacc.py: 337:
+   yacc.py: 338:State  : 128
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN TypeSpecifier DeclaratorName EQUAL PrimaryExpression . LexToken(SEMICOLON,';',5,61)
+   yacc.py: 389:Action : Reduce rule [PostfixExpression -> PrimaryExpression] with [<dict @ 0x7ffa5138a398>] and goto state 173
+   yacc.py: 423:Result : <dict @ 0x7ffa5138a398> ({'Type': 'int', 'Name': 'k_0', 'value':  ...)
+   yacc.py: 337:
+   yacc.py: 338:State  : 114
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN TypeSpecifier DeclaratorName EQUAL PostfixExpression . LexToken(SEMICOLON,';',5,61)
+   yacc.py: 389:Action : Reduce rule [LogicalUnaryExpression -> PostfixExpression] with [<dict @ 0x7ffa5138a398>] and goto state 181
+   yacc.py: 423:Result : <dict @ 0x7ffa5138a398> ({'Type': 'int', 'Name': 'k_0', 'value':  ...)
+   yacc.py: 337:
+   yacc.py: 338:State  : 153
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN TypeSpecifier DeclaratorName EQUAL LogicalUnaryExpression . LexToken(SEMICOLON,';',5,61)
+   yacc.py: 389:Action : Reduce rule [UnaryExpression -> LogicalUnaryExpression] with [<dict @ 0x7ffa5138a398>] and goto state 179
+   yacc.py: 423:Result : <dict @ 0x7ffa5138a398> ({'Type': 'int', 'Name': 'k_0', 'value':  ...)
+   yacc.py: 337:
+   yacc.py: 338:State  : 138
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN TypeSpecifier DeclaratorName EQUAL UnaryExpression . LexToken(SEMICOLON,';',5,61)
+   yacc.py: 389:Action : Reduce rule [CastExpression -> UnaryExpression] with [<dict @ 0x7ffa5138a398>] and goto state 187
+   yacc.py: 423:Result : <dict @ 0x7ffa5138a398> ({'Type': 'int', 'Name': 'k_0', 'value':  ...)
+   yacc.py: 337:
+   yacc.py: 338:State  : 143
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN TypeSpecifier DeclaratorName EQUAL CastExpression . LexToken(SEMICOLON,';',5,61)
+   yacc.py: 389:Action : Reduce rule [MultiplicativeExpression -> CastExpression] with [<dict @ 0x7ffa5138a398>] and goto state 191
+   yacc.py: 423:Result : <dict @ 0x7ffa5138a398> ({'Type': 'int', 'Name': 'k_0', 'value':  ...)
+   yacc.py: 337:
+   yacc.py: 338:State  : 102
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN TypeSpecifier DeclaratorName EQUAL MultiplicativeExpression . LexToken(SEMICOLON,';',5,61)
+   yacc.py: 389:Action : Reduce rule [AdditiveExpression -> MultiplicativeExpression] with [<dict @ 0x7ffa5138a398>] and goto state 195
+   yacc.py: 423:Result : <dict @ 0x7ffa5138a398> ({'Type': 'int', 'Name': 'k_0', 'value':  ...)
+   yacc.py: 337:
+   yacc.py: 338:State  : 136
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN TypeSpecifier DeclaratorName EQUAL AdditiveExpression . LexToken(SEMICOLON,';',5,61)
+   yacc.py: 389:Action : Reduce rule [ShiftExpression -> AdditiveExpression] with [<dict @ 0x7ffa5138a398>] and goto state 198
+   yacc.py: 423:Result : <dict @ 0x7ffa5138a398> ({'Type': 'int', 'Name': 'k_0', 'value':  ...)
+   yacc.py: 337:
+   yacc.py: 338:State  : 148
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN TypeSpecifier DeclaratorName EQUAL ShiftExpression . LexToken(SEMICOLON,';',5,61)
+   yacc.py: 389:Action : Reduce rule [RelationalExpression -> ShiftExpression] with [<dict @ 0x7ffa5138a398>] and goto state 202
+   yacc.py: 423:Result : <dict @ 0x7ffa5138a398> ({'Type': 'int', 'Name': 'k_0', 'value':  ...)
+   yacc.py: 337:
+   yacc.py: 338:State  : 116
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN TypeSpecifier DeclaratorName EQUAL RelationalExpression . LexToken(SEMICOLON,';',5,61)
+   yacc.py: 389:Action : Reduce rule [EqualityExpression -> RelationalExpression] with [<dict @ 0x7ffa5138a398>] and goto state 207
+   yacc.py: 423:Result : <dict @ 0x7ffa5138a398> ({'Type': 'int', 'Name': 'k_0', 'value':  ...)
+   yacc.py: 337:
+   yacc.py: 338:State  : 99
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN TypeSpecifier DeclaratorName EQUAL EqualityExpression . LexToken(SEMICOLON,';',5,61)
+   yacc.py: 389:Action : Reduce rule [AndExpression -> EqualityExpression] with [<dict @ 0x7ffa5138a398>] and goto state 210
+   yacc.py: 423:Result : <dict @ 0x7ffa5138a398> ({'Type': 'int', 'Name': 'k_0', 'value':  ...)
+   yacc.py: 337:
+   yacc.py: 338:State  : 86
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN TypeSpecifier DeclaratorName EQUAL AndExpression . LexToken(SEMICOLON,';',5,61)
+   yacc.py: 389:Action : Reduce rule [ExclusiveOrExpression -> AndExpression] with [<dict @ 0x7ffa5138a398>] and goto state 212
+   yacc.py: 423:Result : <dict @ 0x7ffa5138a398> ({'Type': 'int', 'Name': 'k_0', 'value':  ...)
+   yacc.py: 337:
+   yacc.py: 338:State  : 115
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN TypeSpecifier DeclaratorName EQUAL ExclusiveOrExpression . LexToken(SEMICOLON,';',5,61)
+   yacc.py: 389:Action : Reduce rule [InclusiveOrExpression -> ExclusiveOrExpression] with [<dict @ 0x7ffa5138a398>] and goto state 214
+   yacc.py: 423:Result : <dict @ 0x7ffa5138a398> ({'Type': 'int', 'Name': 'k_0', 'value':  ...)
+   yacc.py: 337:
+   yacc.py: 338:State  : 139
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN TypeSpecifier DeclaratorName EQUAL InclusiveOrExpression . LexToken(SEMICOLON,';',5,61)
+   yacc.py: 389:Action : Reduce rule [ConditionalAndExpression -> InclusiveOrExpression] with [<dict @ 0x7ffa5138a398>] and goto state 216
+   yacc.py: 423:Result : <dict @ 0x7ffa5138a398> ({'Type': 'int', 'Name': 'k_0', 'value':  ...)
+   yacc.py: 337:
+   yacc.py: 338:State  : 92
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN TypeSpecifier DeclaratorName EQUAL ConditionalAndExpression . LexToken(SEMICOLON,';',5,61)
+   yacc.py: 389:Action : Reduce rule [ConditionalOrExpression -> ConditionalAndExpression] with [<dict @ 0x7ffa5138a398>] and goto state 218
+   yacc.py: 423:Result : <dict @ 0x7ffa5138a398> ({'Type': 'int', 'Name': 'k_0', 'value':  ...)
+   yacc.py: 337:
+   yacc.py: 338:State  : 132
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN TypeSpecifier DeclaratorName EQUAL ConditionalOrExpression . LexToken(SEMICOLON,';',5,61)
+   yacc.py: 389:Action : Reduce rule [ConditionalExpression -> ConditionalOrExpression] with [<dict @ 0x7ffa5138a398>] and goto state 220
+   yacc.py: 423:Result : <dict @ 0x7ffa5138a398> ({'Type': 'int', 'Name': 'k_0', 'value':  ...)
+   yacc.py: 337:
+   yacc.py: 338:State  : 137
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN TypeSpecifier DeclaratorName EQUAL ConditionalExpression . LexToken(SEMICOLON,';',5,61)
+   yacc.py: 389:Action : Reduce rule [AssignmentExpression -> ConditionalExpression] with [<dict @ 0x7ffa5138a398>] and goto state 224
+   yacc.py: 423:Result : <dict @ 0x7ffa5138a398> ({'Type': 'int', 'Name': 'k_0', 'value':  ...)
+   yacc.py: 337:
+   yacc.py: 338:State  : 105
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN TypeSpecifier DeclaratorName EQUAL AssignmentExpression . LexToken(SEMICOLON,';',5,61)
+   yacc.py: 389:Action : Reduce rule [Expression -> AssignmentExpression] with [<dict @ 0x7ffa5138a398>] and goto state 230
+   yacc.py: 423:Result : <dict @ 0x7ffa5138a398> ({'Type': 'int', 'Name': 'k_0', 'value':  ...)
+   yacc.py: 337:
+   yacc.py: 338:State  : 255
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN TypeSpecifier DeclaratorName EQUAL Expression . LexToken(SEMICOLON,';',5,61)
+   yacc.py: 389:Action : Reduce rule [VariableInitializer -> Expression] with [<dict @ 0x7ffa5138a398>] and goto state 62
+   yacc.py: 423:Result : <dict @ 0x7ffa5138a398> ({'Type': 'int', 'Name': 'k_0', 'value':  ...)
+   yacc.py: 337:
+   yacc.py: 338:State  : 254
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN TypeSpecifier DeclaratorName EQUAL VariableInitializer . LexToken(SEMICOLON,';',5,61)
+   yacc.py: 389:Action : Reduce rule [VariableDeclarator -> DeclaratorName EQUAL VariableInitializer] with [{'Name': 'sum'},'=',<dict @ 0x7ffa5138a398>] and goto state 61
+   yacc.py: 423:Result : <dict @ 0x7ffa513885c8> ({'Type': 'int', 'Name': 'sum'})
+   yacc.py: 337:
+   yacc.py: 338:State  : 81
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN TypeSpecifier VariableDeclarator . LexToken(SEMICOLON,';',5,61)
+   yacc.py: 389:Action : Reduce rule [VariableDeclarators -> VariableDeclarator] with [<dict @ 0x7ffa513885c8>] and goto state 58
+   yacc.py: 423:Result : <dict @ 0x7ffa51a3e050> ({'Type': 'int', 'Names': ['sum']})
+   yacc.py: 337:
+   yacc.py: 338:State  : 218
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN TypeSpecifier VariableDeclarators . LexToken(SEMICOLON,';',5,61)
+   yacc.py: 366:Action : Shift and goto state 290
+   yacc.py: 337:
+   yacc.py: 338:State  : 290
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN TypeSpecifier VariableDeclarators SEMICOLON . LexToken(INT,'int',6,65)
+   yacc.py: 389:Action : Reduce rule [LocalVariableDeclarationStatement -> TypeSpecifier VariableDeclarators SEMICOLON] with ['int',<dict @ 0x7ffa51a3e050>,';'] and goto state 89
+   yacc.py: 423:Result : <dict @ 0x7ffa5138a7f8> ({'Type': 'int', 'Names': ['sum']})
+   yacc.py: 337:
+   yacc.py: 338:State  : 147
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN LocalVariableDeclarationStatement . LexToken(INT,'int',6,65)
+   yacc.py: 389:Action : Reduce rule [LocalVariableDeclarationOrStatement -> LocalVariableDeclarationStatement] with [<dict @ 0x7ffa5138a7f8>] and goto state 87
+   yacc.py: 423:Result : <dict @ 0x7ffa5138a7f8> ({'Type': 'int', 'Names': ['sum']})
+   yacc.py: 337:
+   yacc.py: 338:State  : 118
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN LocalVariableDeclarationOrStatement . LexToken(INT,'int',6,65)
+   yacc.py: 389:Action : Reduce rule [LocalVariableDeclarationsAndStatements -> LocalVariableDeclarationOrStatement] with [<dict @ 0x7ffa5138a7f8>] and goto state 85
+   yacc.py: 423:Result : <dict @ 0x7ffa5138a7f8> ({'Type': 'int', 'Names': ['sum']})
+   yacc.py: 337:
+   yacc.py: 338:State  : 259
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN LocalVariableDeclarationsAndStatements . LexToken(INT,'int',6,65)
+   yacc.py: 366:Action : Shift and goto state 65
+   yacc.py: 337:
+   yacc.py: 338:State  : 65
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN LocalVariableDeclarationsAndStatements INT . LexToken(IDENTIFIER,'k',6,69)
+   yacc.py: 389:Action : Reduce rule [PrimitiveType -> INT] with ['int'] and goto state 13
+   yacc.py: 423:Result : <str @ 0x7ffa519a1288> ('int')
+   yacc.py: 337:
+   yacc.py: 338:State  : 83
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN LocalVariableDeclarationsAndStatements PrimitiveType . LexToken(IDENTIFIER,'k',6,69)
+   yacc.py: 389:Action : Reduce rule [TypeName -> PrimitiveType] with ['int'] and goto state 5
+   yacc.py: 423:Result : <str @ 0x7ffa519a1288> ('int')
+   yacc.py: 337:
+   yacc.py: 338:State  : 54
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN LocalVariableDeclarationsAndStatements TypeName . LexToken(IDENTIFIER,'k',6,69)
+   yacc.py: 389:Action : Reduce rule [TypeSpecifier -> TypeName] with ['int'] and goto state 3
+   yacc.py: 423:Result : <str @ 0x7ffa519a1288> ('int')
+   yacc.py: 337:
+   yacc.py: 338:State  : 127
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN LocalVariableDeclarationsAndStatements TypeSpecifier . LexToken(IDENTIFIER,'k',6,69)
+   yacc.py: 366:Action : Shift and goto state 80
+   yacc.py: 337:
+   yacc.py: 338:State  : 80
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN LocalVariableDeclarationsAndStatements TypeSpecifier IDENTIFIER . LexToken(SEMICOLON,';',6,70)
+   yacc.py: 389:Action : Reduce rule [DeclaratorName -> IDENTIFIER] with ['k'] and goto state 70
+   yacc.py: 423:Result : <dict @ 0x7ffa5138a398> ({'Name': 'k'})
+   yacc.py: 337:
+   yacc.py: 338:State  : 219
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN LocalVariableDeclarationsAndStatements TypeSpecifier DeclaratorName . LexToken(SEMICOLON,';',6,70)
+   yacc.py: 389:Action : Reduce rule [VariableDeclarator -> DeclaratorName] with [{'Name': 'k'}] and goto state 60
+   yacc.py: 423:Result : <dict @ 0x7ffa5138a4b0> ({'Type': 'int', 'Name': 'k'})
+   yacc.py: 337:
+   yacc.py: 338:State  : 81
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN LocalVariableDeclarationsAndStatements TypeSpecifier VariableDeclarator . LexToken(SEMICOLON,';',6,70)
+   yacc.py: 389:Action : Reduce rule [VariableDeclarators -> VariableDeclarator] with [<dict @ 0x7ffa5138a4b0>] and goto state 58
+   yacc.py: 423:Result : <dict @ 0x7ffa51a3e050> ({'Type': 'int', 'Names': ['k']})
+   yacc.py: 337:
+   yacc.py: 338:State  : 218
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN LocalVariableDeclarationsAndStatements TypeSpecifier VariableDeclarators . LexToken(SEMICOLON,';',6,70)
+   yacc.py: 366:Action : Shift and goto state 290
+   yacc.py: 337:
+   yacc.py: 338:State  : 290
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN LocalVariableDeclarationsAndStatements TypeSpecifier VariableDeclarators SEMICOLON . LexToken(IDENTIFIER,'k',7,74)
+   yacc.py: 389:Action : Reduce rule [LocalVariableDeclarationStatement -> TypeSpecifier VariableDeclarators SEMICOLON] with ['int',<dict @ 0x7ffa51a3e050>,';'] and goto state 89
+   yacc.py: 423:Result : <dict @ 0x7ffa513886e0> ({'Type': 'int', 'Names': ['k']})
+   yacc.py: 337:
+   yacc.py: 338:State  : 147
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN LocalVariableDeclarationsAndStatements LocalVariableDeclarationStatement . LexToken(IDENTIFIER,'k',7,74)
+   yacc.py: 389:Action : Reduce rule [LocalVariableDeclarationOrStatement -> LocalVariableDeclarationStatement] with [<dict @ 0x7ffa513886e0>] and goto state 87
+   yacc.py: 423:Result : <dict @ 0x7ffa513886e0> ({'Type': 'int', 'Names': ['k']})
+   yacc.py: 337:
+   yacc.py: 338:State  : 240
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN LocalVariableDeclarationsAndStatements LocalVariableDeclarationOrStatement . LexToken(IDENTIFIER,'k',7,74)
+   yacc.py: 389:Action : Reduce rule [LocalVariableDeclarationsAndStatements -> LocalVariableDeclarationsAndStatements LocalVariableDeclarationOrStatement] with [<dict @ 0x7ffa5138a7f8>,<dict @ 0x7ffa513886e0>] and goto state 86
+   yacc.py: 423:Result : <dict @ 0x7ffa5138a7f8> ({'loopBeginList': [], 'loopEndList': [], ...)
+   yacc.py: 337:
+   yacc.py: 338:State  : 259
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN LocalVariableDeclarationsAndStatements . LexToken(IDENTIFIER,'k',7,74)
+   yacc.py: 366:Action : Shift and goto state 133
+   yacc.py: 337:
+   yacc.py: 338:State  : 133
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN LocalVariableDeclarationsAndStatements IDENTIFIER . LexToken(EQUAL,'=',7,76)
+   yacc.py: 389:Action : Reduce rule [QualifiedName -> IDENTIFIER] with ['k'] and goto state 34
+   yacc.py: 423:Result : <dict @ 0x7ffa5138a280> ({'Name': 'k'})
+   yacc.py: 337:
+   yacc.py: 338:State  : 152
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN LocalVariableDeclarationsAndStatements QualifiedName . LexToken(EQUAL,'=',7,76)
+   yacc.py: 389:Action : Reduce rule [PrimaryExpression -> QualifiedName] with [{'Name': 'k'}] and goto state 127
+   yacc.py: 423:Result : <dict @ 0x7ffa5138a280> ({'Type': 'int', 'Name': 'k'})
+   yacc.py: 337:
+   yacc.py: 338:State  : 128
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN LocalVariableDeclarationsAndStatements PrimaryExpression . LexToken(EQUAL,'=',7,76)
+   yacc.py: 389:Action : Reduce rule [PostfixExpression -> PrimaryExpression] with [<dict @ 0x7ffa5138a280>] and goto state 173
+   yacc.py: 423:Result : <dict @ 0x7ffa5138a280> ({'Type': 'int', 'Name': 'k'})
+   yacc.py: 337:
+   yacc.py: 338:State  : 114
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN LocalVariableDeclarationsAndStatements PostfixExpression . LexToken(EQUAL,'=',7,76)
+   yacc.py: 389:Action : Reduce rule [LogicalUnaryExpression -> PostfixExpression] with [<dict @ 0x7ffa5138a280>] and goto state 181
+   yacc.py: 423:Result : <dict @ 0x7ffa5138a280> ({'Type': 'int', 'Name': 'k'})
+   yacc.py: 337:
+   yacc.py: 338:State  : 153
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN LocalVariableDeclarationsAndStatements LogicalUnaryExpression . LexToken(EQUAL,'=',7,76)
+   yacc.py: 389:Action : Reduce rule [UnaryExpression -> LogicalUnaryExpression] with [<dict @ 0x7ffa5138a280>] and goto state 179
+   yacc.py: 423:Result : <dict @ 0x7ffa5138a280> ({'Type': 'int', 'Name': 'k'})
+   yacc.py: 337:
+   yacc.py: 338:State  : 138
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN LocalVariableDeclarationsAndStatements UnaryExpression . LexToken(EQUAL,'=',7,76)
+   yacc.py: 366:Action : Shift and goto state 231
+   yacc.py: 337:
+   yacc.py: 338:State  : 231
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN LocalVariableDeclarationsAndStatements UnaryExpression EQUAL . LexToken(IDENTIFIER,'sum',7,78)
+   yacc.py: 389:Action : Reduce rule [AssignmentOperator -> EQUAL] with ['='] and goto state 226
+   yacc.py: 423:Result : <str @ 0x7ffa5315ffd0> ('=')
+   yacc.py: 337:
+   yacc.py: 338:State  : 230
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN LocalVariableDeclarationsAndStatements UnaryExpression AssignmentOperator . LexToken(IDENTIFIER,'sum',7,78)
+   yacc.py: 366:Action : Shift and goto state 22
+   yacc.py: 337:
+   yacc.py: 338:State  : 22
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN LocalVariableDeclarationsAndStatements UnaryExpression AssignmentOperator IDENTIFIER . LexToken(PLUS,'+',7,82)
+   yacc.py: 389:Action : Reduce rule [QualifiedName -> IDENTIFIER] with ['sum'] and goto state 34
+   yacc.py: 423:Result : <dict @ 0x7ffa5138ab40> ({'Name': 'sum'})
+   yacc.py: 337:
+   yacc.py: 338:State  : 187
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN LocalVariableDeclarationsAndStatements UnaryExpression AssignmentOperator QualifiedName . LexToken(PLUS,'+',7,82)
+   yacc.py: 389:Action : Reduce rule [PrimaryExpression -> QualifiedName] with [{'Name': 'sum'}] and goto state 127
+   yacc.py: 423:Result : <dict @ 0x7ffa5138ab40> ({'Type': 'int', 'Name': 'sum'})
+   yacc.py: 337:
+   yacc.py: 338:State  : 128
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN LocalVariableDeclarationsAndStatements UnaryExpression AssignmentOperator PrimaryExpression . LexToken(PLUS,'+',7,82)
+   yacc.py: 389:Action : Reduce rule [PostfixExpression -> PrimaryExpression] with [<dict @ 0x7ffa5138ab40>] and goto state 173
+   yacc.py: 423:Result : <dict @ 0x7ffa5138ab40> ({'Type': 'int', 'Name': 'sum'})
+   yacc.py: 337:
+   yacc.py: 338:State  : 114
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN LocalVariableDeclarationsAndStatements UnaryExpression AssignmentOperator PostfixExpression . LexToken(PLUS,'+',7,82)
+   yacc.py: 389:Action : Reduce rule [LogicalUnaryExpression -> PostfixExpression] with [<dict @ 0x7ffa5138ab40>] and goto state 181
+   yacc.py: 423:Result : <dict @ 0x7ffa5138ab40> ({'Type': 'int', 'Name': 'sum'})
+   yacc.py: 337:
+   yacc.py: 338:State  : 153
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN LocalVariableDeclarationsAndStatements UnaryExpression AssignmentOperator LogicalUnaryExpression . LexToken(PLUS,'+',7,82)
+   yacc.py: 389:Action : Reduce rule [UnaryExpression -> LogicalUnaryExpression] with [<dict @ 0x7ffa5138ab40>] and goto state 179
+   yacc.py: 423:Result : <dict @ 0x7ffa5138ab40> ({'Type': 'int', 'Name': 'sum'})
+   yacc.py: 337:
+   yacc.py: 338:State  : 138
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN LocalVariableDeclarationsAndStatements UnaryExpression AssignmentOperator UnaryExpression . LexToken(PLUS,'+',7,82)
+   yacc.py: 389:Action : Reduce rule [CastExpression -> UnaryExpression] with [<dict @ 0x7ffa5138ab40>] and goto state 187
+   yacc.py: 423:Result : <dict @ 0x7ffa5138ab40> ({'Type': 'int', 'Name': 'sum'})
+   yacc.py: 337:
+   yacc.py: 338:State  : 143
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN LocalVariableDeclarationsAndStatements UnaryExpression AssignmentOperator CastExpression . LexToken(PLUS,'+',7,82)
+   yacc.py: 389:Action : Reduce rule [MultiplicativeExpression -> CastExpression] with [<dict @ 0x7ffa5138ab40>] and goto state 191
+   yacc.py: 423:Result : <dict @ 0x7ffa5138ab40> ({'Type': 'int', 'Name': 'sum'})
+   yacc.py: 337:
+   yacc.py: 338:State  : 102
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN LocalVariableDeclarationsAndStatements UnaryExpression AssignmentOperator MultiplicativeExpression . LexToken(PLUS,'+',7,82)
+   yacc.py: 389:Action : Reduce rule [AdditiveExpression -> MultiplicativeExpression] with [<dict @ 0x7ffa5138ab40>] and goto state 195
+   yacc.py: 423:Result : <dict @ 0x7ffa5138ab40> ({'Type': 'int', 'Name': 'sum'})
+   yacc.py: 337:
+   yacc.py: 338:State  : 136
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN LocalVariableDeclarationsAndStatements UnaryExpression AssignmentOperator AdditiveExpression . LexToken(PLUS,'+',7,82)
+   yacc.py: 366:Action : Shift and goto state 226
+   yacc.py: 337:
+   yacc.py: 338:State  : 226
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN LocalVariableDeclarationsAndStatements UnaryExpression AssignmentOperator AdditiveExpression PLUS . LexToken(INT_CONST,'5',7,84)
+   yacc.py: 366:Action : Shift and goto state 108
+   yacc.py: 337:
+   yacc.py: 338:State  : 108
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN LocalVariableDeclarationsAndStatements UnaryExpression AssignmentOperator AdditiveExpression PLUS INT_CONST . LexToken(SEMICOLON,';',7,85)
+   yacc.py: 389:Action : Reduce rule [ComplexPrimaryNoParenthesis -> INT_CONST] with ['5'] and goto state 134
+   yacc.py: 423:Result : <dict @ 0x7ffa51a3e050> ({'Type': 'int', 'Name': 'k_1', 'value':  ...)
+   yacc.py: 337:
+   yacc.py: 338:State  : 101
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN LocalVariableDeclarationsAndStatements UnaryExpression AssignmentOperator AdditiveExpression PLUS ComplexPrimaryNoParenthesis . LexToken(SEMICOLON,';',7,85)
+   yacc.py: 389:Action : Reduce rule [ComplexPrimary -> ComplexPrimaryNoParenthesis] with [<dict @ 0x7ffa51a3e050>] and goto state 133
+   yacc.py: 423:Result : <dict @ 0x7ffa51a3e050> ({'Type': 'int', 'Name': 'k_1', 'value':  ...)
+   yacc.py: 337:
+   yacc.py: 338:State  : 121
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN LocalVariableDeclarationsAndStatements UnaryExpression AssignmentOperator AdditiveExpression PLUS ComplexPrimary . LexToken(SEMICOLON,';',7,85)
+   yacc.py: 389:Action : Reduce rule [NotJustName -> ComplexPrimary] with [<dict @ 0x7ffa51a3e050>] and goto state 131
+   yacc.py: 423:Result : <dict @ 0x7ffa51a3e050> ({'Type': 'int', 'Name': 'k_1', 'value':  ...)
+   yacc.py: 337:
+   yacc.py: 338:State  : 151
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN LocalVariableDeclarationsAndStatements UnaryExpression AssignmentOperator AdditiveExpression PLUS NotJustName . LexToken(SEMICOLON,';',7,85)
+   yacc.py: 389:Action : Reduce rule [PrimaryExpression -> NotJustName] with [<dict @ 0x7ffa51a3e050>] and goto state 128
+   yacc.py: 423:Result : <dict @ 0x7ffa51a3e050> ({'Type': 'int', 'Name': 'k_1', 'value':  ...)
+   yacc.py: 337:
+   yacc.py: 338:State  : 128
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN LocalVariableDeclarationsAndStatements UnaryExpression AssignmentOperator AdditiveExpression PLUS PrimaryExpression . LexToken(SEMICOLON,';',7,85)
+   yacc.py: 389:Action : Reduce rule [PostfixExpression -> PrimaryExpression] with [<dict @ 0x7ffa51a3e050>] and goto state 173
+   yacc.py: 423:Result : <dict @ 0x7ffa51a3e050> ({'Type': 'int', 'Name': 'k_1', 'value':  ...)
+   yacc.py: 337:
+   yacc.py: 338:State  : 114
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN LocalVariableDeclarationsAndStatements UnaryExpression AssignmentOperator AdditiveExpression PLUS PostfixExpression . LexToken(SEMICOLON,';',7,85)
+   yacc.py: 389:Action : Reduce rule [LogicalUnaryExpression -> PostfixExpression] with [<dict @ 0x7ffa51a3e050>] and goto state 181
+   yacc.py: 423:Result : <dict @ 0x7ffa51a3e050> ({'Type': 'int', 'Name': 'k_1', 'value':  ...)
+   yacc.py: 337:
+   yacc.py: 338:State  : 153
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN LocalVariableDeclarationsAndStatements UnaryExpression AssignmentOperator AdditiveExpression PLUS LogicalUnaryExpression . LexToken(SEMICOLON,';',7,85)
+   yacc.py: 389:Action : Reduce rule [UnaryExpression -> LogicalUnaryExpression] with [<dict @ 0x7ffa51a3e050>] and goto state 179
+   yacc.py: 423:Result : <dict @ 0x7ffa51a3e050> ({'Type': 'int', 'Name': 'k_1', 'value':  ...)
+   yacc.py: 337:
+   yacc.py: 338:State  : 193
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN LocalVariableDeclarationsAndStatements UnaryExpression AssignmentOperator AdditiveExpression PLUS UnaryExpression . LexToken(SEMICOLON,';',7,85)
+   yacc.py: 389:Action : Reduce rule [CastExpression -> UnaryExpression] with [<dict @ 0x7ffa51a3e050>] and goto state 187
+   yacc.py: 423:Result : <dict @ 0x7ffa51a3e050> ({'Type': 'int', 'Name': 'k_1', 'value':  ...)
+   yacc.py: 337:
+   yacc.py: 338:State  : 143
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN LocalVariableDeclarationsAndStatements UnaryExpression AssignmentOperator AdditiveExpression PLUS CastExpression . LexToken(SEMICOLON,';',7,85)
+   yacc.py: 389:Action : Reduce rule [MultiplicativeExpression -> CastExpression] with [<dict @ 0x7ffa51a3e050>] and goto state 191
+   yacc.py: 423:Result : <dict @ 0x7ffa51a3e050> ({'Type': 'int', 'Name': 'k_1', 'value':  ...)
+   yacc.py: 337:
+   yacc.py: 338:State  : 300
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN LocalVariableDeclarationsAndStatements UnaryExpression AssignmentOperator AdditiveExpression PLUS MultiplicativeExpression . LexToken(SEMICOLON,';',7,85)
+   yacc.py: 389:Action : Reduce rule [AdditiveExpression -> AdditiveExpression PLUS MultiplicativeExpression] with [<dict @ 0x7ffa5138ab40>,'+',<dict @ 0x7ffa51a3e050>] and goto state 196
+   yacc.py: 423:Result : <dict @ 0x7ffa5138d280> ({'Type': 'int', 'Name': 'k_2'})
+   yacc.py: 337:
+   yacc.py: 338:State  : 136
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN LocalVariableDeclarationsAndStatements UnaryExpression AssignmentOperator AdditiveExpression . LexToken(SEMICOLON,';',7,85)
+   yacc.py: 389:Action : Reduce rule [ShiftExpression -> AdditiveExpression] with [<dict @ 0x7ffa5138d280>] and goto state 198
+   yacc.py: 423:Result : <dict @ 0x7ffa5138d280> ({'Type': 'int', 'Name': 'k_2'})
+   yacc.py: 337:
+   yacc.py: 338:State  : 148
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN LocalVariableDeclarationsAndStatements UnaryExpression AssignmentOperator ShiftExpression . LexToken(SEMICOLON,';',7,85)
+   yacc.py: 389:Action : Reduce rule [RelationalExpression -> ShiftExpression] with [<dict @ 0x7ffa5138d280>] and goto state 202
+   yacc.py: 423:Result : <dict @ 0x7ffa5138d280> ({'Type': 'int', 'Name': 'k_2'})
+   yacc.py: 337:
+   yacc.py: 338:State  : 116
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN LocalVariableDeclarationsAndStatements UnaryExpression AssignmentOperator RelationalExpression . LexToken(SEMICOLON,';',7,85)
+   yacc.py: 389:Action : Reduce rule [EqualityExpression -> RelationalExpression] with [<dict @ 0x7ffa5138d280>] and goto state 207
+   yacc.py: 423:Result : <dict @ 0x7ffa5138d280> ({'Type': 'int', 'Name': 'k_2'})
+   yacc.py: 337:
+   yacc.py: 338:State  : 99
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN LocalVariableDeclarationsAndStatements UnaryExpression AssignmentOperator EqualityExpression . LexToken(SEMICOLON,';',7,85)
+   yacc.py: 389:Action : Reduce rule [AndExpression -> EqualityExpression] with [<dict @ 0x7ffa5138d280>] and goto state 210
+   yacc.py: 423:Result : <dict @ 0x7ffa5138d280> ({'Type': 'int', 'Name': 'k_2'})
+   yacc.py: 337:
+   yacc.py: 338:State  : 86
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN LocalVariableDeclarationsAndStatements UnaryExpression AssignmentOperator AndExpression . LexToken(SEMICOLON,';',7,85)
+   yacc.py: 389:Action : Reduce rule [ExclusiveOrExpression -> AndExpression] with [<dict @ 0x7ffa5138d280>] and goto state 212
+   yacc.py: 423:Result : <dict @ 0x7ffa5138d280> ({'Type': 'int', 'Name': 'k_2'})
+   yacc.py: 337:
+   yacc.py: 338:State  : 115
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN LocalVariableDeclarationsAndStatements UnaryExpression AssignmentOperator ExclusiveOrExpression . LexToken(SEMICOLON,';',7,85)
+   yacc.py: 389:Action : Reduce rule [InclusiveOrExpression -> ExclusiveOrExpression] with [<dict @ 0x7ffa5138d280>] and goto state 214
+   yacc.py: 423:Result : <dict @ 0x7ffa5138d280> ({'Type': 'int', 'Name': 'k_2'})
+   yacc.py: 337:
+   yacc.py: 338:State  : 139
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN LocalVariableDeclarationsAndStatements UnaryExpression AssignmentOperator InclusiveOrExpression . LexToken(SEMICOLON,';',7,85)
+   yacc.py: 389:Action : Reduce rule [ConditionalAndExpression -> InclusiveOrExpression] with [<dict @ 0x7ffa5138d280>] and goto state 216
+   yacc.py: 423:Result : <dict @ 0x7ffa5138d280> ({'Type': 'int', 'Name': 'k_2'})
+   yacc.py: 337:
+   yacc.py: 338:State  : 92
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN LocalVariableDeclarationsAndStatements UnaryExpression AssignmentOperator ConditionalAndExpression . LexToken(SEMICOLON,';',7,85)
+   yacc.py: 389:Action : Reduce rule [ConditionalOrExpression -> ConditionalAndExpression] with [<dict @ 0x7ffa5138d280>] and goto state 218
+   yacc.py: 423:Result : <dict @ 0x7ffa5138d280> ({'Type': 'int', 'Name': 'k_2'})
+   yacc.py: 337:
+   yacc.py: 338:State  : 132
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN LocalVariableDeclarationsAndStatements UnaryExpression AssignmentOperator ConditionalOrExpression . LexToken(SEMICOLON,';',7,85)
+   yacc.py: 389:Action : Reduce rule [ConditionalExpression -> ConditionalOrExpression] with [<dict @ 0x7ffa5138d280>] and goto state 220
+   yacc.py: 423:Result : <dict @ 0x7ffa5138d280> ({'Type': 'int', 'Name': 'k_2'})
+   yacc.py: 337:
+   yacc.py: 338:State  : 137
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN LocalVariableDeclarationsAndStatements UnaryExpression AssignmentOperator ConditionalExpression . LexToken(SEMICOLON,';',7,85)
+   yacc.py: 389:Action : Reduce rule [AssignmentExpression -> ConditionalExpression] with [<dict @ 0x7ffa5138d280>] and goto state 224
+   yacc.py: 423:Result : <dict @ 0x7ffa5138d280> ({'Type': 'int', 'Name': 'k_2'})
+   yacc.py: 337:
+   yacc.py: 338:State  : 302
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN LocalVariableDeclarationsAndStatements UnaryExpression AssignmentOperator AssignmentExpression . LexToken(SEMICOLON,';',7,85)
+   yacc.py: 389:Action : Reduce rule [AssignmentExpression -> UnaryExpression AssignmentOperator AssignmentExpression] with [<dict @ 0x7ffa5138a280>,'=',<dict @ 0x7ffa5138d280>] and goto state 225
+   yacc.py: 423:Result : <dict @ 0x7ffa5138d050> ({'Type': 'int', 'Name': 'k'})
+   yacc.py: 337:
+   yacc.py: 338:State  : 105
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN LocalVariableDeclarationsAndStatements AssignmentExpression . LexToken(SEMICOLON,';',7,85)
+   yacc.py: 389:Action : Reduce rule [Expression -> AssignmentExpression] with [<dict @ 0x7ffa5138d050>] and goto state 230
+   yacc.py: 423:Result : <dict @ 0x7ffa5138d050> ({'Type': 'int', 'Name': 'k'})
+   yacc.py: 337:
+   yacc.py: 338:State  : 135
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN LocalVariableDeclarationsAndStatements Expression . LexToken(SEMICOLON,';',7,85)
+   yacc.py: 389:Action : Reduce rule [ExpressionStatement -> Expression] with [<dict @ 0x7ffa5138d050>] and goto state 102
+   yacc.py: 423:Result : <dict @ 0x7ffa5138d050> ({'Type': 'int', 'Name': 'k'})
+   yacc.py: 337:
+   yacc.py: 338:State  : 82
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN LocalVariableDeclarationsAndStatements ExpressionStatement . LexToken(SEMICOLON,';',7,85)
+   yacc.py: 366:Action : Shift and goto state 179
+   yacc.py: 337:
+   yacc.py: 338:State  : 179
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN LocalVariableDeclarationsAndStatements ExpressionStatement SEMICOLON . LexToken(RCURPAREN,'}',8,88)
+   yacc.py: 391:Action : Reduce rule [Mark_quad -> <empty>] with [] and goto state 97
+   yacc.py: 462:Result : <dict @ 0x7ffa513886e0> ({'quad': 6})
+   yacc.py: 337:
+   yacc.py: 338:State  : 260
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN LocalVariableDeclarationsAndStatements ExpressionStatement SEMICOLON Mark_quad . LexToken(RCURPAREN,'}',8,88)
+   yacc.py: 389:Action : Reduce rule [Statement -> ExpressionStatement SEMICOLON Mark_quad] with [<dict @ 0x7ffa5138d050>,';',{'quad': 6}] and goto state 92
+   yacc.py: 423:Result : <dict @ 0x7ffa5138ab40> ({'loopEndList': [], 'loopBeginList': [], ...)
+   yacc.py: 337:
+   yacc.py: 338:State  : 85
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN LocalVariableDeclarationsAndStatements Statement . LexToken(RCURPAREN,'}',8,88)
+   yacc.py: 389:Action : Reduce rule [LocalVariableDeclarationOrStatement -> Statement] with [<dict @ 0x7ffa5138ab40>] and goto state 88
+   yacc.py: 423:Result : <dict @ 0x7ffa5138ab40> ({'loopEndList': [], 'loopBeginList': [], ...)
+   yacc.py: 337:
+   yacc.py: 338:State  : 240
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN LocalVariableDeclarationsAndStatements LocalVariableDeclarationOrStatement . LexToken(RCURPAREN,'}',8,88)
+   yacc.py: 389:Action : Reduce rule [LocalVariableDeclarationsAndStatements -> LocalVariableDeclarationsAndStatements LocalVariableDeclarationOrStatement] with [<dict @ 0x7ffa5138a7f8>,<dict @ 0x7ffa5138ab40>] and goto state 86
+   yacc.py: 423:Result : <dict @ 0x7ffa5138a7f8> ({'loopBeginList': [], 'loopEndList': [], ...)
+   yacc.py: 337:
+   yacc.py: 338:State  : 259
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN LocalVariableDeclarationsAndStatements . LexToken(RCURPAREN,'}',8,88)
+   yacc.py: 366:Action : Shift and goto state 318
+   yacc.py: 337:
+   yacc.py: 338:State  : 318
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator LCURPAREN LocalVariableDeclarationsAndStatements RCURPAREN . LexToken(RCURPAREN,'}',9,90)
+   yacc.py: 389:Action : Reduce rule [MethodBody -> LCURPAREN LocalVariableDeclarationsAndStatements RCURPAREN] with ['{',<dict @ 0x7ffa5138a7f8>,'}'] and goto state 72
+   yacc.py: 423:Result : <str @ 0x7ffa532218c8> ('{')
+   yacc.py: 337:
+   yacc.py: 338:State  : 252
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN Modifiers TypeSpecifier MethodDeclarator MethodBody . LexToken(RCURPAREN,'}',9,90)
+   yacc.py: 389:Action : Reduce rule [MethodDeclaration -> Modifiers TypeSpecifier MethodDeclarator MethodBody] with [<list @ 0x7ffa51a3d908>,'int',<dict @ 0x7ffa51388398>,'{'] and goto state 63
+   yacc.py: 423:Result : <dict @ 0x7ffa513887f8> ({'Modifiers': ['p', 'u', 'b', 'l', 'i',  ...)
+   yacc.py: 337:
+   yacc.py: 338:State  : 56
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN MethodDeclaration . LexToken(RCURPAREN,'}',9,90)
+   yacc.py: 389:Action : Reduce rule [FieldDeclaration -> MethodDeclaration] with [<dict @ 0x7ffa513887f8>] and goto state 51
+   yacc.py: 423:Result : <NoneType @ 0x920190> (None)
+   yacc.py: 337:
+   yacc.py: 338:State  : 70
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN FieldDeclaration . LexToken(RCURPAREN,'}',9,90)
+   yacc.py: 389:Action : Reduce rule [FieldDeclarationOptSemi -> FieldDeclaration] with [None] and goto state 48
+   yacc.py: 423:Result : <NoneType @ 0x920190> (None)
+   yacc.py: 337:
+   yacc.py: 338:State  : 63
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN FieldDeclarationOptSemi . LexToken(RCURPAREN,'}',9,90)
+   yacc.py: 389:Action : Reduce rule [FieldDeclarations -> FieldDeclarationOptSemi] with [None] and goto state 46
+   yacc.py: 423:Result : <NoneType @ 0x920190> (None)
+   yacc.py: 337:
+   yacc.py: 338:State  : 61
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN FieldDeclarations . LexToken(RCURPAREN,'}',9,90)
+   yacc.py: 366:Action : Shift and goto state 164
+   yacc.py: 337:
+   yacc.py: 338:State  : 164
+   yacc.py: 352:Stack  : ClassHeader LCURPAREN FieldDeclarations RCURPAREN . $end
+   yacc.py: 389:Action : Reduce rule [TypeDeclaration -> ClassHeader LCURPAREN FieldDeclarations RCURPAREN] with [<dict @ 0x7ffa51a166e0>,'{',None,'}'] and goto state 36
+   yacc.py: 423:Result : <NoneType @ 0x920190> (None)
+   yacc.py: 337:
+   yacc.py: 338:State  : 8
+   yacc.py: 352:Stack  : TypeDeclaration . $end
+   yacc.py: 389:Action : Reduce rule [TypeDeclarationOptSemi -> TypeDeclaration] with [None] and goto state 28
+   yacc.py: 423:Result : <NoneType @ 0x920190> (None)
+   yacc.py: 337:
+   yacc.py: 338:State  : 7
+   yacc.py: 352:Stack  : TypeDeclarationOptSemi . $end
+   yacc.py: 389:Action : Reduce rule [TypeDeclarations -> TypeDeclarationOptSemi] with [None] and goto state 26
+   yacc.py: 423:Result : <NoneType @ 0x920190> (None)
+   yacc.py: 337:
+   yacc.py: 338:State  : 16
+   yacc.py: 352:Stack  : TypeDeclarations . $end
+   yacc.py: 389:Action : Reduce rule [ProgramFile -> TypeDeclarations] with [None] and goto state 24
+   yacc.py: 423:Result : <NoneType @ 0x920190> (None)
+   yacc.py: 337:
+   yacc.py: 338:State  : 1
+   yacc.py: 352:Stack  : ProgramFile . $end
+   yacc.py: 389:Action : Reduce rule [CompilationUnit -> ProgramFile] with [None] and goto state 1
+   yacc.py: 423:Result : <NoneType @ 0x920190> (None)
+   yacc.py: 337:
+   yacc.py: 338:State  : 13
+   yacc.py: 352:Stack  : CompilationUnit . $end
+   yacc.py: 484:Done   : Returning <NoneType @ 0x920190> (None)
+   yacc.py: 485:PLY: PARSE DEBUG END

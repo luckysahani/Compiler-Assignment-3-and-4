@@ -1,0 +1,17 @@
+We have implemented the IR code generation for Java with the help of python. We have basic features of a language like taking input, giving output, For loop, while statement and if clause, ternary statement, Variable allocation, array handling etc. Our main code is present in file parser_test.py. ST2.py is our Synboltablefile and ThreeAddressCode.py is file for genrating three address code.
+
+To run code :
+1.) Go to folder.
+2.) Run command 'make' from bash terminal.
+3.) After that run command 'bin/parser <filename>'
+4.) We have made some primary test files for checking in folder test.
+
+
+Some of my conventions are :
+1.) 'GOTO' for direct jump to label.
+2.) 'COND_GOTO' for jump when statement is false.
+3.) 'COND_GOTO_TR' for jump when statement is true.
+4.) '+*=' Add the offset to add and then get the value from address.
+5.) '=*' get the value from address
+6.) 'FETCH' for directly fetching the address of an array
+7.) 'F_CALL' for function call
