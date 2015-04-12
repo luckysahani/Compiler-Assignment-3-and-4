@@ -5,7 +5,7 @@ import pprint
 def getAssemblyCode(filename):
 	ST,TAC = parser.parserFile(filename)
 	# ST.Printsymbtbl()
-	# TAC.printTac()
+	TAC.printTac()
 
 	asm = assembly.asm(ST,TAC)
 	# pprint.pprint(TAC.code)
@@ -100,7 +100,7 @@ def getAssemblyCode(filename):
 			elif (op == 'F_CALL'):
 				if(z == 'Print' and y == 'int'):
 					reg = asm.getReg(x)
-					asm.addInstr(['li','$a0',reg,''])
+					asm.addInstr(['move','$a0',reg,''])
 					asm.addInstr(['li','$v0','1',''])
 					asm.addInstr(['syscall','','',''])
 				else:

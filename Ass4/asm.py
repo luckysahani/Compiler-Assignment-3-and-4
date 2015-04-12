@@ -1,5 +1,5 @@
 import pprint
-tempReg = ['$t0', '$t1','$t2','$t3','$t4','$t5','$t6','$t7','$s0','$s1','$s2','$s3','$s4','$s5', '$s6','$s7']
+tempReg = ['$t0', '$t1','$t2','$t3','$t4','$t5','$t6','$t7','$s0','$s1','$s2','$s3','$s4','$s5', '$s6']
 class asm:
 	def __init__(self, symbolTable, threeAddressCode):
 		self.assembly_code = {}
@@ -46,7 +46,7 @@ class asm:
 		}
 		self.regUsed = []
 		self.paramReg = ['$a0','$a1','$a2','$a3']
-		self.regFree = ['$t0', '$t1','$t2','$t4','$t5','$t6','$t7','$s0', '$s1','$s2','$s4','$s5', '$s6','$s7']
+		self.regFree = ['$t0', '$t1','$t2','$t3','$t4','$t5','$t6','$t7','$s0', '$s1','$s2','$s3','$s4','$s5', '$s6']
 		self.regAssignedVar = {}
 		self.varInfo = {}
 		self.tempoffset = 0
