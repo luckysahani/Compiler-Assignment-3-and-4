@@ -1,4 +1,5 @@
 import pprint
+tempReg = ['$t0', '$t1','$t2','$t3','$t4','$t5','$t6','$t7','$s0','$s1','$s2','$s3','$s4','$s5', '$s6','$s7']
 class asm:
 	def __init__(self, symbolTable, threeAddressCode):
 		self.assembly_code = {}
@@ -44,11 +45,11 @@ class asm:
 		'$ra': None ,			#s31	# return address
 		}
 		self.regUsed = []
-		self.regFree = ['$t0','$t1']
+		self.paramReg = ['$a0','$a1','$a2','$a3']
+		self.regFree = ['$t0', '$t1','$t2','$t4','$t5','$t6','$t7','$s0', '$s1','$s2','$s4','$s5', '$s6','$s7']
 		self.regAssignedVar = {}
 		self.varInfo = {}
 		self.tempoffset = 0
-
 
 	def function_call(self,function):
 		self.currFunc = function
@@ -93,8 +94,43 @@ class asm:
 			pprint.pprint(self.varInfo[var])
 		return reg
 
-	def prints(self):
+	def getParamReg(self,var):
+		param_reg = self.paramReg.pop(0)
+		if(param_reg):
+			self.regAssignedVar[param_reg] = var
+			self.addInstr(['move',param_reg,self.varInfo[var]['Reg'],''])
+			self.varInfo[var]['Reg'] = param_reg
+		else:
+			# Assign stack memory TODO
+			pass
+		return param_reg
+
+	def savePrevValues(self,z):
+		counter = 4
+		for prev in tempReg:
+			self.addInstr(['sw',prev,'-'+str(counter)+"($sp)",''])
+			counter +=4
+		self.addInstr(['sw','$ra','-'+str(counter)+'($sp)',''])
+		self.addInstr(['sw','$fp','-'+str(counter+4)+'($sp)',''])
+
+	def printAssembly(self):
 		for key in self.assembly_code :
 			for lines in self.assembly_code[key]:
 				print str(lines[0]) + '\t' + str(lines[1]) + ',\t' + str(lines[2]) + '\t' + str(lines[3]) 
+		file = open("out1.s",'w')
+		file.write(".data\n.text\nmain:")
+		for function in self.assembly_code.keys():
+			file.write("\n%s:\n" %function)
+			for line in self.assembly_code[function]:
+				file.write("\t")
+				if line[1] == '':
+					file.write("\t%s\n" %line[0])
+				elif line[2] == '':
+					file.write("\t%s\t\t %s\n" %(line[0],line[1]))
+				elif line[3] == '':
+					file.write("\t%s\t\t %s,%s\n" %(line[0],line[1],line[2]))
+				else:
+					file.write("\t%s\t\t %s,%s,%s\n" %(line[0],line[1],line[2],line[3]))
+		file.close()
+
 

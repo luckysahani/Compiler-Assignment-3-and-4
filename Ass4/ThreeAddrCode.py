@@ -86,7 +86,7 @@ class threeAddressCode:
 		print main_funcname + ' :\n'
 		for line in self.code[main_funcname] :
 			if self.labels[main_funcname].has_key(numline):
-				print '\n' + self.labels[main_funcname][numline] + ' :\n'
+				print '\n' + self.labels[main_funcname][numline] + ' :\t\t\tLABEL\n'
 			print str(line[0]) + '\t' + str(line[1]) + '\t' + str(line[2]) + '\t' + str(line[3]) 
 			numline += 1	
 
@@ -96,7 +96,7 @@ class threeAddressCode:
 				print key + ' :\n'
 				for line in self.code[key] :
 					if self.labels[key].has_key(numline):
-						print '\n' + self.labels[key][numline] + ' :\n'
+						print '\n' + self.labels[key][numline] + ' :\t\t\tLABEL\n'
 					print str(line[0]) + '\t' + str(line[1]) + '\t' + str(line[2]) + '\t' + str(line[3]) 
 					numline += 1
 
