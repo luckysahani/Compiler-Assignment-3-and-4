@@ -1012,11 +1012,12 @@ def p_CastExpression(p):
 		TAC.emit(temp1,p[1]['AName'],'','FETCH')
 		temp2 = ST.Gen_Temp()
 		ST.inc_offset(p[0]['Type'])
-		TAC.emit(temp2,p[1]['Name'],temp1,'+')
-		TAC.emit(ST.Gen_Temp(),ST.Get_size(p[0]['Type']),temp2,'*')
+		temp3 = ST.Gen_Temp()
+		TAC.emit(temp3,ST.Get_size(p[0]['Type']),p[1]['Name'],'*')
+		TAC.emit(temp2,temp1,temp3,'-')
 		ST.inc_offset(p[0]['Type'])
 		p[0]['Name'] = ST.Gen_Temp()
-		TAC.emit(p[0]['Name'],temp2,'','=*')
+		TAC.emit(p[0]['Name'],temp2,'','=arr')
 
 
 def p_PrimitiveTypeExpression(p):
@@ -1242,8 +1243,9 @@ def p_AssignmentExpression(p):
 				ST.inc_offset('int')
 				temp2 = ST.Gen_Temp()
 				ST.inc_offset('int')
-				TAC.emit(temp2,p[1]['Name'],temp1,'+')
-				TAC.emit(ST.Gen_Temp(),ST.Get_size(p[0]['Type']),temp2,'*')
+				temp3 = ST.Gen_Temp()
+				TAC.emit(temp3,ST.Get_size(p[0]['Type']),p[1]['Name'],'*')
+				TAC.emit(temp2,temp1,temp3,'-')
 				TAC.emit(temp2,p[3]['Name'],'', p[2] + '*')
 			else :
 				# print 'Hello'

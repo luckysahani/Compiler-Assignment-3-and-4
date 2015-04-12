@@ -108,7 +108,21 @@ def getAssemblyCode(filename):
 					asm.addInstr(['jal',y,'',''])
 			elif (op == 'RETURN'):
 				asm.addInstr(['move','$v0',asm.varInfo[z]['Reg'],''])
-				asm.addInstr(['jr','$ra','',''])	
+				asm.addInstr(['jr','$ra','',''])
+			elif (op == 'FETCH'):
+				reg1 = asm.getReg(z)
+				asm.addInstr(['la',reg1,'-'+str(ST.infovar[asm.currFunc][x]['offset'])+'($fp)',''])
+				# print ST.infovar[asm.currFunc][x]['offset']	
+				# print 'Halsdmsalkmdlkm'
+			elif (op == '=*'):
+				reg1 = asm.getReg(z)
+				reg2 = asm.getReg(x)
+				asm.addInstr(['sw',reg2,'0('+reg1+')',''])
+			elif (op == '=arr'):
+				reg1 = asm.getReg(z)
+				reg2 = asm.getReg(x)
+				asm.addInstr(['lw',reg1,'0('+reg2+')',''])
+
 
 	pprint.pprint(asm.regAssignedVar)
 	pprint.pprint(asm.assembly_code)

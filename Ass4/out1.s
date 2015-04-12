@@ -1,0 +1,59 @@
+.data
+.text
+main:
+		sub		 $sp,$sp,200
+		la		 $fp,200($sp)
+		li		 $t0,1
+		move		 $t1,$t0
+		li		 $t2,5
+		mult		 $t1,$t2
+		mflo		 $t3
+		li		 $s7,4
+		mult		 $s7,$t3
+		mflo		 $t4
+		li		 $t5,0
+		li		 $t6,2
+		move		 $t7,$t5
+		mult		 $t2,$t7
+		mflo		 $s0
+		add		 $s1,$s0,$t6
+		li		 $s2,15
+		la		 $s3,-20($fp)
+		li		 $s7,4
+		mult		 $s7,$s1
+		mflo		 $s4
+		sub		 $s5,$s3,$s4
+		sw		 $s2,0($s5)
+		li		 $s6,0
+		sw		 $t0,-0($fp)
+		li		 $t0,2
+		sw		 $t1,-4($fp)
+		move		 $t1,$s6
+		sw		 $t0,-80($fp)
+		mult		 $t2,$t1
+		mflo		 $t0
+		sw		 $t2,-8($fp)
+		sw		 $t3,-12($fp)
+		lw		 $t3,-80($fp)
+		add		 $t2,$t0,$t3
+		sw		 $t2,-92($fp)
+		la		 $t2,-20($fp)
+		sw		 $t1,-84($fp)
+		sw		 $t4,-16($fp)
+		lw		 $t4,-92($fp)
+		li		 $s7,4
+		mult		 $s7,$t4
+		mflo		 $t1
+		sw		 $t3,-80($fp)
+		sub		 $t3,$t2,$t1
+		sw		 $t5,-40($fp)
+		lw		 $t5,0($t3)
+		sw		 $t6,-44($fp)
+		li		 $t6,15
+		sw		 $t7,-48($fp)
+		div		 $t5,$t6
+		mflo		 $t7
+		sw		 $t5,-108($fp)
+		move		 $t5,$t7
+		li $v0, 10
+		syscall
