@@ -142,12 +142,15 @@ class SymbTbl:
 			'Width' : width,
 			'Type' : Type
 		}
-		self.infovar[self.curr_funcname][identifier] = {'offset' : self.curr_funcoff}
-		self.curr_funcoff += 4
-		
+
 		if(Arrwidth != -1):
 			# print Arrwidth
-			temp_obj['Arrwidth'] = Arrwidth
+			temp_obj['Arrwidth'] = Arrwidth[0]
+			width = 4 * Arrwidth[1]
+
+		
+		self.infovar[self.curr_funcname][identifier] = {'offset' : self.curr_funcoff}
+		self.curr_funcoff += width
 
 		if not Curr_scope['identifiers'].has_key(identifier):
 			Curr_scope['identifiers'][identifier] = temp_obj

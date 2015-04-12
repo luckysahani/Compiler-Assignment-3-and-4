@@ -188,6 +188,7 @@ def p_VariableDeclarators(p):
 		p[0]['Names'] = [p[1]['Name']]
 		if(p[1].has_key('List2')) :
 			p[0]['List2'] = p[1]['List2']
+			p[0]['value'] = p[1]['value']
 	else:
 		p[0]['Names'] = p[1]['Names']
 		p[0]['Names'].append(p[3]['Name'])
@@ -214,6 +215,7 @@ def p_VariableDeclarator(p):
 				TAC.emit(p[0]['Name'],p[3]['Name'],'','=')
 			else :
 				p[0]['List2'] = p[3]['List2']
+				p[0]['value'] = p[3]['value']
 				TAC.emit(p[0]['Name'],p[3]['Name'],'','ALLOC')
 		else:
 			print "Error in VariableDeclarator of type of " + p[0]['Name']
@@ -353,7 +355,7 @@ def p_LocalVariableDeclarationStatement(p):
 				if(not '.' in p[1]) :
 					ST.Add_identifier(identifier,p[1],-1)
 				else :
-					ST.Add_identifier(identifier,p[1],p[2]['List2'])
+					ST.Add_identifier(identifier,p[1],[p[2]['List2'],p[2]['value']])
 			else :
 				print "Variable " + identifier + " Already Declared"
 				raise SyntaxError
@@ -623,7 +625,7 @@ def p_PrimaryExpression_nn(p):
 				if(numcn == 0):
 					temp2 = ST.Gen_Temp()
 					ST.inc_offset('int')
-					TAC.emit(temp2,'',p[1]['List'][numcn],'=')
+					TAC.emit(temp2,p[1]['List'][numcn],'','=')
 					numcn += 1
 				else :
 					temp3 = ST.Gen_Temp()
@@ -652,6 +654,7 @@ def p_NotJustName(p):
 	| NewAllocationExpression
 	| ComplexPrimary '''
 	p[0] = p[1]
+
 
 def p_ComplexPrimary(p):
 	''' ComplexPrimary : LROUNPAREN Expression RROUNPAREN
@@ -897,7 +900,7 @@ def p_ArrayAllocationExpression_1(p):
 	p[0]['Name'] = temp1
 	p[0]['Type'] = p[2] + '.' +str(p[3]['level'])
 	p[0]['List2'] = p[3]['List2']
-	# print p[0]['Type']
+	p[0]['value'] = p[3]['value']
 
 def p_ArrayAllocationExpression_2(p):
 	''' ArrayAllocationExpression : NEW TypeName Dims '''
@@ -911,6 +914,8 @@ def p_DimExprs(p):
 		p[0]['Name'] = ST.Gen_Temp()
 		p[0]['level'] = 1
 		p[0]['List2'] = [p[1]['Name']]
+		p[0]['value'] = int(p[1]['value'])
+		# print p[0]['value']
 		ST.inc_offset('int')
 		TAC.emit(p[0]['Name'],p[1]['Name'],'','=')
 	else :
@@ -918,6 +923,8 @@ def p_DimExprs(p):
 		p[0]['level'] = p[1]['level'] + 1
 		p[0]['List2'] = p[1]['List2']
 		p[0]['List2'].append(p[2]['Name'])
+		p[0]['value'] = int(p[1]['value']) * int(p[2]['value'])
+		# print p[2]['value']
 		ST.inc_offset('int')
 		TAC.emit(p[0]['Name'],p[1]['Name'],p[2]['Name'],'*')
 
@@ -1006,7 +1013,7 @@ def p_CastExpression(p):
 		temp2 = ST.Gen_Temp()
 		ST.inc_offset(p[0]['Type'])
 		TAC.emit(temp2,p[1]['Name'],temp1,'+')
-		TAC.emit(ST.Gen_Temp(),temp2,ST.Get_size(p[0]['Type']),'*')
+		TAC.emit(ST.Gen_Temp(),ST.Get_size(p[0]['Type']),temp2,'*')
 		ST.inc_offset(p[0]['Type'])
 		p[0]['Name'] = ST.Gen_Temp()
 		TAC.emit(p[0]['Name'],temp2,'','=*')
@@ -1205,7 +1212,7 @@ def p_ConditionalExpression(p):
 		TAC.code[ST.curr_funcname][p[6]['quad']][0] = p[0]['Name']
 		TAC.code[ST.curr_funcname][p[6]['quad']][1] = p[5]['Name']
 		TAC.code[ST.curr_funcname][p[6]['quad'] + 1][2] = TAC.make_label(p[10]['quad'] + 1)
-		TAC.emit(p[0]['Name'],'',p[9]['Name'],'=')
+		TAC.emit(p[0]['Name'],p[9]['Name'],'','=')
 
 def p_Ques(p):
 	''' Ques : QUES '''
@@ -1236,7 +1243,7 @@ def p_AssignmentExpression(p):
 				temp2 = ST.Gen_Temp()
 				ST.inc_offset('int')
 				TAC.emit(temp2,p[1]['Name'],temp1,'+')
-				TAC.emit(ST.Gen_Temp(),temp2,ST.Get_size(p[0]['Type']),'*')
+				TAC.emit(ST.Gen_Temp(),ST.Get_size(p[0]['Type']),temp2,'*')
 				TAC.emit(temp2,p[3]['Name'],'', p[2] + '*')
 			else :
 				# print 'Hello'
@@ -1264,7 +1271,7 @@ def p_AssignmentOperator(p):
 def p_Expression(p):
 	''' Expression : AssignmentExpression '''
 	p[0] = p[1]
-	# print p[0]['value']
+	
 
 
 def p_ConstantExpression(p):

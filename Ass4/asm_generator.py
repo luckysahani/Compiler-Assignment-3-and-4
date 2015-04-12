@@ -49,9 +49,13 @@ def getAssemblyCode(filename):
 				asm.addInstr(['sub',reg1,reg2,reg3])
 			elif (op == '*'):
 				reg1 = asm.getReg(z)
-				reg2 = asm.getReg(x)
 				reg3 = asm.getReg(y)
-				asm.addInstr(['mult',reg2,reg3,''])
+				if(not type(x) == int):
+					reg2 = asm.getReg(x)
+					asm.addInstr(['mult',reg2,reg3,''])
+				else :
+					asm.addInstr(['li','$s7',x,''])
+					asm.addInstr(['mult','$s7',reg3,''])
 				asm.addInstr(['mflo',reg1,'',''])
 			elif (op == '/'):
 				reg1 = asm.getReg(z)
@@ -110,4 +114,4 @@ def getAssemblyCode(filename):
 	pprint.pprint(asm.assembly_code)
 	asm.printAssembly()
 
-getAssemblyCode('test/if.java')
+getAssemblyCode('test/array.java')

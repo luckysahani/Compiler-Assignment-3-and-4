@@ -1,0 +1,143 @@
+ClassWord -> CLASS # 'class'
+ClassHeader -> ClassWord IDENTIFIER # None,'HelloWorld'
+Modifier -> PUBLIC # 'public'
+Modifiers -> Modifier # None
+Modifier -> STATIC # 'static'
+Modifiers -> Modifiers Modifier # None,None
+PrimitiveType -> INT # 'int'
+TypeName -> PrimitiveType # None
+TypeSpecifier -> TypeName # None
+DeclaratorName -> IDENTIFIER # 'main'
+PrimitiveType -> INT # 'int'
+TypeName -> PrimitiveType # None
+TypeSpecifier -> TypeName # None
+DeclaratorName -> IDENTIFIER # 'a'
+Parameter -> TypeSpecifier DeclaratorName # None,None
+ParameterList -> Parameter # None
+MethodDeclarator -> DeclaratorName LROUNPAREN ParameterList RROUNPAREN # None,'(',None,')'
+PrimitiveType -> INT # 'int'
+TypeName -> PrimitiveType # None
+TypeSpecifier -> TypeName # None
+DeclaratorName -> IDENTIFIER # 'sum'
+ComplexPrimaryNoParenthesis -> INT_CONST # '0'
+ComplexPrimary -> ComplexPrimaryNoParenthesis # None
+NotJustName -> ComplexPrimary # None
+PrimaryExpression -> NotJustName # None
+PostfixExpression -> PrimaryExpression # None
+LogicalUnaryExpression -> PostfixExpression # None
+UnaryExpression -> LogicalUnaryExpression # None
+CastExpression -> UnaryExpression # None
+MultiplicativeExpression -> CastExpression # None
+AdditiveExpression -> MultiplicativeExpression # None
+ShiftExpression -> AdditiveExpression # None
+RelationalExpression -> ShiftExpression # None
+EqualityExpression -> RelationalExpression # None
+AndExpression -> EqualityExpression # None
+ExclusiveOrExpression -> AndExpression # None
+InclusiveOrExpression -> ExclusiveOrExpression # None
+ConditionalAndExpression -> InclusiveOrExpression # None
+ConditionalOrExpression -> ConditionalAndExpression # None
+ConditionalExpression -> ConditionalOrExpression # None
+AssignmentExpression -> ConditionalExpression # None
+Expression -> AssignmentExpression # None
+VariableInitializer -> Expression # None
+VariableDeclarator -> DeclaratorName EQUAL VariableInitializer # None,'=',None
+VariableDeclarators -> VariableDeclarator # None
+LocalVariableDeclarationStatement -> TypeSpecifier VariableDeclarators SEMICOLON # None,None,';'
+LocalVariableDeclarationOrStatement -> LocalVariableDeclarationStatement # None
+LocalVariableDeclarationsAndStatements -> LocalVariableDeclarationOrStatement # None
+PrimitiveType -> INT # 'int'
+TypeName -> PrimitiveType # None
+OP_DIM -> LSQPAREN RSQPAREN # '[',']'
+Dims -> OP_DIM # None
+OP_DIM -> LSQPAREN RSQPAREN # '[',']'
+Dims -> Dims OP_DIM # None,None
+TypeSpecifier -> TypeName Dims # None,None
+DeclaratorName -> IDENTIFIER # 'b'
+PrimitiveType -> INT # 'int'
+TypeName -> PrimitiveType # None
+ComplexPrimaryNoParenthesis -> INT_CONST # '10'
+ComplexPrimary -> ComplexPrimaryNoParenthesis # None
+NotJustName -> ComplexPrimary # None
+PrimaryExpression -> NotJustName # None
+PostfixExpression -> PrimaryExpression # None
+LogicalUnaryExpression -> PostfixExpression # None
+UnaryExpression -> LogicalUnaryExpression # None
+CastExpression -> UnaryExpression # None
+MultiplicativeExpression -> CastExpression # None
+AdditiveExpression -> MultiplicativeExpression # None
+ShiftExpression -> AdditiveExpression # None
+RelationalExpression -> ShiftExpression # None
+EqualityExpression -> RelationalExpression # None
+AndExpression -> EqualityExpression # None
+ExclusiveOrExpression -> AndExpression # None
+InclusiveOrExpression -> ExclusiveOrExpression # None
+ConditionalAndExpression -> InclusiveOrExpression # None
+ConditionalOrExpression -> ConditionalAndExpression # None
+ConditionalExpression -> ConditionalOrExpression # None
+AssignmentExpression -> ConditionalExpression # None
+Expression -> AssignmentExpression # None
+DimExpr -> LSQPAREN Expression RSQPAREN # '[',None,']'
+DimExprs -> DimExpr # None
+ComplexPrimaryNoParenthesis -> INT_CONST # '50'
+ComplexPrimary -> ComplexPrimaryNoParenthesis # None
+NotJustName -> ComplexPrimary # None
+PrimaryExpression -> NotJustName # None
+PostfixExpression -> PrimaryExpression # None
+LogicalUnaryExpression -> PostfixExpression # None
+UnaryExpression -> LogicalUnaryExpression # None
+CastExpression -> UnaryExpression # None
+MultiplicativeExpression -> CastExpression # None
+AdditiveExpression -> MultiplicativeExpression # None
+ShiftExpression -> AdditiveExpression # None
+RelationalExpression -> ShiftExpression # None
+EqualityExpression -> RelationalExpression # None
+AndExpression -> EqualityExpression # None
+ExclusiveOrExpression -> AndExpression # None
+InclusiveOrExpression -> ExclusiveOrExpression # None
+ConditionalAndExpression -> InclusiveOrExpression # None
+ConditionalOrExpression -> ConditionalAndExpression # None
+ConditionalExpression -> ConditionalOrExpression # None
+AssignmentExpression -> ConditionalExpression # None
+Expression -> AssignmentExpression # None
+DimExpr -> LSQPAREN Expression RSQPAREN # '[',None,']'
+DimExprs -> DimExprs DimExpr # None,None
+ArrayAllocationExpression -> NEW TypeName DimExprs # 'new',None,None
+PlainNewAllocationExpression -> ArrayAllocationExpression # None
+NewAllocationExpression -> PlainNewAllocationExpression # None
+NotJustName -> NewAllocationExpression # None
+PrimaryExpression -> NotJustName # None
+PostfixExpression -> PrimaryExpression # None
+LogicalUnaryExpression -> PostfixExpression # None
+UnaryExpression -> LogicalUnaryExpression # None
+CastExpression -> UnaryExpression # None
+MultiplicativeExpression -> CastExpression # None
+AdditiveExpression -> MultiplicativeExpression # None
+ShiftExpression -> AdditiveExpression # None
+RelationalExpression -> ShiftExpression # None
+EqualityExpression -> RelationalExpression # None
+AndExpression -> EqualityExpression # None
+ExclusiveOrExpression -> AndExpression # None
+InclusiveOrExpression -> ExclusiveOrExpression # None
+ConditionalAndExpression -> InclusiveOrExpression # None
+ConditionalOrExpression -> ConditionalAndExpression # None
+ConditionalExpression -> ConditionalOrExpression # None
+AssignmentExpression -> ConditionalExpression # None
+Expression -> AssignmentExpression # None
+VariableInitializer -> Expression # None
+VariableDeclarator -> DeclaratorName EQUAL VariableInitializer # None,'=',None
+VariableDeclarators -> VariableDeclarator # None
+LocalVariableDeclarationStatement -> TypeSpecifier VariableDeclarators SEMICOLON # None,None,';'
+LocalVariableDeclarationOrStatement -> LocalVariableDeclarationStatement # None
+LocalVariableDeclarationsAndStatements -> LocalVariableDeclarationsAndStatements LocalVariableDeclarationOrStatement # None,None
+Block -> LCURPAREN LocalVariableDeclarationsAndStatements RCURPAREN # '{',None,'}'
+MethodBody -> Block # None
+MethodDeclaration -> Modifiers TypeSpecifier MethodDeclarator MethodBody # None,None,None,None
+FieldDeclaration -> MethodDeclaration # None
+FieldDeclarationOptSemi -> FieldDeclaration # None
+FieldDeclarations -> FieldDeclarationOptSemi # None
+TypeDeclaration -> ClassHeader LCURPAREN FieldDeclarations RCURPAREN # None,'{',None,'}'
+TypeDeclarationOptSemi -> TypeDeclaration # None
+TypeDeclarations -> TypeDeclarationOptSemi # None
+ProgramFile -> TypeDeclarations # None
+CompilationUnit -> ProgramFile # None
