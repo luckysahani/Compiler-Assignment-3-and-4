@@ -1,5 +1,5 @@
 import pprint
-tempReg = ['$t0', '$t1','$t2','$t3','$t4','$t5','$t6','$t7','$s0','$s1','$s2','$s3','$s4','$s5', '$s6']
+tempReg = ['$s0','$s1','$s2']
 class asm:
 	def __init__(self, symbolTable, threeAddressCode):
 		self.assembly_code = {}
@@ -62,36 +62,64 @@ class asm:
 		self.addInstr(['sw',reg,'-'+str(self.varInfo[self.regAssignedVar[reg]]['Offset'])+'($fp)',''])
 		self.varInfo[self.regAssignedVar[reg]]['Reg'] = None
 
-	def getReg(self,var):
-		if(self.varInfo.has_key(var)) :
-			if(not self.varInfo[var]['Reg'] == None):
-				reg = self.varInfo[var]['Reg']
-			else:
-				if(self.regFree):
-					reg = self.regFree.pop(0)
-				else :
-					lastUsedReg = self.regUsed.pop(0)
-					self.flushReg(lastUsedReg)
-					reg = lastUsedReg
-				self.addInstr(['lw',reg,'-'+str(self.varInfo[var]['Offset'])+'($fp)',''])
-			self.regUsed.append(reg)
-			self.regAssignedVar[reg] = var
-			self.varInfo[var]	['Reg'] = reg
-		else :
-			self.varInfo[var] = {'Reg' : None, 'Memory' : None, 'Offset' : None}
-			if(self.regFree):
-				reg = self.regFree.pop(0)
-			elif(not self.regFree):
-				lastUsedReg = self.regUsed.pop(0)
-				self.flushReg(lastUsedReg)
-				reg = lastUsedReg
-				# reg = self.registors[lastUsedReg]
-			self.regUsed.append(reg)
-			self.regAssignedVar[reg] = var
-			self.varInfo[var]['Reg'] = reg
-			self.varInfo[var]['Offset'] = self.ST.infovar[self.currFunc][var]['offset']
-			pprint.pprint(self.varInfo[var])
-		return reg
+	# def getReg2(self,var):
+	# 	if(self.varInfo.has_key(var)) :
+	# 		if(not self.varInfo[var]['Reg'] == None):
+	# 			reg = self.varInfo[var]['Reg']
+	# 		else:
+	# 			if(self.regFree):
+	# 				reg = self.regFree.pop(0)
+	# 			else :
+	# 				lastUsedReg = self.regUsed.pop(0)
+	# 				self.flushReg(lastUsedReg)
+	# 				reg = lastUsedReg
+	# 		self.addInstr(['lw',reg,'-'+str(self.varInfo[var]['Offset'])+'($fp)',''])
+	# 		self.regUsed.append(reg)
+	# 		self.regAssignedVar[reg] = var
+	# 		self.varInfo[var]['Reg'] = reg
+	# 	else :
+	# 		self.varInfo[var] = {'Reg' : None, 'Memory' : None, 'Offset' : None}
+	# 		if(self.regFree):
+	# 			reg = self.regFree.pop(0)
+	# 		elif(not self.regFree):
+	# 			lastUsedReg = self.regUsed.pop(0)
+	# 			self.flushReg(lastUsedReg)
+	# 			reg = lastUsedReg
+	# 			# reg = self.registors[lastUsedReg]
+	# 		self.regUsed.append(reg)
+	# 		self.regAssignedVar[reg] = var
+	# 		self.varInfo[var]['Reg'] = reg
+	# 		self.varInfo[var]['Offset'] = self.ST.infovar[self.currFunc][var]['offset']
+	# 		self.addInstr(['lw',reg,'-'+str(self.varInfo[var]['Offset'])+'($fp)',''])
+	# 		# pprint.pprint(self.varInfo[var])
+	# 	return reg
+
+	def getReg(self,var,num):
+		if(num == 0):
+			off = self.ST.infovar[self.currFunc][var]['offset']
+			self.addInstr(['lw','$s0','-'+str(off)+'($fp)',''])
+			return '$s0'
+		elif(num == 1):
+			off = self.ST.infovar[self.currFunc][var]['offset']
+			self.addInstr(['lw','$s1','-'+str(off)+'($fp)',''])
+			return '$s1'
+		elif(num == 2):
+			off = self.ST.infovar[self.currFunc][var]['offset']
+			self.addInstr(['lw','$s2','-'+str(off)+'($fp)',''])
+			return '$s2'
+
+	def storeReg(self,var,num):
+		if(num == 0):
+			off = self.ST.infovar[self.currFunc][var]['offset']
+			self.addInstr(['sw','$s0','-'+str(off)+'($fp)',''])
+		elif(num == 1):
+			off = self.ST.infovar[self.currFunc][var]['offset']
+			self.addInstr(['sw','$s1','-'+str(off)+'($fp)',''])
+		elif(num == 2):
+			off = self.ST.infovar[self.currFunc][var]['offset']
+			self.addInstr(['sw','$s2','-'+str(off)+'($fp)',''])
+
+
 
 	def getParamReg(self,var):
 		param_reg = self.paramReg.pop(0)
@@ -100,12 +128,18 @@ class asm:
 			self.addInstr(['move',param_reg,self.varInfo[var]['Reg'],''])
 			self.varInfo[var]['Reg'] = param_reg
 		else:
-			# Assign stack memory TODO
 			pass
 		return param_reg
 
-	def savePrevValues(self,z):
-		counter = 4
+	def storeParam(self,func_name):
+		off = 0
+		for param in self.ST.mainsymbtbl[func_name]['Parameters'] :
+			self.addInstr(['lw','$s7',str(-(4+off))+'($sp)',''])
+			self.addInstr(['sw','$s7',str(-off)+'($fp)',''])
+			off += 4
+
+	def savePrevValues(self,z,paramcount):
+		counter = paramcount + 4
 		for prev in tempReg:
 			self.addInstr(['sw',prev,'-'+str(counter)+"($sp)",''])
 			counter +=4
