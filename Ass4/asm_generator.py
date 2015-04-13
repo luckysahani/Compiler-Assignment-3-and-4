@@ -168,4 +168,4 @@ def getAssemblyCode(filename):
 	pprint.pprint(asm.assembly_code)
 	asm.printAssembly()
 
-getAssemblyCode('test/array.java')
+getAssemblyCode('test/if.java')
