@@ -15,4 +15,5 @@ all:
 
 clean:
 	rm -rf bin/
-	rm output.txt output1.txt a.out parser.out parselog.txt parsetab.py parsetree.ps parse_tree.dot
+	rm *.pyc
+	rm output.txt output1.txt a.out parser.out parselog.txt parsetab.py parsetree.ps parse_tree.dot 

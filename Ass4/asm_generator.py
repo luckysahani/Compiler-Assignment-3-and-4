@@ -98,7 +98,7 @@ def getAssemblyCode(filename):
 			elif (op == 'PARAM'):
 				param_reg = asm.getParamReg(z)
 			elif (op == 'F_CALL'):
-				if(z == 'Print' and y == 'int'):
+				if(z == 'Print' and (y == 'int')):
 					reg = asm.getReg(x)
 					asm.addInstr(['move','$a0',reg,''])
 					asm.addInstr(['li','$v0','1',''])
@@ -114,4 +114,4 @@ def getAssemblyCode(filename):
 	pprint.pprint(asm.assembly_code)
 	asm.printAssembly()
 
-getAssemblyCode('test/array.java')
+getAssemblyCode('test/if.java')
