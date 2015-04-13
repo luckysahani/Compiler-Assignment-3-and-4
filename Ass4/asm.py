@@ -59,7 +59,6 @@ class asm:
 		self.assembly_code[self.currFunc].append(instr)
 
 	def flushReg(self,reg):
-		self.regFree.append(reg)
 		self.addInstr(['sw',reg,'-'+str(self.varInfo[self.regAssignedVar[reg]]['Offset'])+'($fp)',''])
 		self.varInfo[self.regAssignedVar[reg]]['Reg'] = None
 

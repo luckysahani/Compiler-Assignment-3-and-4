@@ -1,9 +1,10 @@
 class HelloWorld
 {
-	public static int main(int a)
+	public static int main()
 	{
-		int sum = 0;
-		int [][] b = new int [10][50];
-		b[1][2] = 15;
+		int [][] b = new int [1][5];
+		b[0][2] = 15;
+		int c = b[0][2] / 15;
+		// System.out.println(c);
 	}
 }
