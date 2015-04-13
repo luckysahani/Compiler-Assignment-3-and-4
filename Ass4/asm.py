@@ -145,6 +145,7 @@ class asm:
 			counter +=4
 		self.addInstr(['sw','$ra','-'+str(counter)+'($sp)',''])
 		self.addInstr(['sw','$fp','-'+str(counter+4)+'($sp)',''])
+		self.addInstr(['sw','$sp','-'+str(counter+8)+'($sp)',''])
 
 	def printAssembly(self):
 		for key in self.assembly_code :

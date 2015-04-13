@@ -829,7 +829,7 @@ def p_MethodCall(p):
 					raise SyntaxError
 				numele += 1
 				TAC.emit(param['Name'],'','','PARAM')
-			TAC.emit(p[0]['Name'],numele,ST.curr_class + '.' +p[1]['Name'],'F_CALL')
+			TAC.emit('',numele,ST.curr_class + '.' +p[1]['Name'],'F_CALL')
 			TAC.emit(ST.mainsymbtbl[ST.curr_class + '.' +p[1]['Name']]['paramsize'],'','','POPPARAM')
 		else :
 			if( len(ST.mainsymbtbl[ST.curr_class + '.' +p[1]['Name']]['Parameters']) == 0) :

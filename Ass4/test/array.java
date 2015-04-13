@@ -1,20 +1,48 @@
 class HelloWorld
 {
-	public static int printv(int g, int h, int k, int m)
-	{
-		int r = g + h + k + m;
-		System.out.println(r);
-	}
-	public static int main(int c)
-	{
-		// int [] b = new int [15];
-		// for(int i = 0;i < 15; i++){
-		// 	b[i] = i;
-		// }
-		c = 0;
-		for(int j = 0 ;j < 15; j++){
-			c = c + j;
-		}
-		printv(c,c,c,15);
-	}
+    public static int partition(int[] arr, int left, int right)
+    {
+          int i = left, j = right;
+          int tmp;
+          int pivot = arr[(left + right) / 2];
+         
+          while (i <= j) {
+                while (arr[i] < pivot){
+                      i++;
+                }
+                while (arr[j] > pivot){
+                      j--;
+                }
+                if (i <= j) {
+                      tmp = arr[i];
+                      arr[i] = arr[j];
+                      arr[j] = tmp;
+                      i++;
+                      j--;
+                }
+          }
+          return i;
+    }
+     
+    public static void quickSort(int[] arr, int left, int right) {
+          int index = partition(arr, left, right);
+          if (left < index - 1)
+                quickSort(arr, left, index - 1);
+          if (index < right)
+                quickSort(arr, index, right);
+    }
+    public static void main(){
+        int [] arr = new int[5];
+        arr[0] = 3;
+        arr[1] = 1;
+        arr[2] = 4;
+        arr[3] = 23;
+        arr[4] = 5;
+        quickSort(arr,0,4);
+        for(int i = 0; i< 5;i++){
+        	System.out.println(arr[i]);
+        }
+    }
 }
+
+

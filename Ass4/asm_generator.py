@@ -28,7 +28,7 @@ def getAssemblyCode(filename):
 					asm.addInstr(['la','$fp',str(main_size)+'($sp)',''])
 				else:
 					# For functions other than main
-					asm.addInstr(['sub','$fp','$sp',24+4*len(ST.mainsymbtbl[function]['Parameters'])])
+					asm.addInstr(['sub','$fp','$sp',28+4*len(ST.mainsymbtbl[function]['Parameters'])])
 					asm.storeParam(function)
 					# func_stack_size = 272
 					asm.addInstr(['sub','$sp','$fp',400])
@@ -130,7 +130,18 @@ def getAssemblyCode(filename):
 				# param_reg = asm.getParamReg(z)
 				reg1 = asm.getReg(z,0)
 				paramcount += 4
-				asm.addInstr(['sw',reg1,'-'+str(paramcount)+'($sp)',''])
+				if('.' in ST.infovar[function][z]['type']):
+					flag = False
+					for param in ST.mainsymbtbl[function]['Parameters'] :
+						if(param['Name'] == z and flag == False) :
+							asm.addInstr(['lw','$s0',str(-ST.infovar[function][z]['offset'])+'($fp)','#'])
+							flag = True
+							break
+					if(not flag):
+						asm.addInstr(['la','$s0',str(-ST.infovar[function][z]['offset'])+'($fp)','#1'])
+					asm.addInstr(['sw','$s0','-'+str(paramcount)+'($sp)',''])
+				else :
+					asm.addInstr(['sw',reg1,'-'+str(paramcount)+'($sp)',''])
 			elif (op == 'F_CALL'):
 				if(z == 'Print' and y == 'int'):
 					reg = asm.getReg(x,1)
@@ -140,13 +151,31 @@ def getAssemblyCode(filename):
 				else:
 					asm.savePrevValues(100,paramcount)
 					asm.addInstr(['jal',y,'',''])
+					asm.addInstr(['lw','$ra','12($fp)',''])
+					asm.addInstr(['lw','$sp','4($fp)',''])
+					asm.addInstr(['lw','$fp','8($fp)',''])
+					reg1 = asm.getReg(z,0)
+					asm.addInstr(['move',reg1,'$v0',''])
+					asm.storeReg(z,0)
+
 				paramcount = 0
 			elif (op == 'RETURN'):
-				asm.addInstr(['move','$v0',asm.varInfo[z]['Reg'],''])
+				reg1 = asm.getReg(z,0)
+				asm.addInstr(['move','$v0',reg1,''])
 				asm.addInstr(['jr','$ra','',''])
 			elif (op == 'FETCH'):
 				reg1 = asm.getReg(z,0)
-				asm.addInstr(['la',reg1,'-'+str(ST.infovar[asm.currFunc][x]['offset'])+'($fp)',''])
+				flag = False
+				# print ST.mainsymbtbl[function]['Parameters']
+				# print z
+				for param in ST.mainsymbtbl[function]['Parameters'] :
+					if(param['Name'] == x and flag == False) :
+						asm.addInstr(['lw',reg1,'-'+str(ST.infovar[asm.currFunc][x]['offset'])+'($fp)','#2'])
+						flag = True
+						break
+				if(not flag):
+					print reg1
+					asm.addInstr(['la',reg1,'-'+str(ST.infovar[asm.currFunc][x]['offset'])+'($fp)','#3'])
 				asm.storeReg(z,0)
 				# print ST.infovar[asm.currFunc][x]['offset']	
 				# print 'Halsdmsalkmdlkm'
@@ -168,4 +197,4 @@ def getAssemblyCode(filename):
 	pprint.pprint(asm.assembly_code)
 	asm.printAssembly()
 
-getAssemblyCode('test/if.java')
+getAssemblyCode('test/array.java')
