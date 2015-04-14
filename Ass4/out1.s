@@ -3,89 +3,41 @@
 main:
 		sub		 $sp,$sp,200
 		la		 $fp,200($sp)
-		sw		 $s0,-8($sp)
-		sw		 $s1,-12($sp)
-		sw		 $s2,-16($sp)
-		sw		 $ra,-20($sp)
-		sw		 $fp,-24($sp)
-		sw		 $sp,-28($sp)
-		jal		 Main.CallingMethodsInSameClass.printOne
-		lw		 $ra,12($fp)
-		lw		 $sp,4($fp)
-		lw		 $fp,8($fp)
 		lw		 $s0,-4($fp)
-		move		 $s0,$v0
+		li		 $s0,30
 		sw		 $s0,-4($fp)
-		sw		 $s0,-8($sp)
-		sw		 $s1,-12($sp)
-		sw		 $s2,-16($sp)
-		sw		 $ra,-20($sp)
-		sw		 $fp,-24($sp)
-		sw		 $sp,-28($sp)
-		jal		 Main.CallingMethodsInSameClass.printOne
-		lw		 $ra,12($fp)
-		lw		 $sp,4($fp)
-		lw		 $fp,8($fp)
 		lw		 $s0,-8($fp)
-		move		 $s0,$v0
+		lw		 $s1,-4($fp)
+		move		 $s0,$s1
 		sw		 $s0,-8($fp)
-		sw		 $s0,-8($sp)
-		sw		 $s1,-12($sp)
-		sw		 $s2,-16($sp)
-		sw		 $ra,-20($sp)
-		sw		 $fp,-24($sp)
-		sw		 $sp,-28($sp)
-		jal		 Main.CallingMethodsInSameClass.printTwo
-		lw		 $ra,12($fp)
-		lw		 $sp,4($fp)
-		lw		 $fp,8($fp)
 		lw		 $s0,-12($fp)
-		move		 $s0,$v0
+		li		 $s0,10
 		sw		 $s0,-12($fp)
-		jr		 $ra
-
-Main.CallingMethodsInSameClass.printOne:
-		sub		 $fp,$sp,32
-		lw		 $s7,-4($sp)
-		sw		 $s7,0($fp)
-		sub		 $sp,$fp,400
+		lw		 $s0,-16($fp)
+		lw		 $s1,-8($fp)
+		lw		 $s2,-12($fp)
+		sub		 $s7,$s1,$s2
+		slt		 $s6,$0,$s7
+		slt		 $s5,$s7,$0
+		or		 $s0,$s6,$s5
+		li		 $s7,1
+		sub		 $s0,$s7,$s0
+		sw		 $s0,-16($fp)
+		lw		 $s0,-16($fp)
+		beq		 $s0,$0,L_0
 		.data
-		k_0:		 .asciiz "Hello World" 
+		k_4:		 .asciiz "Value of X is 10" 
 		.text
-		la		 $a0,k_0
+		la		 $a0,k_4
 		li		 $v0,4
 		syscall
-		jr		 $ra
-
-Main.CallingMethodsInSameClass.printTwo:
-		sub		 $fp,$sp,32
-		lw		 $s7,-4($sp)
-		sw		 $s7,0($fp)
-		sub		 $sp,$fp,400
-		sw		 $s0,-8($sp)
-		sw		 $s1,-12($sp)
-		sw		 $s2,-16($sp)
-		sw		 $ra,-20($sp)
-		sw		 $fp,-24($sp)
-		sw		 $sp,-28($sp)
-		jal		 Main.CallingMethodsInSameClass.printOne
-		lw		 $ra,12($fp)
-		lw		 $sp,4($fp)
-		lw		 $fp,8($fp)
-		lw		 $s0,-4($fp)
-		move		 $s0,$v0
-		sw		 $s0,-4($fp)
-		sw		 $s0,-8($sp)
-		sw		 $s1,-12($sp)
-		sw		 $s2,-16($sp)
-		sw		 $ra,-20($sp)
-		sw		 $fp,-24($sp)
-		sw		 $sp,-28($sp)
-		jal		 Main.CallingMethodsInSameClass.printOne
-		lw		 $ra,12($fp)
-		lw		 $sp,4($fp)
-		lw		 $fp,8($fp)
-		lw		 $s0,-8($fp)
-		move		 $s0,$v0
-		sw		 $s0,-8($fp)
+		j		 L_1
+		L_0:
+		.data
+		k_7:		 .asciiz "This is else statement" 
+		.text
+		la		 $a0,k_7
+		li		 $v0,4
+		syscall
+		L_1:
 		jr		 $ra

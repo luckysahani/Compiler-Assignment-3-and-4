@@ -9,7 +9,7 @@ def getAssemblyCode(filename):
 	# TAC.printTac()
 	# pprint.pprint(ST.infovar)
 	asm = assembly.asm(ST,TAC)
-	# pprint.pprint(TAC.code)
+	pprint.pprint(TAC.code)
 	for function in TAC.code:
 		asm.function_call(function)
 		# things to do for main
@@ -137,7 +137,9 @@ def getAssemblyCode(filename):
 				asm.addInstr(['sub','$s7',reg2,reg3])
 				asm.addInstr(['slt','$s6','$0','$s7'])
 				asm.addInstr(['slt','$s5','$s7','$0'])
-				asm.addInstr(['nor',reg1,'$s6','$s5'])
+				asm.addInstr(['or',reg1,'$s6','$s5'])
+				asm.addInstr(['li','$s7',1,''])
+				asm.addInstr(['sub',reg1,'$s7',reg1])
 				asm.storeReg(z,0)
 			elif (op == '!='):
 				reg1 = asm.getReg(z,0)
@@ -153,11 +155,11 @@ def getAssemblyCode(filename):
 			elif (op == 'COND_GOTO'):
 				reg1 = asm.getReg(z,0)
 				asm.addInstr(['beq',reg1,'$0',y])
-				asm.storeReg(z,0)
+				# asm.storeReg(z,0)
 			elif (op == 'COND_GOTO_TR'):
 				reg1 = asm.getReg(z,0)
-				asm.addInstr(['bneq',reg1,'$0',y])
-				asm.storeReg(z,0)
+				asm.addInstr(['bne',reg1,'$0',y])
+				# asm.storeReg(z,0)
 			elif (op == 'PARAMC'):
 				off = ST.infovar[function][z]['offset']
 				asm.addInstr(['la','$s0',str(-off)+'($fp)',''])
@@ -226,7 +228,7 @@ def getAssemblyCode(filename):
 						flag = True
 						break
 				if(not flag):
-					print reg1
+					# print reg1
 					asm.addInstr(['la',reg1,'-'+str(ST.infovar[asm.currFunc][x]['offset'])+'($fp)','#3'])
 				asm.storeReg(z,0)
 				# print ST.infovar[asm.currFunc][x]['offset']	
