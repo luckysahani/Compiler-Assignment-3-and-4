@@ -6,11 +6,9 @@ class HelloWorld
 		if(x == (7)-2){
 			System.out.println(x);
 			string x1;
-			x1= "fuck you;";
+			x1= "try;";
 			System.out.println(x1);
 			return 0;
-			System.out.println("Please, run it on a Server!");
-			// fuck you;
 		}
 	}
 }
