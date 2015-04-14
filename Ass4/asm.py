@@ -141,8 +141,10 @@ class asm:
 		off = 4 
 		for idx in range(len(self.ST.mainsymbtbl[func_name]['Parameters']) - 1) :
 			self.addInstr(['lw','$s7',str(-(4+off))+'($sp)',''])
-			self.addInstr(['sw','$s7',str(-(off - 4))+'($fp)',''])
+			self.addInstr(['sw','$s7',str(-(off ))+'($fp)',''])
 			off += 4
+		self.addInstr(['lw','$s7',str(-4)+'($sp)',''])
+		self.addInstr(['sw','$s7',str(0)+'($fp)',''])
 
 	def savePrevValues(self,z,paramcount):
 		counter = paramcount + 4

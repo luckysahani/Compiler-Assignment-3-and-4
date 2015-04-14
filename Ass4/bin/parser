@@ -260,6 +260,7 @@ def p_MethodDeclarator(p):
 		# print p[0]['Name']
 		TAC.genNewTacFunc(ST.Add_scope(p[0]['Name'], 'Function',p[-1]))
 		TAC.emit('','','','BeginFunction')
+		ST.Add_identifier('this','int',-1)
 		for param in p[3]:
 			if(not '.' in  param['Type']):
 				ST.Add_identifier(param['Name'],param['Type'],-1)
@@ -269,6 +270,7 @@ def p_MethodDeclarator(p):
 		p[0] = {'Name' : p[1]['Name'], 'List' : []}
 		TAC.genNewTacFunc(ST.Add_scope(p[0]['Name'], 'Function',p[-1]))
 		TAC.emit('','','','BeginFunction')
+		ST.Add_identifier('this','int',-1)
 
 	ST.mainsymbtbl[ST.curr_funcname]['Parameters'] = p[0]['List']
 	ST.mainsymbtbl[ST.curr_funcname]['Parameters'].append({'Name':'this','Type' : None})
@@ -604,6 +606,7 @@ def p_PrimaryExpression(p):
 	p[0] = p[1]
 	if('.' in p[1]['Name']) :
 		temp = p[1]['Name'].split('.')
+		# print temp
 		if(len(temp) == 2):
 			if(ST.Exists_classid(temp[0]) and ST.mainsymbtbl['Main.' + ST.Get_attrclassid(temp[0],'Type')]['identifiers'].has_key(temp[1])) :
 				tempcnt = 0;
@@ -613,16 +616,19 @@ def p_PrimaryExpression(p):
 					else :
 						break
 				p[0]['Name'] = ST.Gen_Temp()
+				p[0]['Type'] = 'int'
 				TAC.emit(p[0]['Name'],temp[0],tempcnt,'+*=')
 			else:
-				print 'Not Element is present with name ' + p[1]['Name']
+				print 'No Element is present with name ' + p[1]['Name']
 				raise SyntaxError
 	else :
 		if((not ST.Exists_class(p[1]['Name'])) and ST.mainsymbtbl[ST.curr_class]['identifiers'].has_key(p[1]['Name'])) :
 			temp = ST.Gen_Temp()
 			TAC.emit(temp,'this',ST.Get_off(p[1]['Name']),'*+=')
 			p[0]['Type'] = ST.mainsymbtbl[ST.curr_class]['identifiers'][p[1]['Name']]['Type']
+			p[0]['Cname'] = p[1]['Name']
 			p[0]['Name'] = temp
+			p[0]['Cvar'] = True
 			ST.inc_offset(p[0]['Type'])
 		elif(ST.Exists(p[1]['Name']) and ST.Get_attr(p[1]['Name'],'Type') != None) :
 			p[0]['Type'] = ST.Get_attr(p[1]['Name'],'Type')
@@ -707,7 +713,7 @@ def p_ComplexPrimaryNoParenthesis_string(p):
 	p[0]['Type'] = "string"
 	p[0]['Name'] = ST.Gen_Temp()
 	ST.Add_string(p[0]['Name'],p[1])
-	TAC.emit(p[0]['Name'],p[1],'','=a')
+	TAC.emit(p[0]['Name'],p[1],'','=s')
 	ST.inc_offset(p[0]['Type'])
 
 
@@ -817,7 +823,7 @@ def p_MethodCall(p):
 				if(len(p) == 4):
 					p[0]['Type'] = ST.mainsymbtbl['Main.' + ST.Get_attrclassid(temp[0],'Type')]['Functions'][temp[1]]['Type']
 					TAC.emit(temp[0],'','','PARAMC')
-					TAC.emit(p[0]['Name'],'','Main.'+ST.Get_attrclassid(temp[0],'Type')+'.'+temp[1],'F_CALL')
+					TAC.emit(p[0]['Name'],'','Main.'+ST.Get_attrclassid(temp[0],'Type')+'.'+temp[1],'F_CALLC')
 					TAC.emit( ST.mainsymbtbl['Main.' + ST.Get_attrclassid(temp[0],'Type')+'.'+temp[1]]['paramsize'],'','','POP')
 				else :
 					# numele = 0
@@ -825,7 +831,7 @@ def p_MethodCall(p):
 					for param in p[3]:
 						TAC.emit(param['Name'],'','','PARAM')
 					TAC.emit(temp[0],'','','PARAMC')
-					TAC.emit(p[0]['Name'],'','Main.'+ST.Get_attrclassid(temp[0],'Type')+'.'+temp[1],'F_CALL')
+					TAC.emit(p[0]['Name'],'','Main.'+ST.Get_attrclassid(temp[0],'Type')+'.'+temp[1],'F_CALLC')
 					TAC.emit( ST.mainsymbtbl['Main.' + ST.Get_attrclassid(temp[0],'Type')+'.'+temp[1]]['paramsize'],'','','POP')
 				return
 			else :
@@ -1274,6 +1280,8 @@ def p_AssignmentExpression(p):
 				# print p[1]['Type']
 				print "Error in AssignmentExpression"
 				raise SyntaxError
+		elif( p[1].has_key('Cname') and (not ST.Exists_class(p[1]['Cname'])) and ST.mainsymbtbl[ST.curr_class]['identifiers'].has_key(p[1]['Cname'])) :
+			TAC.emit(p[3]['Name'],'this',ST.Get_off(p[1]['Cname']),'thisassign')
 		else :
 			if(p[1]['Type'] == p[3]['Type']):
 				p[0]['Type'] = p[3]['Type']

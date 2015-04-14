@@ -6,7 +6,7 @@ def getAssemblyCode(filename):
 	ST,TAC = parser.parserFile(filename)
 	paramcount = 4
 	# ST.Printsymbtbl()
-	TAC.printTac()
+	# TAC.printTac()
 	# pprint.pprint(ST.infovar)
 	asm = assembly.asm(ST,TAC)
 	# pprint.pprint(TAC.code)
@@ -170,6 +170,17 @@ def getAssemblyCode(filename):
 					asm.storeReg(z,0)
 
 				paramcount = 4
+			elif (op == 'F_CALLC'):
+				asm.savePrevValues(100,paramcount)
+				asm.addInstr(['jal',y,'',''])
+				asm.addInstr(['lw','$ra','12($fp)',''])
+				asm.addInstr(['lw','$sp','4($fp)',''])
+				asm.addInstr(['lw','$fp','8($fp)',''])
+				reg1 = asm.getReg(z,0)
+				asm.addInstr(['move',reg1,'$v0',''])
+				asm.storeReg(z,0)
+
+				paramcount = 4
 			elif (op == 'RETURN'):
 				reg1 = asm.getReg(z,0)
 				asm.addInstr(['move','$v0',reg1,''])
@@ -202,10 +213,32 @@ def getAssemblyCode(filename):
 				asm.storeReg(z,0)
 			elif (op == 'LABEL'):
 				asm.addInstr([z+':','','',''])
+			elif (op == '*+='):
+				reg1 = asm.getReg(z,0)
+				asm.addInstr(['lw','$s7','0($fp)',''])
+				asm.addInstr(['li','$s6',y,''])
+				asm.addInstr(['sub','$s7','$s7','$s6'])
+				asm.addInstr(['lw',reg1,'0($s7)',''])
+				asm.storeReg(z,0)
+			elif (op == 'thisassign'):
+				reg1 = asm.getReg(z,0)
+				asm.addInstr(['lw','$s7','0($fp)',''])
+				asm.addInstr(['li','$s6',y,''])
+				asm.addInstr(['sub','$s7','$s7','$s6'])
+				asm.addInstr(['sw',reg1,'0($s7)',''])
+				# asm.storeReg(z,0)
+			elif (op == '+*='):
+				reg1 = asm.getReg(z,0)
+				off = ST.infovar[function][x]['offset']
+				asm.addInstr(['la','$s7',str(-off)+'($fp)',''])
+				asm.addInstr(['li','$s6',y,''])
+				asm.addInstr(['sub','$s7','$s7','$s6'])
+				asm.addInstr(['lw',reg1,'0($s7)',''])
+				asm.storeReg(z,0)
 
 
 	pprint.pprint(asm.regAssignedVar)
 	pprint.pprint(asm.assembly_code)
 	asm.printAssembly()
 
-getAssemblyCode('test/HelloWorld.java')
+getAssemblyCode('test/array.java')
