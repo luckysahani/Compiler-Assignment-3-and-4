@@ -11,7 +11,7 @@ main:
 		move		 $s0,$s1
 		sw		 $s0,-12($fp)
 		lw		 $s0,-16($fp)
-		li		 $s0,7
+		li		 $s0,5
 		sw		 $s0,-16($fp)
 		lw		 $s0,-20($fp)
 		lw		 $s1,-12($fp)
@@ -21,9 +21,14 @@ main:
 		slt		 $s5,$s7,$0
 		or		 $s0,$s6,$s5
 		sw		 $s0,-20($fp)
-		lw		 $s0,-20($fp)
+		lw		 $s0,-24($fp)
+		lw		 $s1,-20($fp)
+		li		 $s7,-1
+		add		 $s0,$s1,$s7
+		sw		 $s0,-24($fp)
+		lw		 $s0,-24($fp)
 		beq		 $s0,$0,L_0
-		sw		 $s0,-20($fp)
+		sw		 $s0,-24($fp)
 		lw		 $s1,-12($fp)
 		move		 $a0,$s1
 		li		 $v0,1

@@ -1018,6 +1018,16 @@ def p_LogicalUnaryExpression(p):
 	| LogicalUnaryOperator UnaryExpression '''
 	if(len(p) == 2) :
 		p[0] = p[1]
+	else :
+		p[0] = {}
+		if(p[2]['Type'] == 'bool'):
+			temp1 = ST.Gen_Temp()
+			TAC.emit(temp1,p[2]['Name'],-1,'+')
+			p[0]['Name'] = temp1
+			p[0]['Type'] = 'bool'
+		else :
+			print 'NOT must have boolean'
+			exit(0)
 
 def p_LogicalUnaryOperator(p):
 	''' LogicalUnaryOperator : '~'
