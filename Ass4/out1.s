@@ -112,63 +112,69 @@ Main.Helloworld.main:
 		li		 $s0,2
 		sw		 $s0,-116($fp)
 		lw		 $s0,-120($fp)
-		la		 $s0,-16($fp),#3
+		lw		 $s2,-116($fp)
+		li		 $s7,-1
+		mult		 $s7,$s2
+		mflo		 $s0
 		sw		 $s0,-120($fp)
-		lw		 $s0,-128($fp)
+		lw		 $s0,-124($fp)
+		la		 $s0,-16($fp),#3
+		sw		 $s0,-124($fp)
+		lw		 $s0,-132($fp)
 		lw		 $s2,-112($fp)
 		li		 $s7,4
 		mult		 $s7,$s2
 		mflo		 $s0
-		sw		 $s0,-128($fp)
-		lw		 $s0,-124($fp)
-		lw		 $s1,-120($fp)
-		lw		 $s2,-128($fp)
-		sub		 $s0,$s1,$s2
-		sw		 $s0,-124($fp)
-		lw		 $s0,-124($fp)
-		lw		 $s1,-116($fp)
-		sw		 $s1,0($s0)
-		sw		 $s0,-124($fp)
-		lw		 $s0,-132($fp)
-		li		 $s0,4
 		sw		 $s0,-132($fp)
+		lw		 $s0,-128($fp)
+		lw		 $s1,-124($fp)
+		lw		 $s2,-132($fp)
+		sub		 $s0,$s1,$s2
+		sw		 $s0,-128($fp)
+		lw		 $s0,-128($fp)
+		lw		 $s1,-120($fp)
+		sw		 $s1,0($s0)
+		sw		 $s0,-128($fp)
 		lw		 $s0,-136($fp)
-		lw		 $s1,-132($fp)
-		move		 $s0,$s1
+		li		 $s0,4
 		sw		 $s0,-136($fp)
 		lw		 $s0,-140($fp)
-		li		 $s0,5
+		lw		 $s1,-136($fp)
+		move		 $s0,$s1
 		sw		 $s0,-140($fp)
 		lw		 $s0,-144($fp)
-		la		 $s0,-16($fp),#3
+		li		 $s0,5
 		sw		 $s0,-144($fp)
-		lw		 $s0,-152($fp)
-		lw		 $s2,-136($fp)
+		lw		 $s0,-148($fp)
+		la		 $s0,-16($fp),#3
+		sw		 $s0,-148($fp)
+		lw		 $s0,-156($fp)
+		lw		 $s2,-140($fp)
 		li		 $s7,4
 		mult		 $s7,$s2
 		mflo		 $s0
-		sw		 $s0,-152($fp)
-		lw		 $s0,-148($fp)
-		lw		 $s1,-144($fp)
-		lw		 $s2,-152($fp)
-		sub		 $s0,$s1,$s2
-		sw		 $s0,-148($fp)
-		lw		 $s0,-148($fp)
-		lw		 $s1,-140($fp)
-		sw		 $s1,0($s0)
-		sw		 $s0,-148($fp)
-		lw		 $s0,-156($fp)
-		li		 $s0,0
 		sw		 $s0,-156($fp)
+		lw		 $s0,-152($fp)
+		lw		 $s1,-148($fp)
+		lw		 $s2,-156($fp)
+		sub		 $s0,$s1,$s2
+		sw		 $s0,-152($fp)
+		lw		 $s0,-152($fp)
+		lw		 $s1,-144($fp)
+		sw		 $s1,0($s0)
+		sw		 $s0,-152($fp)
 		lw		 $s0,-160($fp)
-		li		 $s0,4
+		li		 $s0,0
 		sw		 $s0,-160($fp)
+		lw		 $s0,-164($fp)
+		li		 $s0,4
+		sw		 $s0,-164($fp)
 		lw		 $s0,-16($fp)
 		la		 $s0,-16($fp),#1
 		sw		 $s0,-8($sp)
-		lw		 $s0,-156($fp)
-		sw		 $s0,-12($sp)
 		lw		 $s0,-160($fp)
+		sw		 $s0,-12($sp)
+		lw		 $s0,-164($fp)
 		sw		 $s0,-16($sp)
 		sw		 $s0,-20($sp)
 		sw		 $s1,-24($sp)
@@ -180,67 +186,67 @@ Main.Helloworld.main:
 		lw		 $ra,12($fp)
 		lw		 $sp,4($fp)
 		lw		 $fp,8($fp)
-		lw		 $s0,-164($fp)
-		move		 $s0,$v0
-		sw		 $s0,-164($fp)
 		lw		 $s0,-168($fp)
-		li		 $s0,0
+		move		 $s0,$v0
 		sw		 $s0,-168($fp)
 		lw		 $s0,-172($fp)
-		lw		 $s1,-168($fp)
-		move		 $s0,$s1
+		li		 $s0,0
 		sw		 $s0,-172($fp)
-		L_8:
 		lw		 $s0,-176($fp)
-		li		 $s0,5
-		sw		 $s0,-176($fp)
-		lw		 $s0,-180($fp)
 		lw		 $s1,-172($fp)
-		lw		 $s2,-176($fp)
-		slt		 $s0,$s1,$s2
-		sw		 $s0,-180($fp)
+		move		 $s0,$s1
+		sw		 $s0,-176($fp)
+		L_8:
 		lw		 $s0,-180($fp)
-		beq		 $s0,$0,L_11
+		li		 $s0,5
 		sw		 $s0,-180($fp)
+		lw		 $s0,-184($fp)
+		lw		 $s1,-176($fp)
+		lw		 $s2,-180($fp)
+		slt		 $s0,$s1,$s2
+		sw		 $s0,-184($fp)
+		lw		 $s0,-184($fp)
+		beq		 $s0,$0,L_11
+		sw		 $s0,-184($fp)
 		j		 L_9
 		L_10:
-		lw		 $s0,-172($fp)
-		lw		 $s1,-172($fp)
+		lw		 $s0,-176($fp)
+		lw		 $s1,-176($fp)
 		li		 $s7,1
 		add		 $s0,$s1,$s7
-		sw		 $s0,-172($fp)
+		sw		 $s0,-176($fp)
 		j		 L_8
 		L_9:
-		lw		 $s0,-184($fp)
-		lw		 $s1,-172($fp)
-		move		 $s0,$s1
-		sw		 $s0,-184($fp)
 		lw		 $s0,-188($fp)
-		la		 $s0,-16($fp),#3
+		lw		 $s1,-176($fp)
+		move		 $s0,$s1
 		sw		 $s0,-188($fp)
-		lw		 $s0,-196($fp)
-		lw		 $s2,-184($fp)
+		lw		 $s0,-192($fp)
+		la		 $s0,-16($fp),#3
+		sw		 $s0,-192($fp)
+		lw		 $s0,-200($fp)
+		lw		 $s2,-188($fp)
 		li		 $s7,4
 		mult		 $s7,$s2
 		mflo		 $s0
-		sw		 $s0,-196($fp)
-		lw		 $s0,-192($fp)
-		lw		 $s1,-188($fp)
-		lw		 $s2,-196($fp)
-		sub		 $s0,$s1,$s2
-		sw		 $s0,-192($fp)
-		lw		 $s0,-200($fp)
-		lw		 $s1,-192($fp)
-		lw		 $s0,0($s1)
 		sw		 $s0,-200($fp)
-		lw		 $s1,-200($fp)
+		lw		 $s0,-196($fp)
+		lw		 $s1,-192($fp)
+		lw		 $s2,-200($fp)
+		sub		 $s0,$s1,$s2
+		sw		 $s0,-196($fp)
+		lw		 $s0,-204($fp)
+		lw		 $s1,-196($fp)
+		lw		 $s0,0($s1)
+		sw		 $s0,-204($fp)
+		lw		 $s1,-204($fp)
 		move		 $a0,$s1
 		li		 $v0,1
 		syscall
 		.data
-		k_99:		 .asciiz "\n" 
+		k_100:		 .asciiz "\n" 
 		.text
-		la		 $a0,k_99
+		la		 $a0,k_100
 		li		 $v0,4
 		syscall
 		j		 L_10

@@ -37,7 +37,7 @@ class Helloworld
         arr[0] = 3;
         arr[1] = 1;
         arr[2] = 10;
-        arr[3] = 2;
+        arr[3] = -2;
         arr[4] = 5;
         quickSort(arr,0,4);
         for(int i = 0 ;i < 5 ; i++){

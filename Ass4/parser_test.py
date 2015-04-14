@@ -1001,7 +1001,7 @@ def p_UnaryExpression_1(p):
 	p[0] = {}
 	temp1 = ST.Gen_Temp()
 	if (p[1] == '-'):
-		TAC.emit(temp1,p[2]['Name'],'-1','*')
+		TAC.emit(temp1,-1,p[2]['Name'],'*')
 	else :
 		TAC.emit(temp1,p[2]['Name'],'','=')
 	p[0]['Name'] = temp1
