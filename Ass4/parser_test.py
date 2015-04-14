@@ -707,7 +707,7 @@ def p_ComplexPrimaryNoParenthesis_string(p):
 	p[0]['Type'] = "string"
 	p[0]['Name'] = ST.Gen_Temp()
 	ST.Add_string(p[0]['Name'],p[1])
-	TAC.emit(p[0]['Name'],p[1],'','=a')
+	TAC.emit(p[0]['Name'],p[1],'','=s')
 	ST.inc_offset(p[0]['Type'])
 
 

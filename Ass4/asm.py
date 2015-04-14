@@ -94,6 +94,12 @@ class asm:
 	# 		# pprint.pprint(self.varInfo[var])
 	# 	return reg
 
+	def addToString(self,var,stringToStore):
+		print stringToStore
+		self.addInstr(['.data','','',''])
+		self.addInstr([var+':','.asciiz',stringToStore,''])
+		self.addInstr(['.text','','',''])
+
 	def getReg(self,var,num):
 		if(num == 0):
 			off = self.ST.infovar[self.currFunc][var]['offset']
@@ -159,6 +165,8 @@ class asm:
 				file.write("\t")
 				if line[1] == '':
 					file.write("\t%s\n" %line[0])
+				elif line[1] == '.asciiz':
+					file.write("\t%s\t\t %s %s %s\n" %(line[0],line[1],line[2],line[3]))
 				elif line[2] == '':
 					file.write("\t%s\t\t %s\n" %(line[0],line[1]))
 				elif line[3] == '':
