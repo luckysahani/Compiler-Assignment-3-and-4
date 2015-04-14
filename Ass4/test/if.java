@@ -2,8 +2,9 @@ class HelloWorld
 {
 	public static int main(int k)
 	{
-		string s = "Hello";
-		// s = "Hardik";
-		System.out.println(s);
+		int x = 5;
+		if(x != 7){
+			System.out.println(x);
+		}
 	}
 }

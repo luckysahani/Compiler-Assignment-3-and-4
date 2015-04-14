@@ -8,6 +8,7 @@ class threeAddressCode:
 
 		self.labelcount = 0;
 		self.ST = ST
+		self.mainfuncname = ''
 
 	# Function to print the symbol table
 	def printSymbTbl(self):
@@ -77,6 +78,7 @@ class threeAddressCode:
 			if(temp[2] == 'main'):
 				maincount += 1
 				main_funcname = key
+				self.mainfuncname = main_funcname
 
 		if(maincount != 1) :
 			print 'Error in number of main functions'

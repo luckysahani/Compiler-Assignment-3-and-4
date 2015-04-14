@@ -160,21 +160,34 @@ class asm:
 			for lines in self.assembly_code[key]:
 				print str(lines[0]) + '\t' + str(lines[1]) + ',\t' + str(lines[2]) + '\t' + str(lines[3]) 
 		file = open("out1.s",'w')
-		file.write(".data\n.text\nmain:")
+		file.write(".data\n.text\nmain:\n")
+		for line in self.assembly_code[self.TAC.mainfuncname]:
+			file.write("\t")
+			if line[1] == '':
+				file.write("\t%s\n" %line[0])
+			elif line[1] == '.asciiz':
+				file.write("\t%s\t\t %s %s %s\n" %(line[0],line[1],line[2],line[3]))
+			elif line[2] == '':
+				file.write("\t%s\t\t %s\n" %(line[0],line[1]))
+			elif line[3] == '':
+				file.write("\t%s\t\t %s,%s\n" %(line[0],line[1],line[2]))
+			else:
+				file.write("\t%s\t\t %s,%s,%s\n" %(line[0],line[1],line[2],line[3]))
 		for function in self.assembly_code.keys():
-			file.write("\n%s:\n" %function)
-			for line in self.assembly_code[function]:
-				file.write("\t")
-				if line[1] == '':
-					file.write("\t%s\n" %line[0])
-				elif line[1] == '.asciiz':
-					file.write("\t%s\t\t %s %s %s\n" %(line[0],line[1],line[2],line[3]))
-				elif line[2] == '':
-					file.write("\t%s\t\t %s\n" %(line[0],line[1]))
-				elif line[3] == '':
-					file.write("\t%s\t\t %s,%s\n" %(line[0],line[1],line[2]))
-				else:
-					file.write("\t%s\t\t %s,%s,%s\n" %(line[0],line[1],line[2],line[3]))
+			if(not ( function == self.TAC.mainfuncname or function == 'Main' )):
+				file.write("\n%s:\n" %function)
+				for line in self.assembly_code[function]:
+					file.write("\t")
+					if line[1] == '':
+						file.write("\t%s\n" %line[0])
+					elif line[1] == '.asciiz':
+						file.write("\t%s\t\t %s %s %s\n" %(line[0],line[1],line[2],line[3]))
+					elif line[2] == '':
+						file.write("\t%s\t\t %s\n" %(line[0],line[1]))
+					elif line[3] == '':
+						file.write("\t%s\t\t %s,%s\n" %(line[0],line[1],line[2]))
+					else:
+						file.write("\t%s\t\t %s,%s,%s\n" %(line[0],line[1],line[2],line[3]))
 		file.close()
 
 

@@ -118,6 +118,36 @@ def getAssemblyCode(filename):
 				reg3 = asm.getReg(y,2)
 				asm.addInstr(['sge',reg1,reg2,reg3,''])
 				asm.storeReg(z,0)
+			elif (op == '||'):
+				reg1 = asm.getReg(z,0)
+				reg2 = asm.getReg(x,1)
+				reg3 = asm.getReg(y,2)
+				asm.addInstr(['or',reg1,reg2,reg3])
+				asm.storeReg(z,0)
+			elif (op == '&&'):
+				reg1 = asm.getReg(z,0)
+				reg2 = asm.getReg(x,1)
+				reg3 = asm.getReg(y,2)
+				asm.addInstr(['and',reg1,reg2,reg3])
+				asm.storeReg(z,0)
+			elif (op == '=='):
+				reg1 = asm.getReg(z,0)
+				reg2 = asm.getReg(x,1)
+				reg3 = asm.getReg(y,2)
+				asm.addInstr(['sub','$s7',reg2,reg3])
+				asm.addInstr(['slt','$s6','$0','$s7'])
+				asm.addInstr(['slt','$s5','$s7','$0'])
+				asm.addInstr(['nor',reg1,'$s6','$s5'])
+				asm.storeReg(z,0)
+			elif (op == '!='):
+				reg1 = asm.getReg(z,0)
+				reg2 = asm.getReg(x,1)
+				reg3 = asm.getReg(y,2)
+				asm.addInstr(['sub','$s7',reg2,reg3])
+				asm.addInstr(['slt','$s6','$0','$s7'])
+				asm.addInstr(['slt','$s5','$s7','$0'])
+				asm.addInstr(['or',reg1,'$s6','$s5'])
+				asm.storeReg(z,0)
 			elif(op == 'GOTO'):
 				asm.addInstr(['j',y,'',''])
 			elif (op == 'COND_GOTO'):
