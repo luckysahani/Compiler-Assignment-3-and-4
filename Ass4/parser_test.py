@@ -165,7 +165,9 @@ def p_FieldVariableDeclaration(p):
 	if(len(p) == 3) :
 		for var in p[2]['Names']:
 			if not ST.Exists_curr_scope(var):
+				# print ST.mainsymbtbl
 				ST.Add_identifier(var,p[1],-1)
+				# print 'Hello'
 			else :
 				print "Variable " + var + " Already Declared"
 				raise SyntaxError
@@ -203,8 +205,15 @@ def p_VariableDeclarator(p):
 	if(p[-1] == ",") :
 		p[0]['Type'] = p[-2]['Type']
 	else :
+		# print p[3]
 		if(type(p[-1]) is dict) :
 			p[0]['Type'] = p[-1]['Name']
+			if(p[0]['Type'] == p[3]['Type']):
+				TAC.emit(p[1]['Name'],'','','CLALLOC')
+				return
+			else:
+				print 'Type does not match of class'
+				raise Exception
 		else :
 			p[0]['Type'] = p[-1]
 
@@ -224,6 +233,8 @@ def p_VariableDeclarator(p):
 def p_VariableInitializer(p):
 	''' VariableInitializer : Expression '''
 	p[0] = p[1]
+	# if(len(p) == 2 and p[1].has_key('Class')):
+	# 	print 'Hello World'
 
 
 def p_MethodDeclaration(p):
@@ -260,6 +271,7 @@ def p_MethodDeclarator(p):
 		TAC.emit('','','','BeginFunction')
 
 	ST.mainsymbtbl[ST.curr_funcname]['Parameters'] = p[0]['List']
+	ST.mainsymbtbl[ST.curr_funcname]['Parameters'].append({'Name':'this','Type' : None})
 	paramsize = 0
 	for elem in  p[0]['List'] :
 		paramsize += ST.Get_size(elem['Type'])
@@ -653,11 +665,13 @@ def p_PrimaryExpression_nn(p):
 		# p[0]['Type'] = temp[0]
 		# print p[0]['Type'] + 'Hello'
 
+
 def p_NotJustName(p):
 	''' NotJustName : SpecialName
 	| NewAllocationExpression
 	| ComplexPrimary '''
 	p[0] = p[1]
+
 
 
 def p_ComplexPrimary(p):
@@ -800,25 +814,25 @@ def p_MethodCall(p):
 			temp = p[1]['Name'].split('.')
 			if(ST.Exists_classid(temp[0]) and ST.mainsymbtbl['Main.' + ST.Get_attrclassid(temp[0],'Type')]['Functions'].has_key(temp[1])) :
 				# print ST.Get_attrclassid(temp[0],'Type')
-				if(len(p) == 3):
+				if(len(p) == 4):
 					p[0]['Type'] = ST.mainsymbtbl['Main.' + ST.Get_attrclassid(temp[0],'Type')]['Functions'][temp[1]]['Type']
-					TAC.emit(temp[0],'','','PARAM')
-					TAC.emit('Main.'+ST.Get_attrclassid(temp[0],'Type')+'.'+temp[1],'',p[0]['Name'],'F_CALL')
+					TAC.emit(temp[0],'','','PARAMC')
+					TAC.emit(p[0]['Name'],'','Main.'+ST.Get_attrclassid(temp[0],'Type')+'.'+temp[1],'F_CALL')
 					TAC.emit( ST.mainsymbtbl['Main.' + ST.Get_attrclassid(temp[0],'Type')+'.'+temp[1]]['paramsize'],'','','POP')
 				else :
 					# numele = 0
 					p[0]['Type'] = ST.mainsymbtbl['Main.' + ST.Get_attrclassid(temp[0],'Type')]['Functions'][temp[1]]['Type']
-					TAC.emit(temp[0],'','','PARAM')
 					for param in p[3]:
 						TAC.emit(param['Name'],'','','PARAM')
-					TAC.emit('Main.'+ST.Get_attrclassid(temp[0],'Type')+'.'+temp[1],'',p[0]['Name'],'F_CALL')
+					TAC.emit(temp[0],'','','PARAMC')
+					TAC.emit(p[0]['Name'],'','Main.'+ST.Get_attrclassid(temp[0],'Type')+'.'+temp[1],'F_CALL')
 					TAC.emit( ST.mainsymbtbl['Main.' + ST.Get_attrclassid(temp[0],'Type')+'.'+temp[1]]['paramsize'],'','','POP')
 				return
 			else :
 				raise SyntaxError
 
 		if(len(p) == 5) :
-			if(len(p[3]) != len(ST.mainsymbtbl[ST.curr_class + '.' +p[1]['Name']]['Parameters'])) :
+			if(len(p[3]) + 1 != len(ST.mainsymbtbl[ST.curr_class + '.' +p[1]['Name']]['Parameters'])) :
 				print "Number of Parameters are not same as defined"
 				raise SyntaxError
 			numele = 0
@@ -832,7 +846,7 @@ def p_MethodCall(p):
 			TAC.emit(p[0]['Name'],numele,ST.curr_class + '.' +p[1]['Name'],'F_CALL')
 			TAC.emit(ST.mainsymbtbl[ST.curr_class + '.' +p[1]['Name']]['paramsize'],'','','POPPARAM')
 		else :
-			if( len(ST.mainsymbtbl[ST.curr_class + '.' +p[1]['Name']]['Parameters']) == 0) :
+			if( len(ST.mainsymbtbl[ST.curr_class + '.' +p[1]['Name']]['Parameters']) == 1) :
 				TAC.emit(ST.curr_class + '.' +p[1]['Name'],0,p[0]['Name'],'F_CALL')
 				TAC.emit(0,'','','POPPARAM')
 			else :
@@ -867,6 +881,7 @@ def p_NewAllocationExpression(p):
 	''' NewAllocationExpression : PlainNewAllocationExpression
 	| QualifiedName DOT PlainNewAllocationExpression '''
 	p[0] = p[1]
+		
 	# print p[0]['Type']
 
 def p_PlainNewAllocationExpression(p):
@@ -888,10 +903,11 @@ def p_ClassAllocationExpression(p):
 	''' ClassAllocationExpression : NEW TypeName LROUNPAREN              RROUNPAREN '''
 	p[0] = {}
 	p[0]['Type'] = p[2]['Name']
+	p[0]['Class'] = True
 	p[0]['Name'] = ST.Gen_Temp()
-	if(ST.mainsymbtbl['Main']['Classes'].has_key(p[2]['Name'])) :
-		TAC.emit('ALLOC',ST.mainsymbtbl['Main.' + p[2]['Name']]['offset'],p[0]['Name'],'F_CALL')
-		TAC.emit(p[0]['Name'],'','','POPPARAM')
+	# if(ST.mainsymbtbl['Main']['Classes'].has_key(p[2]['Name'])) :
+	# 	TAC.emit('CALLOC',ST.mainsymbtbl['Main.' + p[2]['Name']]['offset'],p[0]['Name'],'F_CALL')
+	# 	TAC.emit(p[0]['Name'],'','','POPPARAM')
 
 def p_ArrayAllocationExpression(p):
 	''' ArrayAllocationExpression : NEW TypeName DimExprs Dims '''
@@ -1023,6 +1039,7 @@ def p_CastExpression(p):
 		ST.inc_offset(p[0]['Type'])
 		p[0]['Name'] = ST.Gen_Temp()
 		TAC.emit(p[0]['Name'],temp2,'','=arr')
+
 
 
 def p_PrimitiveTypeExpression(p):
@@ -1266,6 +1283,7 @@ def p_AssignmentExpression(p):
 			else :
 				print "Error in AssignmentExpression"
 				raise SyntaxError
+
 
 def p_AssignmentOperator(p):
 	''' AssignmentOperator : EQUAL

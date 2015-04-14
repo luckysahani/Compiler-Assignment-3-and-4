@@ -4,10 +4,10 @@ import pprint
 
 def getAssemblyCode(filename):
 	ST,TAC = parser.parserFile(filename)
-	paramcount = 0
-	# ST.Printsymbtbl()
+	paramcount = 4
+	ST.Printsymbtbl()
 	# TAC.printTac()
-
+	# pprint.pprint(ST.infovar)
 	asm = assembly.asm(ST,TAC)
 	# pprint.pprint(TAC.code)
 	for function in TAC.code:
@@ -22,7 +22,7 @@ def getAssemblyCode(filename):
 
 			if (op == 'BeginFunction'):
 				# main_size = z
-				if(function == 'Main.HelloWorld.main'):
+				if(function.split('.')[-1] == 'main'):
 					main_size = 200
 					asm.addInstr(['sub','$sp','$sp',main_size])
 					asm.addInstr(['la','$fp',str(main_size)+'($sp)',''])
@@ -126,6 +126,10 @@ def getAssemblyCode(filename):
 				reg1 = asm.getReg(z,0)
 				asm.addInstr(['bneq',reg1,'$0',y])
 				asm.storeReg(z,0)
+			elif (op == 'PARAMC'):
+				off = ST.infovar[function][z]['offset']
+				asm.addInstr(['la','$s0',str(-off)+'($fp)',''])
+				asm.addInstr(['sw','$s0','-4($sp)','####'])
 			elif (op == 'PARAM'):
 				# param_reg = asm.getParamReg(z)
 				reg1 = asm.getReg(z,0)
@@ -158,7 +162,7 @@ def getAssemblyCode(filename):
 					asm.addInstr(['move',reg1,'$v0',''])
 					asm.storeReg(z,0)
 
-				paramcount = 0
+				paramcount = 4
 			elif (op == 'RETURN'):
 				reg1 = asm.getReg(z,0)
 				asm.addInstr(['move','$v0',reg1,''])

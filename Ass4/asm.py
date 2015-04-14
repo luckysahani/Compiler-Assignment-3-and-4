@@ -132,10 +132,10 @@ class asm:
 		return param_reg
 
 	def storeParam(self,func_name):
-		off = 0
-		for param in self.ST.mainsymbtbl[func_name]['Parameters'] :
+		off = 4 
+		for idx in range(len(self.ST.mainsymbtbl[func_name]['Parameters']) - 1) :
 			self.addInstr(['lw','$s7',str(-(4+off))+'($sp)',''])
-			self.addInstr(['sw','$s7',str(-off)+'($fp)',''])
+			self.addInstr(['sw','$s7',str(-(off - 4))+'($fp)',''])
 			off += 4
 
 	def savePrevValues(self,z,paramcount):

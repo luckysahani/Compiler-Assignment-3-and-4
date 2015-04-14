@@ -34,7 +34,7 @@ class SymbTbl:
 		# print identifier
 		off = 0
 		for elem in self.mainsymbtbl[self.curr_class]['identifiers']:
-			print elem
+			# print elem
 			if(elem == identifier) :
 				return off
 			else :
@@ -99,6 +99,7 @@ class SymbTbl:
 			temp_scope['Functions'] = {}
 			self.curr_class = temp_scope['ScopeName']
 			self.curr_funcname = self.curr_class
+			self.infovar[temp_scope['ScopeName']] = {}
 		if(Type == "Function") :
 			temp_scope['ReturnType'] = ReturnType
 			temp_scope['Function'] = temp_scope['ScopeName']
@@ -118,6 +119,9 @@ class SymbTbl:
 
 	def Add_idclass (self, identifier, ClassName):
 		self.mainsymbtbl[self.curr_scope]['Classdef'][identifier] = {'Type' : ClassName, 'Width' : self.mainsymbtbl['Main.'+ClassName]['offset']}
+		self.infovar[self.curr_funcname][identifier] = {'offset':self.curr_funcoff, 'type':ClassName}
+		self.curr_funcoff += self.mainsymbtbl['Main.'+ClassName]['offset']
+		# print self.infovar[self.curr_funcname][identifier]
 		return self.mainsymbtbl[self.curr_scope]['Classdef'][identifier]['Width']
 
 	def Add_identifier(self, identifier, Type, Arrwidth):
@@ -234,7 +238,7 @@ class SymbTbl:
 			width = 4
 		else:
 			width = 0
-		print Type
+		# print Type
 
 		self.mainsymbtbl[self.curr_funcname]['offset'] += width
 

@@ -1,48 +1,29 @@
-class HelloWorld
-{
-    public static int partition(int[] arr, int left, int right)
-    {
-          int i = left, j = right;
-          int tmp;
-          int pivot = arr[(left + right) / 2];
-         
-          while (i <= j) {
-                while (arr[i] < pivot){
-                      i++;
-                }
-                while (arr[j] > pivot){
-                      j--;
-                }
-                if (i <= j) {
-                      tmp = arr[i];
-                      arr[i] = arr[j];
-                      arr[j] = tmp;
-                      i++;
-                      j--;
-                }
-          }
-          return i;
-    }
-     
-    public static void quickSort(int[] arr, int left, int right) {
-          int index = partition(arr, left, right);
-          if (left < index - 1)
-                quickSort(arr, left, index - 1);
-          if (index < right)
-                quickSort(arr, index, right);
-    }
-    public static void main(){
-        int [] arr = new int[5];
-        arr[0] = 3;
-        arr[1] = 1;
-        arr[2] = 4;
-        arr[3] = 23;
-        arr[4] = 5;
-        quickSort(arr,0,4);
-        for(int i = 0; i< 5;i++){
-        	System.out.println(arr[i]);
-        }
+public class fibo {
+	int asm;
+    public int fib(int n) {
+   //      int x;
+   //      int y;
+   //      int z;
+	  //   if(n <= 1) {
+			// // System.out.println(n);
+	  //       return n;
+	  //   } 
+	  //   else {
+	  //       x = fib(n-1);
+	  //       y = fib(n-2);
+	  //       z = x+y;
+	  //       return z;
+	  //   }
+    	asm = 5;
+    	return asm;
     }
 }
 
-
+public class fin{
+	public int main(){
+		fibo fibcal = new fibo();
+		int a = fibcal.fib(10);
+	    System.out.println(a);
+		// int [] a = new  int [5]; 
+	}
+}
