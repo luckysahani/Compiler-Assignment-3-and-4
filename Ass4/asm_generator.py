@@ -271,4 +271,4 @@ def getAssemblyCode(filename):
 	pprint.pprint(asm.assembly_code)
 	asm.printAssembly()
 
-getAssemblyCode('test/test.java')
+getAssemblyCode('test/if.java')
