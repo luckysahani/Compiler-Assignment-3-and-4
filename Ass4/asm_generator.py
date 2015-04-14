@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import asm as assembly
 import parser_test as parser
 import pprint,sys

@@ -16,12 +16,14 @@ all:
 	 cp asm.py bin/asm.py
 	 cp asm_generator.py bin/codegen
 	cp *.py bin/
-	cp asm_generator.py bin/asm_generator
+	cp asm_generator.py bin/codegen
 	cp ptg.cpp bin/ptg.cpp
 	cp dtg.cpp bin/dtg.cpp
 	cp dotgen.sh bin/dotgen.sh
+	# bin/codegen test/ifelse.java > bin/log.txt
+	# rm bin/log.txt
 
 clean:
 	rm -rf bin/
-	rm *.pyc
+	# rm *.pyc
 	rm  parser.out parselog.txt parsetab.py out.s

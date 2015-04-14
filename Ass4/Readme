@@ -9,7 +9,7 @@ To run code :
 5.) Use SPIM to run the above output and check for the results.
 6.) Use "make clean" to remove all temporary files.
 
-Our test cases are present in folder "final_testcases".
+Our test cases are present in folder "test".
 
 Note that:
 1.) The string is taken with name "string" and not as "String"

@@ -1357,7 +1357,7 @@ log = logging.getLogger()
 
 
 #Building the parser
-parser = yacc.yacc(debug=True)
+parser = yacc.yacc(debug = log)
 
 if __name__ == '__main__':
    try:

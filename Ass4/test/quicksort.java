@@ -42,7 +42,7 @@ class Helloworld
         quickSort(arr,0,4);
         for(int i = 0 ;i < 5 ; i++){
         	System.out.println(arr[i]);
-        	System.out.println("\n");
+        	// System.out.println("\n");
         }
     }
 }
