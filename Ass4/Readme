@@ -8,7 +8,7 @@ To run code :
 1.) Go to folder.
 2.) Run command 'make' from bash terminal.
 3.) After that run command 'bin/asm_generator.py <filename>'
-4.) It will generate an output file in language MIPS
+4.) It will generate an output file out1.s in language MIPS
 5.) Use SPIM to run the above output and check for the results.
 6.) Use make clean to remove all temporary files.
 
