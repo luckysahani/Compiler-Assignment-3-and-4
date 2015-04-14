@@ -1,17 +1,21 @@
-Here, we  wrote an Assembly 
-Code Generator from the 3AC output of the Intermediate Code Generator. The output of this is assembly code is in MIPS. 
-Here , we have implemented a register allocator,implement the translator to translate staements in three-address 
-code to assembly instruction, set up the data regions to handle global data and constants, and provided some of 
-the library support for useful programs.
+Here, we  wrote an Assembly Code Generator from the Three Address Code output of the Intermediate Code Generator. The output of this is assembly code is in MIPS. 
+Here , we have implemented a register allocator,implement the translator to translate staements in three-address code to assembly instruction, set up the data regions to handle global data and constants, and provided some of the library support for useful programs like print. Our main code for code generation is present in asm_generator.py and asm.py. Apart from it out parser is present in parser_test.py.
 
 To run code :
 1.) Go to folder.
-2.) Run command 'make' from bash terminal.
-3.) After that run command 'bin/asm_generator.py <filename>'
-4.) It will generate an output file out1.s in language MIPS
+2.) Run command "make" from bash terminal.
+3.) After that run command "bin/asm_generator.py <filename>"
+4.) It will generate an output file out.s in language MIPS
 5.) Use SPIM to run the above output and check for the results.
-6.) Use make clean to remove all temporary files.
+6.) Use "make clean" to remove all temporary files.
+
+Our test cases are present in folder "final_testcases".
+
+Note that:
+1.) The string is taken with name "string" and not as "String"
+2.) main should be present as a last function of the class.
+3.) There can only be one main function.
+4.) All functions must be declared before use.
+5.) Strings are not mutable.
 
 We are successfully able to convert quicksort.java to MIPS and run in SPIM. 
-The string is "string" and not "String"
-main should be be lowest

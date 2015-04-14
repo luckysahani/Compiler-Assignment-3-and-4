@@ -1,44 +1,44 @@
 .data
+ newline : .asciiz "\n" 
 .text
 main:
 		sub		 $sp,$sp,200
 		la		 $fp,200($sp)
-		li		 $t0,10
-		move		 $t1,$t0
-		li		 $t2,15
-		move		 $t4,$t2
-		move		 $a0,$t1
-		move		 $a1,$t4
-		jal		 Main.HelloWorld.add
-		move		 $t5,$t6
-		add $s3,$0,$v0
-		move $a0,$s3
-	    li $v0,1
-	    syscall
-		li $v0,10
+		lw		 $s0,-8($fp)
+		li		 $s0,9
+		sw		 $s0,-8($fp)
+		lw		 $s0,-8($fp)
+		sw		 $s0,-8($sp)
+		sw		 $s0,-12($sp)
+		sw		 $s1,-16($sp)
+		sw		 $s2,-20($sp)
+		sw		 $ra,-24($sp)
+		sw		 $fp,-28($sp)
+		sw		 $sp,-32($sp)
+		jal		 Main.HelloWorld.func
+		lw		 $ra,12($fp)
+		lw		 $sp,4($fp)
+		lw		 $fp,8($fp)
+		lw		 $s0,-12($fp)
+		move		 $s0,$v0
+		sw		 $s0,-12($fp)
+		li		 $v0,10
 		syscall
 
-Main.HelloWorld.add:
-		sw		 $t0,-4($sp)
-		sw		 $t1,-8($sp)
-		sw		 $t2,-12($sp)
-		sw		 $t3,-16($sp)
-		sw		 $t4,-20($sp)
-		sw		 $t5,-24($sp)
-		sw		 $t6,-28($sp)
-		sw		 $t7,-32($sp)
-		sw		 $s0,-36($sp)
-		sw		 $s1,-40($sp)
-		sw		 $s2,-44($sp)
-		sw		 $s3,-48($sp)
-		sw		 $s4,-52($sp)
-		sw		 $s5,-56($sp)
-		sw		 $s6,-60($sp)
-		sw		 $s7,-64($sp)
-		sw		 $ra,-68($sp)
-		sw		 $fp,-72($sp)
-		sub		 $sp,$sp,276
-		add		 $t7,$a0,$a1
-		move		 $s2,$t7
-		move		 $v0,$s2
+Main.HelloWorld.func:
+		sub		 $fp,$sp,36
+		lw		 $s7,-8($sp)
+		sw		 $s7,-4($fp)
+		lw		 $s7,-4($sp)
+		sw		 $s7,0($fp)
+		sub		 $sp,$fp,400
+		.data
+		k_0:		 .asciiz "Good Job \n" 
+		.text
+		la		 $a0,k_0
+		li		 $v0,4
+		syscall
+		la		 $a0,newline
+		li		 $v0,4
+		syscall
 		jr		 $ra
