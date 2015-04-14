@@ -7,6 +7,7 @@ public class Test {
          System.out.println("Value of X is 10");
       }
       else{
+
          System.out.println("This is else statement");
       }
    }
