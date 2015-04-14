@@ -1,0 +1,581 @@
+   yacc.py: 296:PLY: PARSE DEBUG START
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(PUBLIC,'public',1,0)
+   yacc.py: 370:Action : Shift and goto state 18
+   yacc.py: 341:
+   yacc.py: 342:State  : 18
+   yacc.py: 356:Stack  : PUBLIC . LexToken(CLASS,'class',1,7)
+   yacc.py: 393:Action : Reduce rule [Modifier -> PUBLIC] with ['public'] and goto state 42
+   yacc.py: 427:Result : <list @ 0x7fdf1aff2b48> (['p', 'u', 'b', 'l', 'i', 'c'])
+   yacc.py: 341:
+   yacc.py: 342:State  : 12
+   yacc.py: 356:Stack  : Modifier . LexToken(CLASS,'class',1,7)
+   yacc.py: 393:Action : Reduce rule [Modifiers -> Modifier] with [<list @ 0x7fdf1aff2b48>] and goto state 40
+   yacc.py: 427:Result : <list @ 0x7fdf1aff2b48> (['p', 'u', 'b', 'l', 'i', 'c'])
+   yacc.py: 341:
+   yacc.py: 342:State  : 2
+   yacc.py: 356:Stack  : Modifiers . LexToken(CLASS,'class',1,7)
+   yacc.py: 370:Action : Shift and goto state 6
+   yacc.py: 341:
+   yacc.py: 342:State  : 6
+   yacc.py: 356:Stack  : Modifiers CLASS . LexToken(IDENTIFIER,'PrimitiveParameters',1,13)
+   yacc.py: 393:Action : Reduce rule [ClassWord -> CLASS] with ['class'] and goto state 45
+   yacc.py: 427:Result : <NoneType @ 0x920190> (None)
+   yacc.py: 341:
+   yacc.py: 342:State  : 19
+   yacc.py: 356:Stack  : Modifiers ClassWord . LexToken(IDENTIFIER,'PrimitiveParameters',1,13)
+   yacc.py: 370:Action : Shift and goto state 33
+   yacc.py: 341:
+   yacc.py: 342:State  : 33
+   yacc.py: 356:Stack  : Modifiers ClassWord IDENTIFIER . LexToken(LCURPAREN,'{',3,34)
+   yacc.py: 393:Action : Reduce rule [ClassHeader -> Modifiers ClassWord IDENTIFIER] with [<list @ 0x7fdf1aff2b48>,None,<str @ 0x7fdf1c6b0b20>] and goto state 38
+   yacc.py: 427:Result : <dict @ 0x7fdf1afd1d70> ({'ClassName': 'PrimitiveParameters', 'Mo ...)
+   yacc.py: 341:
+   yacc.py: 342:State  : 17
+   yacc.py: 356:Stack  : ClassHeader . LexToken(LCURPAREN,'{',3,34)
+   yacc.py: 370:Action : Shift and goto state 32
+   yacc.py: 341:
+   yacc.py: 342:State  : 32
+   yacc.py: 356:Stack  : ClassHeader LCURPAREN . LexToken(PUBLIC,'public',5,39)
+   yacc.py: 370:Action : Shift and goto state 18
+   yacc.py: 341:
+   yacc.py: 342:State  : 18
+   yacc.py: 356:Stack  : ClassHeader LCURPAREN PUBLIC . LexToken(STATIC,'static',5,46)
+   yacc.py: 393:Action : Reduce rule [Modifier -> PUBLIC] with ['public'] and goto state 42
+   yacc.py: 427:Result : <list @ 0x7fdf1aff2b90> (['p', 'u', 'b', 'l', 'i', 'c'])
+   yacc.py: 341:
+   yacc.py: 342:State  : 12
+   yacc.py: 356:Stack  : ClassHeader LCURPAREN Modifier . LexToken(STATIC,'static',5,46)
+   yacc.py: 393:Action : Reduce rule [Modifiers -> Modifier] with [<list @ 0x7fdf1aff2b90>] and goto state 40
+   yacc.py: 427:Result : <list @ 0x7fdf1aff2b90> (['p', 'u', 'b', 'l', 'i', 'c'])
+   yacc.py: 341:
+   yacc.py: 342:State  : 47
+   yacc.py: 356:Stack  : ClassHeader LCURPAREN Modifiers . LexToken(STATIC,'static',5,46)
+   yacc.py: 370:Action : Shift and goto state 3
+   yacc.py: 341:
+   yacc.py: 342:State  : 3
+   yacc.py: 356:Stack  : ClassHeader LCURPAREN Modifiers STATIC . LexToken(VOID,'void',5,53)
+   yacc.py: 393:Action : Reduce rule [Modifier -> STATIC] with ['static'] and goto state 44
+   yacc.py: 427:Result : <list @ 0x7fdf1aff2908> (['s', 't', 'a', 't', 'i', 'c'])
+   yacc.py: 341:
+   yacc.py: 342:State  : 20
+   yacc.py: 356:Stack  : ClassHeader LCURPAREN Modifiers Modifier . LexToken(VOID,'void',5,53)
+   yacc.py: 393:Action : Reduce rule [Modifiers -> Modifiers Modifier] with [<list @ 0x7fdf1aff2b90>,<list @ 0x7fdf1aff2908>] and goto state 41
+   yacc.py: 427:Result : <list @ 0x7fdf1aff2b90> (['p', 'u', 'b', 'l', 'i', 'c', ['s', 't' ...)
+   yacc.py: 341:
+   yacc.py: 342:State  : 47
+   yacc.py: 356:Stack  : ClassHeader LCURPAREN Modifiers . LexToken(VOID,'void',5,53)
+   yacc.py: 370:Action : Shift and goto state 43
+   yacc.py: 341:
+   yacc.py: 342:State  : 43
+   yacc.py: 356:Stack  : ClassHeader LCURPAREN Modifiers VOID . LexToken(BOOLEAN_CONST,'false',5,58)
+   yacc.py: 497:Error  : ClassHeader LCURPAREN Modifiers VOID . LexToken(BOOLEAN_CONST,'false',5,58)
+   yacc.py: 341:
+   yacc.py: 342:State  : 43
+   yacc.py: 356:Stack  : ClassHeader LCURPAREN Modifiers VOID . error
+   yacc.py: 497:Error  : ClassHeader LCURPAREN Modifiers VOID . error
+   yacc.py: 341:
+   yacc.py: 342:State  : 47
+   yacc.py: 356:Stack  : ClassHeader LCURPAREN Modifiers . error
+   yacc.py: 497:Error  : ClassHeader LCURPAREN Modifiers . error
+   yacc.py: 341:
+   yacc.py: 342:State  : 32
+   yacc.py: 356:Stack  : ClassHeader LCURPAREN . error
+   yacc.py: 497:Error  : ClassHeader LCURPAREN . error
+   yacc.py: 341:
+   yacc.py: 342:State  : 17
+   yacc.py: 356:Stack  : ClassHeader . error
+   yacc.py: 497:Error  : ClassHeader . error
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . error
+   yacc.py: 497:Error  : . error
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(IDENTIFIER,'Swap',5,63)
+   yacc.py: 497:Error  : . LexToken(IDENTIFIER,'Swap',5,63)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(LROUNPAREN,'(',5,67)
+   yacc.py: 497:Error  : . LexToken(LROUNPAREN,'(',5,67)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(INT,'int',5,68)
+   yacc.py: 497:Error  : . LexToken(INT,'int',5,68)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(IDENTIFIER,'x',5,72)
+   yacc.py: 497:Error  : . LexToken(IDENTIFIER,'x',5,72)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(COMMA,',',5,73)
+   yacc.py: 497:Error  : . LexToken(COMMA,',',5,73)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(INT,'int',5,75)
+   yacc.py: 497:Error  : . LexToken(INT,'int',5,75)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(IDENTIFIER,'y',5,79)
+   yacc.py: 497:Error  : . LexToken(IDENTIFIER,'y',5,79)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(RROUNPAREN,')',5,80)
+   yacc.py: 497:Error  : . LexToken(RROUNPAREN,')',5,80)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(LCURPAREN,'{',7,84)
+   yacc.py: 497:Error  : . LexToken(LCURPAREN,'{',7,84)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(INT,'int',13,232)
+   yacc.py: 497:Error  : . LexToken(INT,'int',13,232)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(IDENTIFIER,'temp',13,236)
+   yacc.py: 497:Error  : . LexToken(IDENTIFIER,'temp',13,236)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(EQUAL,'=',13,241)
+   yacc.py: 497:Error  : . LexToken(EQUAL,'=',13,241)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(IDENTIFIER,'x',13,243)
+   yacc.py: 497:Error  : . LexToken(IDENTIFIER,'x',13,243)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(SEMICOLON,';',13,244)
+   yacc.py: 497:Error  : . LexToken(SEMICOLON,';',13,244)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(IDENTIFIER,'x',15,249)
+   yacc.py: 497:Error  : . LexToken(IDENTIFIER,'x',15,249)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(EQUAL,'=',15,251)
+   yacc.py: 497:Error  : . LexToken(EQUAL,'=',15,251)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(IDENTIFIER,'y',15,253)
+   yacc.py: 497:Error  : . LexToken(IDENTIFIER,'y',15,253)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(SEMICOLON,';',15,254)
+   yacc.py: 497:Error  : . LexToken(SEMICOLON,';',15,254)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(IDENTIFIER,'y',17,259)
+   yacc.py: 497:Error  : . LexToken(IDENTIFIER,'y',17,259)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(EQUAL,'=',17,261)
+   yacc.py: 497:Error  : . LexToken(EQUAL,'=',17,261)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(IDENTIFIER,'temp',17,263)
+   yacc.py: 497:Error  : . LexToken(IDENTIFIER,'temp',17,263)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(SEMICOLON,';',17,267)
+   yacc.py: 497:Error  : . LexToken(SEMICOLON,';',17,267)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(RCURPAREN,'}',23,413)
+   yacc.py: 497:Error  : . LexToken(RCURPAREN,'}',23,413)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(PUBLIC,'public',27,420)
+   yacc.py: 370:Action : Shift and goto state 18
+   yacc.py: 341:
+   yacc.py: 342:State  : 18
+   yacc.py: 356:Stack  : PUBLIC . LexToken(STATIC,'static',27,427)
+   yacc.py: 393:Action : Reduce rule [Modifier -> PUBLIC] with ['public'] and goto state 42
+   yacc.py: 427:Result : <list @ 0x7fdf1aff2950> (['p', 'u', 'b', 'l', 'i', 'c'])
+   yacc.py: 341:
+   yacc.py: 342:State  : 12
+   yacc.py: 356:Stack  : Modifier . LexToken(STATIC,'static',27,427)
+   yacc.py: 393:Action : Reduce rule [Modifiers -> Modifier] with [<list @ 0x7fdf1aff2950>] and goto state 40
+   yacc.py: 427:Result : <list @ 0x7fdf1aff2950> (['p', 'u', 'b', 'l', 'i', 'c'])
+   yacc.py: 341:
+   yacc.py: 342:State  : 2
+   yacc.py: 356:Stack  : Modifiers . LexToken(STATIC,'static',27,427)
+   yacc.py: 370:Action : Shift and goto state 3
+   yacc.py: 341:
+   yacc.py: 342:State  : 3
+   yacc.py: 356:Stack  : Modifiers STATIC . LexToken(VOID,'void',27,434)
+   yacc.py: 393:Action : Reduce rule [Modifier -> STATIC] with ['static'] and goto state 44
+   yacc.py: 427:Result : <list @ 0x7fdf1aff2878> (['s', 't', 'a', 't', 'i', 'c'])
+   yacc.py: 341:
+   yacc.py: 342:State  : 20
+   yacc.py: 356:Stack  : Modifiers Modifier . LexToken(VOID,'void',27,434)
+   yacc.py: 393:Action : Reduce rule [Modifiers -> Modifiers Modifier] with [<list @ 0x7fdf1aff2950>,<list @ 0x7fdf1aff2878>] and goto state 41
+   yacc.py: 427:Result : <list @ 0x7fdf1aff2950> (['p', 'u', 'b', 'l', 'i', 'c', ['s', 't' ...)
+   yacc.py: 341:
+   yacc.py: 342:State  : 2
+   yacc.py: 356:Stack  : Modifiers . LexToken(VOID,'void',27,434)
+   yacc.py: 497:Error  : Modifiers . LexToken(VOID,'void',27,434)
+   yacc.py: 341:
+   yacc.py: 342:State  : 2
+   yacc.py: 356:Stack  : Modifiers . error
+   yacc.py: 497:Error  : Modifiers . error
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . error
+   yacc.py: 497:Error  : . error
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(IDENTIFIER,'moreParameters',27,439)
+   yacc.py: 497:Error  : . LexToken(IDENTIFIER,'moreParameters',27,439)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(LROUNPAREN,'(',27,453)
+   yacc.py: 497:Error  : . LexToken(LROUNPAREN,'(',27,453)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(INT,'int',27,454)
+   yacc.py: 497:Error  : . LexToken(INT,'int',27,454)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(IDENTIFIER,'a',27,458)
+   yacc.py: 497:Error  : . LexToken(IDENTIFIER,'a',27,458)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(COMMA,',',27,459)
+   yacc.py: 497:Error  : . LexToken(COMMA,',',27,459)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(INT,'int',27,461)
+   yacc.py: 497:Error  : . LexToken(INT,'int',27,461)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(IDENTIFIER,'b',27,465)
+   yacc.py: 497:Error  : . LexToken(IDENTIFIER,'b',27,465)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(RROUNPAREN,')',27,466)
+   yacc.py: 497:Error  : . LexToken(RROUNPAREN,')',27,466)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(LCURPAREN,'{',29,470)
+   yacc.py: 497:Error  : . LexToken(LCURPAREN,'{',29,470)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(IDENTIFIER,'a',35,623)
+   yacc.py: 497:Error  : . LexToken(IDENTIFIER,'a',35,623)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(EQUAL,'=',35,625)
+   yacc.py: 497:Error  : . LexToken(EQUAL,'=',35,625)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(IDENTIFIER,'a',35,627)
+   yacc.py: 497:Error  : . LexToken(IDENTIFIER,'a',35,627)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(MULT,'*',35,629)
+   yacc.py: 497:Error  : . LexToken(MULT,'*',35,629)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(IDENTIFIER,'b',35,631)
+   yacc.py: 497:Error  : . LexToken(IDENTIFIER,'b',35,631)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(SEMICOLON,';',35,632)
+   yacc.py: 497:Error  : . LexToken(SEMICOLON,';',35,632)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(IDENTIFIER,'b',37,637)
+   yacc.py: 497:Error  : . LexToken(IDENTIFIER,'b',37,637)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(EQUAL,'=',37,639)
+   yacc.py: 497:Error  : . LexToken(EQUAL,'=',37,639)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(INT_CONST,'12',37,641)
+   yacc.py: 497:Error  : . LexToken(INT_CONST,'12',37,641)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(SEMICOLON,';',37,643)
+   yacc.py: 497:Error  : . LexToken(SEMICOLON,';',37,643)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(BOOLEAN_CONST,'false',43,795)
+   yacc.py: 497:Error  : . LexToken(BOOLEAN_CONST,'false',43,795)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(IDENTIFIER,'Swap',43,800)
+   yacc.py: 497:Error  : . LexToken(IDENTIFIER,'Swap',43,800)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(LROUNPAREN,'(',43,804)
+   yacc.py: 497:Error  : . LexToken(LROUNPAREN,'(',43,804)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(IDENTIFIER,'b',43,805)
+   yacc.py: 497:Error  : . LexToken(IDENTIFIER,'b',43,805)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(COMMA,',',43,806)
+   yacc.py: 497:Error  : . LexToken(COMMA,',',43,806)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(IDENTIFIER,'a',43,807)
+   yacc.py: 497:Error  : . LexToken(IDENTIFIER,'a',43,807)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(RROUNPAREN,')',43,808)
+   yacc.py: 497:Error  : . LexToken(RROUNPAREN,')',43,808)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(SEMICOLON,';',43,809)
+   yacc.py: 497:Error  : . LexToken(SEMICOLON,';',43,809)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(RCURPAREN,'}',49,961)
+   yacc.py: 497:Error  : . LexToken(RCURPAREN,'}',49,961)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(PUBLIC,'public',53,968)
+   yacc.py: 370:Action : Shift and goto state 18
+   yacc.py: 341:
+   yacc.py: 342:State  : 18
+   yacc.py: 356:Stack  : PUBLIC . LexToken(STATIC,'static',53,975)
+   yacc.py: 393:Action : Reduce rule [Modifier -> PUBLIC] with ['public'] and goto state 42
+   yacc.py: 427:Result : <list @ 0x7fdf1aff2d40> (['p', 'u', 'b', 'l', 'i', 'c'])
+   yacc.py: 341:
+   yacc.py: 342:State  : 12
+   yacc.py: 356:Stack  : Modifier . LexToken(STATIC,'static',53,975)
+   yacc.py: 393:Action : Reduce rule [Modifiers -> Modifier] with [<list @ 0x7fdf1aff2d40>] and goto state 40
+   yacc.py: 427:Result : <list @ 0x7fdf1aff2d40> (['p', 'u', 'b', 'l', 'i', 'c'])
+   yacc.py: 341:
+   yacc.py: 342:State  : 2
+   yacc.py: 356:Stack  : Modifiers . LexToken(STATIC,'static',53,975)
+   yacc.py: 370:Action : Shift and goto state 3
+   yacc.py: 341:
+   yacc.py: 342:State  : 3
+   yacc.py: 356:Stack  : Modifiers STATIC . LexToken(VOID,'void',53,982)
+   yacc.py: 393:Action : Reduce rule [Modifier -> STATIC] with ['static'] and goto state 44
+   yacc.py: 427:Result : <list @ 0x7fdf1aff26c8> (['s', 't', 'a', 't', 'i', 'c'])
+   yacc.py: 341:
+   yacc.py: 342:State  : 20
+   yacc.py: 356:Stack  : Modifiers Modifier . LexToken(VOID,'void',53,982)
+   yacc.py: 393:Action : Reduce rule [Modifiers -> Modifiers Modifier] with [<list @ 0x7fdf1aff2d40>,<list @ 0x7fdf1aff26c8>] and goto state 41
+   yacc.py: 427:Result : <list @ 0x7fdf1aff2d40> (['p', 'u', 'b', 'l', 'i', 'c', ['s', 't' ...)
+   yacc.py: 341:
+   yacc.py: 342:State  : 2
+   yacc.py: 356:Stack  : Modifiers . LexToken(VOID,'void',53,982)
+   yacc.py: 497:Error  : Modifiers . LexToken(VOID,'void',53,982)
+   yacc.py: 341:
+   yacc.py: 342:State  : 2
+   yacc.py: 356:Stack  : Modifiers . error
+   yacc.py: 497:Error  : Modifiers . error
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . error
+   yacc.py: 497:Error  : . error
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(IDENTIFIER,'go',53,987)
+   yacc.py: 497:Error  : . LexToken(IDENTIFIER,'go',53,987)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(LROUNPAREN,'(',53,989)
+   yacc.py: 497:Error  : . LexToken(LROUNPAREN,'(',53,989)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(RROUNPAREN,')',53,990)
+   yacc.py: 497:Error  : . LexToken(RROUNPAREN,')',53,990)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(LCURPAREN,'{',55,994)
+   yacc.py: 497:Error  : . LexToken(LCURPAREN,'{',55,994)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(INT,'int',55,996)
+   yacc.py: 497:Error  : . LexToken(INT,'int',55,996)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(IDENTIFIER,'x',55,1000)
+   yacc.py: 497:Error  : . LexToken(IDENTIFIER,'x',55,1000)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(EQUAL,'=',55,1002)
+   yacc.py: 497:Error  : . LexToken(EQUAL,'=',55,1002)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(INT_CONST,'3',55,1004)
+   yacc.py: 497:Error  : . LexToken(INT_CONST,'3',55,1004)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(SEMICOLON,';',55,1005)
+   yacc.py: 497:Error  : . LexToken(SEMICOLON,';',55,1005)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(INT,'int',57,1010)
+   yacc.py: 497:Error  : . LexToken(INT,'int',57,1010)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(IDENTIFIER,'y',57,1014)
+   yacc.py: 497:Error  : . LexToken(IDENTIFIER,'y',57,1014)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(EQUAL,'=',57,1016)
+   yacc.py: 497:Error  : . LexToken(EQUAL,'=',57,1016)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(INT_CONST,'2',57,1018)
+   yacc.py: 497:Error  : . LexToken(INT_CONST,'2',57,1018)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(SEMICOLON,';',57,1019)
+   yacc.py: 497:Error  : . LexToken(SEMICOLON,';',57,1019)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(BOOLEAN_CONST,'false',63,1163)
+   yacc.py: 497:Error  : . LexToken(BOOLEAN_CONST,'false',63,1163)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(IDENTIFIER,'Swap',63,1168)
+   yacc.py: 497:Error  : . LexToken(IDENTIFIER,'Swap',63,1168)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(LROUNPAREN,'(',63,1172)
+   yacc.py: 497:Error  : . LexToken(LROUNPAREN,'(',63,1172)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(IDENTIFIER,'x',63,1173)
+   yacc.py: 497:Error  : . LexToken(IDENTIFIER,'x',63,1173)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(COMMA,',',63,1174)
+   yacc.py: 497:Error  : . LexToken(COMMA,',',63,1174)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(IDENTIFIER,'y',63,1175)
+   yacc.py: 497:Error  : . LexToken(IDENTIFIER,'y',63,1175)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(RROUNPAREN,')',63,1176)
+   yacc.py: 497:Error  : . LexToken(RROUNPAREN,')',63,1176)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(SEMICOLON,';',63,1177)
+   yacc.py: 497:Error  : . LexToken(SEMICOLON,';',63,1177)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(IDENTIFIER,'moreParameters',69,1321)
+   yacc.py: 497:Error  : . LexToken(IDENTIFIER,'moreParameters',69,1321)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(LROUNPAREN,'(',69,1335)
+   yacc.py: 497:Error  : . LexToken(LROUNPAREN,'(',69,1335)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(IDENTIFIER,'x',69,1336)
+   yacc.py: 497:Error  : . LexToken(IDENTIFIER,'x',69,1336)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(COMMA,',',69,1337)
+   yacc.py: 497:Error  : . LexToken(COMMA,',',69,1337)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(IDENTIFIER,'y',69,1338)
+   yacc.py: 497:Error  : . LexToken(IDENTIFIER,'y',69,1338)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(RROUNPAREN,')',69,1339)
+   yacc.py: 497:Error  : . LexToken(RROUNPAREN,')',69,1339)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(SEMICOLON,';',69,1340)
+   yacc.py: 497:Error  : . LexToken(SEMICOLON,';',69,1340)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(RCURPAREN,'}',75,1483)
+   yacc.py: 497:Error  : . LexToken(RCURPAREN,'}',75,1483)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(PUBLIC,'public',83,1496)
+   yacc.py: 370:Action : Shift and goto state 18
+   yacc.py: 341:
+   yacc.py: 342:State  : 18
+   yacc.py: 356:Stack  : PUBLIC . LexToken(STATIC,'static',83,1503)
+   yacc.py: 393:Action : Reduce rule [Modifier -> PUBLIC] with ['public'] and goto state 42
+   yacc.py: 427:Result : <list @ 0x7fdf1aff2998> (['p', 'u', 'b', 'l', 'i', 'c'])
+   yacc.py: 341:
+   yacc.py: 342:State  : 12
+   yacc.py: 356:Stack  : Modifier . LexToken(STATIC,'static',83,1503)
+   yacc.py: 393:Action : Reduce rule [Modifiers -> Modifier] with [<list @ 0x7fdf1aff2998>] and goto state 40
+   yacc.py: 427:Result : <list @ 0x7fdf1aff2998> (['p', 'u', 'b', 'l', 'i', 'c'])
+   yacc.py: 341:
+   yacc.py: 342:State  : 2
+   yacc.py: 356:Stack  : Modifiers . LexToken(STATIC,'static',83,1503)
+   yacc.py: 370:Action : Shift and goto state 3
+   yacc.py: 341:
+   yacc.py: 342:State  : 3
+   yacc.py: 356:Stack  : Modifiers STATIC . LexToken(VOID,'void',83,1510)
+   yacc.py: 393:Action : Reduce rule [Modifier -> STATIC] with ['static'] and goto state 44
+   yacc.py: 427:Result : <list @ 0x7fdf1aff2758> (['s', 't', 'a', 't', 'i', 'c'])
+   yacc.py: 341:
+   yacc.py: 342:State  : 20
+   yacc.py: 356:Stack  : Modifiers Modifier . LexToken(VOID,'void',83,1510)
+   yacc.py: 393:Action : Reduce rule [Modifiers -> Modifiers Modifier] with [<list @ 0x7fdf1aff2998>,<list @ 0x7fdf1aff2758>] and goto state 41
+   yacc.py: 427:Result : <list @ 0x7fdf1aff2998> (['p', 'u', 'b', 'l', 'i', 'c', ['s', 't' ...)
+   yacc.py: 341:
+   yacc.py: 342:State  : 2
+   yacc.py: 356:Stack  : Modifiers . LexToken(VOID,'void',83,1510)
+   yacc.py: 497:Error  : Modifiers . LexToken(VOID,'void',83,1510)
+   yacc.py: 341:
+   yacc.py: 342:State  : 2
+   yacc.py: 356:Stack  : Modifiers . error
+   yacc.py: 497:Error  : Modifiers . error
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . error
+   yacc.py: 497:Error  : . error
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(IDENTIFIER,'main',83,1515)
+   yacc.py: 497:Error  : . LexToken(IDENTIFIER,'main',83,1515)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(LROUNPAREN,'(',83,1519)
+   yacc.py: 497:Error  : . LexToken(LROUNPAREN,'(',83,1519)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(RROUNPAREN,')',83,1520)
+   yacc.py: 497:Error  : . LexToken(RROUNPAREN,')',83,1520)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(LCURPAREN,'{',85,1524)
+   yacc.py: 497:Error  : . LexToken(LCURPAREN,'{',85,1524)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(IDENTIFIER,'go',85,1526)
+   yacc.py: 497:Error  : . LexToken(IDENTIFIER,'go',85,1526)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(LROUNPAREN,'(',85,1528)
+   yacc.py: 497:Error  : . LexToken(LROUNPAREN,'(',85,1528)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(RROUNPAREN,')',85,1529)
+   yacc.py: 497:Error  : . LexToken(RROUNPAREN,')',85,1529)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(SEMICOLON,';',85,1530)
+   yacc.py: 497:Error  : . LexToken(SEMICOLON,';',85,1530)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(RCURPAREN,'}',87,1534)
+   yacc.py: 497:Error  : . LexToken(RCURPAREN,'}',87,1534)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . LexToken(RCURPAREN,'}',89,1537)
+   yacc.py: 497:Error  : . LexToken(RCURPAREN,'}',89,1537)
+   yacc.py: 341:
+   yacc.py: 342:State  : 0
+   yacc.py: 356:Stack  : . $end
+   yacc.py: 497:Error  : . $end

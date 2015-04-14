@@ -1,6 +1,6 @@
 public class ReverseNumber {
  
-        public static void main(String[] args) {
+        public static void main() {
                
                 //original number
                 int number = 1234;
