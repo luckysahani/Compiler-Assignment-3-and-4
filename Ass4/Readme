@@ -14,4 +14,4 @@ To run code :
 
 We are successfully able to convert quicksort.java to MIPS and run in SPIM. 
 The string is "string" and not "String"
-main should be belowest
+main should be be lowest
