@@ -860,7 +860,7 @@ def p_MethodCall(p):
 			TAC.emit(ST.mainsymbtbl[ST.curr_class + '.' +p[1]['Name']]['paramsize'],'','','POPPARAM')
 		else :
 			if( len(ST.mainsymbtbl[ST.curr_class + '.' +p[1]['Name']]['Parameters']) == 1) :
-				TAC.emit(ST.curr_class + '.' +p[1]['Name'],0,p[0]['Name'],'F_CALL')
+				TAC.emit(p[0]['Name'],0,ST.curr_class + '.' +p[1]['Name'],'F_CALL')
 				TAC.emit(0,'','','POPPARAM')
 			else :
 				print "Incorrect number of parameters"

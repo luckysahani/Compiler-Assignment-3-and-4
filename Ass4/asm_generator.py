@@ -226,7 +226,7 @@ def getAssemblyCode(filename):
 						flag = True
 						break
 				if(not flag):
-					# print reg1
+					print reg1
 					asm.addInstr(['la',reg1,'-'+str(ST.infovar[asm.currFunc][x]['offset'])+'($fp)','#3'])
 				asm.storeReg(z,0)
 				# print ST.infovar[asm.currFunc][x]['offset']	
