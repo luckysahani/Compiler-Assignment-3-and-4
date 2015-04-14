@@ -5,8 +5,8 @@ import pprint
 def getAssemblyCode(filename):
 	ST,TAC = parser.parserFile(filename)
 	paramcount = 4
-	ST.Printsymbtbl()
-	# TAC.printTac()
+	# ST.Printsymbtbl()
+	TAC.printTac()
 	# pprint.pprint(ST.infovar)
 	asm = assembly.asm(ST,TAC)
 	# pprint.pprint(TAC.code)
@@ -42,6 +42,8 @@ def getAssemblyCode(filename):
 				reg1 = asm.getReg(z,0)
 				asm.addInstr(['li',reg1,x,''])
 				asm.storeReg(z,0)
+			elif (op == '=s'):
+				asm.addToString(z,x)
 			elif (op == "=") :
 				reg1 = asm.getReg(z,0)
 				reg2 = asm.getReg(x,1)
@@ -152,6 +154,11 @@ def getAssemblyCode(filename):
 					asm.addInstr(['move','$a0',reg,''])
 					asm.addInstr(['li','$v0','1',''])
 					asm.addInstr(['syscall','','',''])
+				elif( z == 'Print' and y == 'string'):
+					print "Here"
+					asm.addInstr(['la','$a0',x,''])
+					asm.addInstr(['li','$v0','4',''])
+					asm.addInstr(['syscall','','',''])
 				else:
 					asm.savePrevValues(100,paramcount)
 					asm.addInstr(['jal',y,'',''])
@@ -201,4 +208,4 @@ def getAssemblyCode(filename):
 	pprint.pprint(asm.assembly_code)
 	asm.printAssembly()
 
-getAssemblyCode('test/array.java')
+getAssemblyCode('test/HelloWorld.java')
