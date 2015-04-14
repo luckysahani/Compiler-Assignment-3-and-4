@@ -24,4 +24,4 @@ all:
 clean:
 	rm -rf bin/
 	rm *.pyc
-	rm  parser.out parselog.txt parsetab.py
+	rm  parser.out parselog.txt parsetab.py out.s

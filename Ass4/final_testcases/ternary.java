@@ -4,5 +4,6 @@ class HelloWorld
 	{
 		int sum = 5;
 		int b = sum < 5 ? 3 : 4;
+		System.out.println(b);
 	}
 }
