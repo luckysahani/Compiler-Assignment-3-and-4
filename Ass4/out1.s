@@ -36,6 +36,24 @@ main:
 		move		 $a0,$s1
 		li		 $v0,1
 		syscall
+		.data
+		k_7:		 .asciiz "\nPlease, run it on a Server!" 
+		.text
+		la		 $a0,k_7
+		li		 $v0,4
+		syscall
+		lw		 $s0,-44($fp)
+		li		 $s0,0
+		sw		 $s0,-44($fp)
+		lw		 $s0,-44($fp)
+		move		 $v0,$s0
+		jr		 $ra
+		.data
+		k_10:		 .asciiz "Please, run it on a Server!" 
+		.text
+		la		 $a0,k_10
+		li		 $v0,4
+		syscall
 		L_0:
 		li		 $v0,10
 		syscall
