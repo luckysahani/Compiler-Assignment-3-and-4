@@ -9,8 +9,6 @@ class HelloWorld
 			x1= "fuck you;";
 			System.out.println(x1);
 			return 0;
-			System.out.println("Please, run it on a Server!");
-			// fuck you;
 		}
 	}
 }
