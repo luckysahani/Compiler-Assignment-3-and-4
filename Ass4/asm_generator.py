@@ -1,11 +1,11 @@
 import asm as assembly
 import parser_test as parser
-import pprint
+import pprint,sys
 
 def getAssemblyCode(filename):
 	ST,TAC = parser.parserFile(filename)
 	paramcount = 4
-	ST.Printsymbtbl()
+	# ST.Printsymbtbl()
 	# TAC.printTac()
 	# pprint.pprint(ST.infovar)
 	asm = assembly.asm(ST,TAC)
@@ -185,7 +185,7 @@ def getAssemblyCode(filename):
 					asm.addInstr(['li','$v0','1',''])
 					asm.addInstr(['syscall','','',''])
 				elif( z == 'Print' and y == 'string'):
-					print "Here"
+					# print "Here"
 					asm.addInstr(['la','$a0',x,''])
 					asm.addInstr(['li','$v0','4',''])
 					asm.addInstr(['syscall','','',''])
@@ -226,7 +226,7 @@ def getAssemblyCode(filename):
 						flag = True
 						break
 				if(not flag):
-					print reg1
+					# print reg1
 					asm.addInstr(['la',reg1,'-'+str(ST.infovar[asm.currFunc][x]['offset'])+'($fp)','#3'])
 				asm.storeReg(z,0)
 				# print ST.infovar[asm.currFunc][x]['offset']	
@@ -265,10 +265,18 @@ def getAssemblyCode(filename):
 				asm.addInstr(['sub','$s7','$s7','$s6'])
 				asm.addInstr(['lw',reg1,'0($s7)',''])
 				asm.storeReg(z,0)
+			elif (op == 'cvarass'):
+				reg3 = asm.getReg(y,2)
+				off = ST.infovar[function][z]['offset']
+				asm.addInstr(['la','$s7',str(-off)+'($fp)',''])
+				asm.addInstr(['li','$s6',x,''])
+				asm.addInstr(['sub','$s7','$s7','$s6'])
+				asm.addInstr(['sw',reg3,'0($s7)',''])
 
 
-	pprint.pprint(asm.regAssignedVar)
-	pprint.pprint(asm.assembly_code)
+
+	# pprint.pprint(asm.regAssignedVar)
+	# pprint.pprint(asm.assembly_code)
 	asm.printAssembly()
 
-getAssemblyCode('test/if.java')
+getAssemblyCode(sys.argv[1])

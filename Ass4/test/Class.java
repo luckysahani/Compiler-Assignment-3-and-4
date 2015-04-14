@@ -2,7 +2,7 @@ class HelloWorld
 {
 	int y,x;
 	public static int hp(int b){
-		System.out.println("HelloWorld");
+		y = 3;
 	}
 	public static int hi(int a)
 	{
@@ -20,7 +20,8 @@ class Face{
 	int y,x;
 	public static int main(int b){
 		HelloWorld hel = new HelloWorld();
-		hel.z;
-		hel.hp(2);
+		hel.y = 3;
+		int a = hel.y;
+		System.out.println(a);
 	}
 }

@@ -95,7 +95,7 @@ class asm:
 	# 	return reg
 
 	def addToString(self,var,stringToStore):
-		print stringToStore
+		# print stringToStore
 		self.addInstr(['.data','','',''])
 		self.addInstr([var+':','.asciiz',stringToStore,''])
 		self.addInstr(['.text','','',''])
@@ -156,9 +156,9 @@ class asm:
 		self.addInstr(['sw','$sp','-'+str(counter+8)+'($sp)',''])
 
 	def printAssembly(self):
-		for key in self.assembly_code :
-			for lines in self.assembly_code[key]:
-				print str(lines[0]) + '\t' + str(lines[1]) + ',\t' + str(lines[2]) + '\t' + str(lines[3]) 
+		# for key in self.assembly_code :
+		# 	for lines in self.assembly_code[key]:
+		# 		print str(lines[0]) + '\t' + str(lines[1]) + ',\t' + str(lines[2]) + '\t' + str(lines[3]) 
 		file = open("out1.s",'w')
 		file.write(".data\n.text\nmain:\n")
 		for line in self.assembly_code[self.TAC.mainfuncname]:

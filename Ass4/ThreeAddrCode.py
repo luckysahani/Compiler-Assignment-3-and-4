@@ -74,7 +74,7 @@ class threeAddressCode:
 		main_funcname = ''
 		for key in self.ST.functionlist:
 			temp = key.split('.')
-			print temp
+			# print temp
 			if(temp[2] == 'main'):
 				maincount += 1
 				main_funcname = key
@@ -85,21 +85,21 @@ class threeAddressCode:
 			raise SyntaxError
 
 		numline = 0
-		print main_funcname + ' :\n'
+		# print main_funcname + ' :\n'
 		for ln in reversed(sorted(self.labels[main_funcname])):
 			self.code[main_funcname].insert(ln,[self.labels[main_funcname][ln],'','','LABEL'])
-		for line in self.code[main_funcname]:
-			print str(line[0]) + '\t' + str(line[1]) + '\t' + str(line[2]) + '\t' + str(line[3])	
+		# for line in self.code[main_funcname]:
+		# 	print str(line[0]) + '\t' + str(line[1]) + '\t' + str(line[2]) + '\t' + str(line[3])	
 
 		for key in self.code:
 			numline = 0
 			if(key != main_funcname) :
-				print key + ' :\n'
+				# print key + ' :\n'
 				
 				for ln in reversed(sorted(self.labels[key])):
 					self.code[key].insert(ln,[self.labels[key][ln],'','','LABEL'])
-				for line in self.code[key]:
-					print str(line[0]) + '\t' + str(line[1]) + '\t' + str(line[2]) + '\t' + str(line[3])
+				# for line in self.code[key]:
+				# 	print str(line[0]) + '\t' + str(line[1]) + '\t' + str(line[2]) + '\t' + str(line[3])
 
 
 

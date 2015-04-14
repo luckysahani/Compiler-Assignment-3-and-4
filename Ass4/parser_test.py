@@ -620,8 +620,10 @@ def p_PrimaryExpression(p):
 						tempcnt += ST.mainsymbtbl['Main.' + ST.Get_attrclassid(temp[0],'Type')]['identifiers'][elem]['Width']
 					else :
 						break
+				p[0]['Dname'] = p[1]['Name']
 				p[0]['Name'] = ST.Gen_Temp()
 				p[0]['Type'] = 'int'
+				p[0]['Dsize'] = tempcnt
 				TAC.emit(p[0]['Name'],temp[0],tempcnt,'+*=')
 			else:
 				print 'No Element is present with name ' + p[1]['Name']
@@ -1301,12 +1303,14 @@ def p_AssignmentExpression(p):
 			if(p[1]['Type'] == p[3]['Type']):
 				if(not p[1]['Type'] == 'string'):
 					if (not ST.mainsymbtbl[ST.curr_funcname]['identifiers'].has_key(p[1]['Name'])):
-						print 'Assignment not possible'
-						exit(0)
-					p[0]['Type'] = p[3]['Type']
-					p[0]['Name'] = p[1]['Name']
-					# ST.inc_offset(p[0]['Type'])
-					TAC.emit(p[1]['Name'],p[3]['Name'],'',p[2])
+						if(p[1].has_key('Dname')):
+							temp = p[1]['Dname'].split('.')
+							# print p[1]['Dsize']
+							TAC.emit(temp[0],p[1]['Dsize'],p[3]['Name'],'cvarass')
+					else :
+						p[0]['Type'] = p[3]['Type']
+						p[0]['Name'] = p[1]['Name']
+						TAC.emit(p[1]['Name'],p[3]['Name'],'',p[2])
 				elif(p[1]['Type'] == 'string'):
 					# print 
 					if(ST.mainsymbtbl[ST.curr_funcname]['Strings'].has_key(p[1]['Name'])) :
