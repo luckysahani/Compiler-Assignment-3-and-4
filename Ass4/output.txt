@@ -1,0 +1,17 @@
+ClassWord -> CLASS # 'class'
+ClassHeader -> ClassWord IDENTIFIER # None,'HelloWorld'
+Modifier -> PUBLIC # 'public'
+Modifiers -> Modifier # None
+Modifier -> STATIC # 'static'
+Modifiers -> Modifiers Modifier # None,None
+PrimitiveType -> INT # 'int'
+TypeName -> PrimitiveType # None
+TypeSpecifier -> TypeName # None
+DeclaratorName -> IDENTIFIER # 'main'
+PrimitiveType -> INT # 'int'
+TypeName -> PrimitiveType # None
+TypeSpecifier -> TypeName # None
+DeclaratorName -> IDENTIFIER # 'k'
+Parameter -> TypeSpecifier DeclaratorName # None,None
+ParameterList -> Parameter # None
+MethodDeclarator -> DeclaratorName LROUNPAREN ParameterList RROUNPAREN # None,'(',None,')'

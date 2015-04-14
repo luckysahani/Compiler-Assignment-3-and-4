@@ -221,7 +221,12 @@ def p_VariableDeclarator(p):
 		# print p[0]['Type']
 		if(p[0]['Type'] == p[3]['Type']) :
 			if (not '.' in p[0]['Type']) :
-				TAC.emit(p[0]['Name'],p[3]['Name'],'','=')
+				if(not p[0]['Type'] == 'string'):
+					TAC.emit(p[0]['Name'],p[3]['Name'],'','=')
+				else :
+					TAC.emit(p[1]['Name'],ST.mainsymbtbl[ST.curr_funcname]['Strings'][p[3]['Name']],'','=s')
+					ST.mainsymbtbl[ST.curr_funcname]['Strings'][p[1]['Name']] = ST.mainsymbtbl[ST.curr_funcname]['Strings'][p[3]['Name']]
+					# print ST.mainsymbtbl[ST.curr_funcname]['Strings']
 			else :
 				p[0]['List2'] = p[3]['List2']
 				p[0]['value'] = p[3]['value']
@@ -1284,10 +1289,20 @@ def p_AssignmentExpression(p):
 			TAC.emit(p[3]['Name'],'this',ST.Get_off(p[1]['Cname']),'thisassign')
 		else :
 			if(p[1]['Type'] == p[3]['Type']):
-				p[0]['Type'] = p[3]['Type']
-				p[0]['Name'] = p[1]['Name']
-				# ST.inc_offset(p[0]['Type'])
-				TAC.emit(p[1]['Name'],p[3]['Name'],'',p[2])
+				print 'Garbage'
+				if(not p[1]['Type'] == 'string'):
+					p[0]['Type'] = p[3]['Type']
+					p[0]['Name'] = p[1]['Name']
+					# ST.inc_offset(p[0]['Type'])
+					TAC.emit(p[1]['Name'],p[3]['Name'],'',p[2])
+				elif(p[1]['Type'] == 'string'):
+					# print 
+					if(ST.mainsymbtbl[ST.curr_funcname]['Strings'].has_key(p[1]['Name'])) :
+						print 'Strings are not mutable'
+						raise Exception
+					else :
+						TAC.emit(p[1]['Name'],ST.mainsymbtbl[ST.curr_funcname]['Strings'][p[3]['Name']],'','=s')
+						ST.mainsymbtbl[ST.curr_funcname]['Strings'][p[1]['Name']] = ST.mainsymbtbl[ST.curr_funcname]['Strings'][p[3]['Name']]
 			else :
 				print "Error in AssignmentExpression"
 				raise SyntaxError

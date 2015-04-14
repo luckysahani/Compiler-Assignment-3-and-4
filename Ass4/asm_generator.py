@@ -5,7 +5,7 @@ import pprint
 def getAssemblyCode(filename):
 	ST,TAC = parser.parserFile(filename)
 	paramcount = 4
-	# ST.Printsymbtbl()
+	ST.Printsymbtbl()
 	# TAC.printTac()
 	# pprint.pprint(ST.infovar)
 	asm = assembly.asm(ST,TAC)
@@ -241,4 +241,4 @@ def getAssemblyCode(filename):
 	pprint.pprint(asm.assembly_code)
 	asm.printAssembly()
 
-getAssemblyCode('test/array.java')
+getAssemblyCode('test/if.java')
