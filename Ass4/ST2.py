@@ -227,7 +227,7 @@ class SymbTbl:
 		return v
 
 	def Add_string(self, name, strval):
-		self.mainsymbtbl[self.curr_scope]['Strings'][name] = strval
+		self.mainsymbtbl[self.curr_funcname]['Strings'][name] = strval
 
 	def inc_offset(self,Type):
 		if Type in ['int','string']:

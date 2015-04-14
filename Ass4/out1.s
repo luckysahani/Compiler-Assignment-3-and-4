@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .data
 .text
 main:
@@ -218,3 +219,5 @@ Main.HelloWorld.hp:
 		move		 $v0,$s0
 		jr		 $ra
 		jr		 $ra
+=======
+>>>>>>> 7b25f33b8b963a96c307de9fb0bf0fa2d6f9d575
